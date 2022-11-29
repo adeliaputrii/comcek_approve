@@ -45,9 +45,6 @@ class AuthServices {
     return response;
   }
 
-    Future<void> autoLogin() async {
-    final pref = await SharedPreferences.getInstance();
-    final myData = pref.get('authData');
-  }
+   
 
 }

@@ -22,6 +22,7 @@ void main() async {
   SharedPreferences prefs =await SharedPreferences.getInstance();
   var username =prefs.getString("username");
   print(username);
+  
   runApp(MaterialApp(
      builder: (context, child) => ResponsiveWrapper.builder(
         child,
@@ -35,7 +36,7 @@ void main() async {
       ],
       
     ),
-        title: 'Tugas Flutter',
+        title: 'Ramayana My Activity',
     debugShowCheckedModeBanner: false,
     home: username == null ? SplashScreenRamayana() : DefaultBottomBarController(child: Ramayana()),)
     

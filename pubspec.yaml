@@ -63,6 +63,7 @@ dependencies:
   screen_brightness: ^0.2.2
   rflutter_alert: ^2.0.2
   motion_toast: ^2.5.4
+  version: ^3.0.2
 
 dev_dependencies:
   flutter_test:

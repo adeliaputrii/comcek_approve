@@ -187,10 +187,7 @@ String stepThree(
       appBar: AppBar(
          leading: 
          IconButton(onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context){ 
-                return DefaultBottomBarController(child: Ramayana());
-            
-         }));
+           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => DefaultBottomBarController(child: Ramayana()),), (Route<dynamic> route) => false);
          },
         icon: Icon(Icons.arrow_back, size: 30,),),
         title: Text('Void', style: TextStyle(fontSize: 23)),
@@ -248,45 +245,86 @@ String stepThree(
                     child: Form(
                       key: _formKey,
                     child: 
-                       
-                      TextFormField(
-                        validator: RequiredValidator(errorText: "Please Enter"),
-                        cursorColor: Colors.black,
-                        readOnly: false,
-                        decoration: InputDecoration( 
+                         TextFormField(
+                                         controller: myController,
+                                                      style: TextStyle(fontSize: 20, color: Colors.black),
+                                                       validator: (value) {
+                                                       if(value!.isEmpty){
+                                                          return "Required";
+                                                        }
+                                                      
+                                                      
+                                                       },
+                                                      keyboardType: TextInputType.number,
+                                                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                                      decoration: InputDecoration(
+                                                        border: OutlineInputBorder(
+                                                          borderSide: BorderSide(
+                                                        color: Colors.black, 
+                                                          width: 5.0),
+                                                          borderRadius: BorderRadius.circular(25)
+                                                          ),
+                                                          
+                                                        errorBorder: OutlineInputBorder( borderSide: BorderSide(color: Color.fromARGB(255, 255, 17, 17),), borderRadius: BorderRadius.circular(25)),
+                                                        errorStyle: TextStyle(color: Color.fromARGB(255, 255, 17, 17), fontSize: 14, fontWeight: FontWeight.w400),
+                                                        labelStyle: TextStyle(
+                                                        color: Colors.black87
+                                                        ),
+                                                         prefixIcon: Icon(
+                                                          Icons.keyboard,
+                                                          color: Color.fromARGB(255, 255, 17, 17),
+                                                          size: 30,
+                                                        ),
+                                                        
+                                                        hintStyle: TextStyle(
+                                                          color:  Colors.black,
+                                                          fontSize: 20
+                                                        ),
+                                                        enabledBorder: OutlineInputBorder(borderSide: new BorderSide(color: Colors.black),borderRadius: BorderRadius.circular(25)),
+                                                       focusedBorder: OutlineInputBorder(
+                                                        borderRadius: BorderRadius.circular(25),
+                                                     borderSide: new BorderSide(color: Colors.black),
+                                                           )
+                                                      )      
+                                      )
+                  //     TextFormField(
+                  //       validator: RequiredValidator(errorText: "Please Enter"),
+                  //       cursorColor: Colors.black,
+                  //       readOnly: false,
+                  //       decoration: InputDecoration( 
                           
-                          errorBorder:  OutlineInputBorder(borderSide: new BorderSide(color: Colors.red), borderRadius:  BorderRadius.circular(25)),
-                            errorStyle: TextStyle(color: Colors.red, fontSize: 14, fontWeight: FontWeight.w400),
-                            focusedErrorBorder: OutlineInputBorder(
-                                  borderSide: new BorderSide(color: Colors.red),
-                                  borderRadius:  BorderRadius.circular(25)
-                               ),
-                          labelStyle: TextStyle(
-                          color: Colors.black
-                            ),
+                  //         errorBorder:  OutlineInputBorder(borderSide: new BorderSide(color: Colors.red), borderRadius:  BorderRadius.circular(25)),
+                  //           errorStyle: TextStyle(color: Colors.red, fontSize: 14, fontWeight: FontWeight.w400),
+                  //           focusedErrorBorder: OutlineInputBorder(
+                  //                 borderSide: new BorderSide(color: Colors.red),
+                  //                 borderRadius:  BorderRadius.circular(25)
+                  //              ),
+                  //         labelStyle: TextStyle(
+                  //         color: Colors.black
+                  //           ),
 
-                            prefixIcon: Icon(
-                              Icons.keyboard,
-                              color: Color.fromARGB(255, 255, 17, 17),
-                              size: 30,
-                            ),
-                            hintText: 'Enter Code', 
-                            hintStyle: TextStyle(
-                              color:  Colors.black,
-                              fontSize: 20
-                            ),
-                               enabledBorder: OutlineInputBorder(borderSide: new BorderSide(color: Colors.black), borderRadius:  BorderRadius.circular(25)),
-                               focusedBorder: OutlineInputBorder(
-                                  borderSide: new BorderSide(color: Colors.black),
-                                  borderRadius:  BorderRadius.circular(25)
-                               )
-                          ),
-                    //  controller: _editingController,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                          keyboardType: TextInputType.number,
-                          style: TextStyle(fontSize: 20, color: Colors.black),
-                   controller: myController..text = '$_scanBarcode',
-                      ),
+                  //           prefixIcon: Icon(
+                  //             Icons.keyboard,
+                  //             color: Color.fromARGB(255, 255, 17, 17),
+                  //             size: 30,
+                  //           ),
+                  //           hintText: 'Enter Code', 
+                  //           hintStyle: TextStyle(
+                  //             color:  Colors.black,
+                  //             fontSize: 20
+                  //           ),
+                  //              enabledBorder: OutlineInputBorder(borderSide: new BorderSide(color: Colors.black), borderRadius:  BorderRadius.circular(25)),
+                  //              focusedBorder: OutlineInputBorder(
+                  //                 borderSide: new BorderSide(color: Colors.black),
+                  //                 borderRadius:  BorderRadius.circular(25)
+                  //              )
+                  //         ),
+                  //   //  controller: _editingController,
+                  //   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  //         keyboardType: TextInputType.number,
+                  //         style: TextStyle(fontSize: 20, color: Colors.black),
+                  //  controller: myController..text = '$_scanBarcode',
+                  //     ),
                     )
                         ),
 

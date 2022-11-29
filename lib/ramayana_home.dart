@@ -108,34 +108,34 @@ class _RamayanaState extends State<Ramayana> {
           backgroundColor: Theme.of(context).canvasColor,
           extendBody: true,
           
-        //   appBar: AppBar(
-        //   title: Text('Dashboard My Activity', style: TextStyle(fontSize: 23),),
-        //   backgroundColor: Color.fromARGB(255, 213, 213, 213),
-        //   leading: Icon(Icons.power_settings_new_rounded, size: 30,),
-        //   // elevation: 7.20  ,
-        //   toolbarHeight: 150,
-        //   actions: <Widget>[
-        //     IconButton(
-        //     icon: Icon(Icons.person, size: 30,
-        //     color: Colors.white,),
-        //     onPressed: () {
-        //        Navigator.push(context, MaterialPageRoute(builder: (context){
-        //                 return Profilee(); 
-        //               }));
-        //     }
-        //       ),
-        //       IconButton(
-        //     icon: Icon(Icons.power_settings_new_rounded, size: 30,) ,
-        //     onPressed: () {
-        //       Navigator.push(context, MaterialPageRoute(builder: (context){
-        //         return RamayanaLogin();
-        //       }));
+          appBar: AppBar(
+          // title: Text('Dashboard My Activity', style: TextStyle(fontSize: 23),),
+          backgroundColor: Color.fromARGB(255, 255, 17, 17),
+          // leading: Icon(Icons.power_settings_new_rounded, size: 30,),
+           elevation: 0  ,
+          toolbarHeight: 1,
+          // actions: <Widget>[
+          //   IconButton(
+          //   icon: Icon(Icons.person, size: 30,
+          //   color: Colors.white,),
+          //   onPressed: () {
+          //      Navigator.push(context, MaterialPageRoute(builder: (context){
+          //               return Profilee(); 
+          //             }));
+          //   }
+          //     ),
+          //     IconButton(
+          //   icon: Icon(Icons.power_settings_new_rounded, size: 30,) ,
+          //   onPressed: () {
+          //     Navigator.push(context, MaterialPageRoute(builder: (context){
+          //       return RamayanaLogin();
+          //     }));
               
-        //     },
-        //       ),
+          //   },
+          //     ),
       
-        //   ],
-        // ),
+          // ],
+        ),
        
       // Lets use docked FAB for handling state of sheet
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -144,13 +144,17 @@ class _RamayanaState extends State<Ramayana> {
         onVerticalDragEnd: DefaultBottomBarController.of(context).onDragEnd,
         child: FloatingActionButton.extended(
           label: AnimatedBuilder(
+            
             animation: DefaultBottomBarController.of(context).state,
             builder: (context, child) => Row(
+              
               children: [
                 Text(
+                  
                   DefaultBottomBarController.of(context).isOpen
                       ? "Pull"
                       : "Pull",
+                     
                 ),
                 const SizedBox(width: 4.0),
                 AnimatedBuilder(
@@ -177,7 +181,7 @@ class _RamayanaState extends State<Ramayana> {
             ),
           ),
           elevation: 2,
-          backgroundColor: Colors.deepOrange,
+          backgroundColor: Color.fromARGB(255, 255, 17, 17),
           foregroundColor: Colors.white,
           //
           //Set onPressed event to swap state of bottom bar
@@ -195,152 +199,132 @@ class _RamayanaState extends State<Ramayana> {
         expandedBody: 
             ListView(
               children: [
-                Container(
-                  margin: EdgeInsets.fromLTRB(10, 50, 10, 0),
-                  width: 2000,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      
-                      SizedBox(
-                        height: 50,
-                      ),
-                      Image.asset('assets/Logo-Ramayana.png',
-                      height: 50,
-                      width: 2000,
-                      ),
-                     
-                      SizedBox(
-                        height: 30,
-                      ),
-                      Container(
-                        margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                
+                  Container(
+                    margin: EdgeInsets.fromLTRB(10, 80, 10, 0),
                     
                     height: 230,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      boxShadow: [BoxShadow( 
-                              blurRadius: 5
-                      )]
+                  borderRadius: BorderRadius.circular(20),
+                  color: Color.fromARGB(255, 255, 255, 255),
+                  boxShadow: [BoxShadow( 
+                          blurRadius: 5
+                  )]
                     ),
                   
-                        child: 
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-
-                          children: [
-
-                             Text('My Activity Fitur',
-                      style: TextStyle(color: Color.fromARGB(255, 255, 17, 17), fontWeight: FontWeight.bold, fontSize: 25, fontStyle: FontStyle.italic),
-                      ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-
-                                           Column(
-                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                             children: [
-                                               MaterialButton(
-                            minWidth:  MediaQuery.of(context).size.width/6,
-                            height:  MediaQuery.of(context).size.height/13,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50)
-                            ),
-                             color: Color.fromARGB(255, 255, 17, 17),
-                            onPressed: () {
-                               Navigator.push(context, MaterialPageRoute(builder: (context){
-                                return Activity();
-                              }));
-                            }, 
-                            child:  
-                            Icon(IconlyBold.paperPlus,
-                            size: 30,
-                            color: Colors.white,
-                            ),
-                            
-                             ),
-                             SizedBox(
-                              height: 10,
-                             ),
-
-                             Text('Add Activity',
-                             style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                             )
-                                             ],
-                                           ),
-                               Column(
-                                 children: [
-                                   MaterialButton(
-                            minWidth:  MediaQuery.of(context).size.width/6,
-                            height:  MediaQuery.of(context).size.height/13,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50)
-                            ),
-                             color: Color.fromARGB(255, 255, 17, 17),
-                            onPressed: () {
-                                   Navigator.push(context, MaterialPageRoute(builder: (context){
-                                    return RamayanaHistory();
-                              }));
-                            }, 
-                            child:  Icon(IconlyBold.document,
-                            size: 30,
-                            color: Colors.white,
-                            ),
-                            
-                                               ),
-
-                                                SizedBox(
-                              height: 10,
-                             ),
-
-                             Text('List Activity',
-                             style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
-                                 ],
-                               ),
-                                           Column(
-                                             children: [
-                                               MaterialButton(
-                            minWidth:  MediaQuery.of(context).size.width/6,
-                            height:  MediaQuery.of(context).size.height/13,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50)
-                            ),
-                             color: Color.fromARGB(255, 255, 17, 17),
-                            onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context){
-                                return Blank();
-                              }));
-                            }, 
-                            child: 
-                             Icon(IconlyBold.scan,
-                            size: 30,
-                            color: Colors.white,
-                            ),
-                            
-                                               ),
-                                               SizedBox(
-                              height: 10,
-                             ),
-
-                             Text('Void',
-                             style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
-                                             ],
-                                           )
-                                           
-                                      
-                                           
-                            ],
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
+                    child: 
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                  
+                      children: [
+                  
+                         Text('My Activity Fitur',
+                  style: TextStyle(color: Color.fromARGB(255, 255, 17, 17), fontWeight: FontWeight.bold, fontSize: 25, fontStyle: FontStyle.italic),
                   ),
-                ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                  
+                                       Column(
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                         children: [
+                                           MaterialButton(
+                        minWidth:  MediaQuery.of(context).size.width/6,
+                        height:  MediaQuery.of(context).size.height/13,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50)
+                        ),
+                         color: Color.fromARGB(255, 255, 17, 17),
+                        onPressed: () {
+                          //  Navigator.push(context, MaterialPageRoute(builder: (context){
+                          //   return Activity();
+                          // }));
+                        }, 
+                        child:  
+                        Icon(IconlyBold.paperPlus,
+                        size: 30,
+                        color: Colors.white,
+                        ),
+                        
+                         ),
+                         SizedBox(
+                          height: 10,
+                         ),
+                  
+                         Text('Add Activity',
+                         style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                         )
+                                         ],
+                                       ),
+                           Column(
+                             children: [
+                               MaterialButton(
+                        minWidth:  MediaQuery.of(context).size.width/6,
+                        height:  MediaQuery.of(context).size.height/13,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50)
+                        ),
+                         color: Color.fromARGB(255, 255, 17, 17),
+                        onPressed: () {
+                          //      Navigator.push(context, MaterialPageRoute(builder: (context){
+                          //       return RamayanaHistory();
+                          // }));
+                        }, 
+                        child:  Icon(IconlyBold.document,
+                        size: 30,
+                        color: Colors.white,
+                        ),
+                        
+                                           ),
+                  
+                                            SizedBox(
+                          height: 10,
+                         ),
+                  
+                         Text('List Activity',
+                         style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
+                             ],
+                           ),
+                                       Column(
+                                         children: [
+                                           MaterialButton(
+                        minWidth:  MediaQuery.of(context).size.width/6,
+                        height:  MediaQuery.of(context).size.height/13,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50)
+                        ),
+                         color: Color.fromARGB(255, 255, 17, 17),
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context){
+                            return Blank();
+                          }));
+                        }, 
+                        child: 
+                         Icon(IconlyBold.scan,
+                        size: 30,
+                        color: Colors.white,
+                        ),
+                        
+                                           ),
+                                           SizedBox(
+                          height: 10,
+                         ),
+                  
+                         Text('Void',
+                         style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
+                                         ],
+                                       )
+                                       
+                                  
+                                       
+                        ],
+                        ),
+                      ],
+                    ),
+                  ),
+                
               ],
             ),
 
@@ -533,275 +517,272 @@ class _RamayanaState extends State<Ramayana> {
     
   
           body: 
-      Stack(
-      
-            fit: StackFit.loose,
-            children: <Widget>[
-             
-           
-          //  ListView(
-          //   children: <Widget>[
-            
-                Container(
-                        margin: EdgeInsets.only(top: 0),
-                        height: 230,
-                        width: 2000,
-                        child: 
-                        Image.asset('assets/y.jpeg',
-                        width: 2000,
-                         fit: BoxFit.cover
-                        ),
-      
-                      ),
-                    
-                  Container(
-                    margin: EdgeInsets.only(top: 40, left: 20, right: 20),
-                    child:
-                //     ListTile(
-                //       leading: FittedBox(
-                //   fit: BoxFit.fill,
-                //   child: Row(
-                //     children: [
-                     
-                //       // button hapus
-                //       IconButton(
-                //         icon: Icon(Icons.power_settings_new_rounded),
-                //         color: Colors.white,
-                //         iconSize: 28,
-                //         onPressed: () {
-                //           //membuat dialog konfirmasi hapus
-                //           AlertDialog hapus = AlertDialog(
-                //             title: Text("Information"),
-                //             content: Container(
-                //               height: 30,
-                //               child: Column(
-                //                 children: [
-                //                   Text(
-                //                       "Are you sure you want to log out?")
-                //                 ],
-                //               ),
-                //             ),
-                //             //terdapat 2 button.
-                //             //jika ya maka jalankan _deleteKontak() dan tutup dialog
-                //             //jika tidak maka tutup dialog
-                //             actions: [
-                //               TextButton(
-                //                   onPressed: () {
-                //                     logoutPressed();
-                //                     Navigator.pop(context);
-                //                   },
-                //                   child: Text("Log Out",
-                //                     style: TextStyle(
-                //                     color:  Color.fromARGB(255, 255, 17, 17), fontWeight: FontWeight.w500, fontSize: 17)
-                //                   )
-                //                     ),
-                                  
-                //               TextButton(
-                //                 child: Text('Cancel',
-                //                     style: TextStyle(
-                //                     color:  Color.fromARGB(255, 255, 17, 17), fontWeight: FontWeight.w500, fontSize: 17)),
-                //                 onPressed: () {
-                //                   Navigator.pop(context);
-                //                 },
-                //               ),
-                //             ],
-                //           );
-                //           showDialog(
-                //               context: context, builder: (context) => hapus);
-                //         },
-                //       )
-                //     ],
-                //   ),
-                // ),
-
-                // title: Text('Dashboard My Activity',
-                //     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
-                //     ),
-
-                //   trailing: 
-                //   IconButton(onPressed: () {
-                //      Navigator.push(context, MaterialPageRoute(builder: (context){
-                //       return Profilee();
-                //     }
-                //     ));
-                //   },
-                //     icon: Icon(Icons.person,
-                //     color: Colors.white,
-                //     size: 30,
-                //     ),
-                //     ),
-                //     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-
-                     IconButton(
-                        icon: Icon(Icons.power_settings_new_rounded),
-                        color: Colors.white,
-                        iconSize: 28,
-                        onPressed: () {
-                          sweatAlert(context);
-                        }
-                     ),
-                //   FittedBox(
-                //   fit: BoxFit.fill,
-                //   child: Row(
-                //     children: [
-                     
-                //       // button hapus
-                //       IconButton(
-                //         icon: Icon(Icons.power_settings_new_rounded),
-                //         color: Colors.white,
-                //         iconSize: 28,
-                //         onPressed: () {
-                //           //membuat dialog konfirmasi hapus
-                //           AlertDialog hapus = AlertDialog(
-                //             title: Text("Log Out?"),
-                //             content: Container(
-                //               height: 30,
-                //               child: Column(
-                //                 children: [
-                //                   Text(
-                //                       "Are you sure you want to log out?")
-                //                 ],
-                //               ),
-                //             ),
-                //             //terdapat 2 button.
-                //             //jika ya maka jalankan _deleteKontak() dan tutup dialog
-                //             //jika tidak maka tutup dialog
-                //             actions: [
-                //               TextButton(
-                //                   onPressed: () {
-                                    
-                //                     Navigator.pop(context);
-                //                   },
-                //                   child: Text("Cancel",
-                //                     style: TextStyle(
-                //                     color:  Color.fromARGB(255, 255, 17, 17), fontWeight: FontWeight.w500, fontSize: 17)
-                //                   )
-                //                     ),
-                                  
-                //               TextButton(
-                //                 child: Text('Log Out',
-                //                     style: TextStyle(
-                //                     color:  Color.fromARGB(255, 255, 17, 17), fontWeight: FontWeight.w500, fontSize: 17)),
-                //                 onPressed: () {
-                //                   logoutPressed();
-                //                   Navigator.pop(context);
-                //                 },
-                //               ),
-                //             ],
-                //           );
-                //           showDialog(
-                //               context: context, builder: (context) => hapus);
-                //         },
-                //       )
-                //     ],
-                //   ),
-                // ),
-
-                Text('Dashboard My Activity',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
-                    ),
-                  IconButton(onPressed: () {
-                     Navigator.push(context, MaterialPageRoute(builder: (context){
-                      return Profilee();
-                    }
-                    ));
-                  },
-                    icon: Icon(Icons.person,
-                    color: Colors.white,
-                    size: 30,
-                    ),
-                    ),
-                    
-                 
-                    ]
-                    )
-                    ),
-                  
-                  Container(
-                    margin: EdgeInsets.only(top: 150, left: 20, right: 20),
-                    
-                  
-      child:AnimatedTextKit(
-        isRepeatingAnimation: true,
-          animatedTexts: [
-            TyperAnimatedText('Halo ${userData.getFullname()} ${userData.getUsernameID()}',
-                    speed: Duration(milliseconds: 100),
-                    textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)
-                    ),
-            TyperAnimatedText('Welcome to Ramayana My Activity'
-                    ,speed: Duration(milliseconds: 100),
-                    
-                     textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)
-            ),
-             TyperAnimatedText('Halo ${userData.getFullname()} ${userData.getUsernameID()}',
-                    speed: Duration(milliseconds: 100),
-                    textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)
-                    ),
-                    TyperAnimatedText('Welcome to Ramayana My Activity'
-                    ,speed: Duration(milliseconds: 100),
-                    
-                     textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)
-            ),
-             TyperAnimatedText('Halo ${userData.getFullname()} ${userData.getUsernameID()}',
-                    speed: Duration(milliseconds: 100),
-                    textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)
-                    ),
-                    TyperAnimatedText('Welcome to Ramayana My Activity'
-                    ,speed: Duration(milliseconds: 100),
-                    
-                     textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)
-            ),
-             TyperAnimatedText('Halo ${userData.getFullname()} ${userData.getUsernameID()}',
-                    speed: Duration(milliseconds: 100),
-                    textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)
-                    ),
-                   
-          ]
-        ),
-                  ),
-
-            Container(
-            
-                    margin: EdgeInsets.fromLTRB(10, 250, 10, 0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: Colors.white,
-                      boxShadow: [BoxShadow(
-                          color: Colors.black12,
-                          spreadRadius: 3,
-                          blurRadius: 3
-                        ),]
-                    ),
-                    height: 270,   
-               width: 2000,  
-               
-                    child:
-            
-                    
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
+      ListView(
+        children: [
+          Stack(
+          
+                fit: StackFit.loose,
                 children: <Widget>[
-                          Image.asset(
-                            'assets/ram.png',
-                            width: 200,
-                          )
-                   
-                        ],
-              ),
+                 
+               
+              //  ListView(
+              //   children: <Widget>[
+                
+                    Container(
+                            margin: EdgeInsets.only(top: 0),
+                            height: 180,
+                            width: 2000,
+                            color: Color.fromARGB(255, 255, 17, 17),
+          
+                          ),
+                        
+                      Container(
+                        margin: EdgeInsets.only(top: 5,left: 20, right: 20),
+                        child:
+                    //     ListTile(
+                    //       leading: FittedBox(
+                    //   fit: BoxFit.fill,
+                    //   child: Row(
+                    //     children: [
+                         
+                    //       // button hapus
+                    //       IconButton(
+                    //         icon: Icon(Icons.power_settings_new_rounded),
+                    //         color: Colors.white,
+                    //         iconSize: 28,
+                    //         onPressed: () {
+                    //           //membuat dialog konfirmasi hapus
+                    //           AlertDialog hapus = AlertDialog(
+                    //             title: Text("Information"),
+                    //             content: Container(
+                    //               height: 30,
+                    //               child: Column(
+                    //                 children: [
+                    //                   Text(
+                    //                       "Are you sure you want to log out?")
+                    //                 ],
+                    //               ),
+                    //             ),
+                    //             //terdapat 2 button.
+                    //             //jika ya maka jalankan _deleteKontak() dan tutup dialog
+                    //             //jika tidak maka tutup dialog
+                    //             actions: [
+                    //               TextButton(
+                    //                   onPressed: () {
+                    //                     logoutPressed();
+                    //                     Navigator.pop(context);
+                    //                   },
+                    //                   child: Text("Log Out",
+                    //                     style: TextStyle(
+                    //                     color:  Color.fromARGB(255, 255, 17, 17), fontWeight: FontWeight.w500, fontSize: 17)
+                    //                   )
+                    //                     ),
+                                      
+                    //               TextButton(
+                    //                 child: Text('Cancel',
+                    //                     style: TextStyle(
+                    //                     color:  Color.fromARGB(255, 255, 17, 17), fontWeight: FontWeight.w500, fontSize: 17)),
+                    //                 onPressed: () {
+                    //                   Navigator.pop(context);
+                    //                 },
+                    //               ),
+                    //             ],
+                    //           );
+                    //           showDialog(
+                    //               context: context, builder: (context) => hapus);
+                    //         },
+                    //       )
+                    //     ],
+                    //   ),
+                    // ),
+
+                    // title: Text('Dashboard My Activity',
+                    //     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+                    //     ),
+
+                    //   trailing: 
+                    //   IconButton(onPressed: () {
+                    //      Navigator.push(context, MaterialPageRoute(builder: (context){
+                    //       return Profilee();
+                    //     }
+                    //     ));
+                    //   },
+                    //     icon: Icon(Icons.person,
+                    //     color: Colors.white,
+                    //     size: 30,
+                    //     ),
+                    //     ),
+                    //     ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+
+                         IconButton(
+                            icon: Icon(Icons.power_settings_new_rounded),
+                            color: Colors.white,
+                            iconSize: 28,
+                            onPressed: () {
+                              sweatAlert(context);
+                            }
+                         ),
+                    //   FittedBox(
+                    //   fit: BoxFit.fill,
+                    //   child: Row(
+                    //     children: [
+                         
+                    //       // button hapus
+                    //       IconButton(
+                    //         icon: Icon(Icons.power_settings_new_rounded),
+                    //         color: Colors.white,
+                    //         iconSize: 28,
+                    //         onPressed: () {
+                    //           //membuat dialog konfirmasi hapus
+                    //           AlertDialog hapus = AlertDialog(
+                    //             title: Text("Log Out?"),
+                    //             content: Container(
+                    //               height: 30,
+                    //               child: Column(
+                    //                 children: [
+                    //                   Text(
+                    //                       "Are you sure you want to log out?")
+                    //                 ],
+                    //               ),
+                    //             ),
+                    //             //terdapat 2 button.
+                    //             //jika ya maka jalankan _deleteKontak() dan tutup dialog
+                    //             //jika tidak maka tutup dialog
+                    //             actions: [
+                    //               TextButton(
+                    //                   onPressed: () {
+                                        
+                    //                     Navigator.pop(context);
+                    //                   },
+                    //                   child: Text("Cancel",
+                    //                     style: TextStyle(
+                    //                     color:  Color.fromARGB(255, 255, 17, 17), fontWeight: FontWeight.w500, fontSize: 17)
+                    //                   )
+                    //                     ),
+                                      
+                    //               TextButton(
+                    //                 child: Text('Log Out',
+                    //                     style: TextStyle(
+                    //                     color:  Color.fromARGB(255, 255, 17, 17), fontWeight: FontWeight.w500, fontSize: 17)),
+                    //                 onPressed: () {
+                    //                   logoutPressed();
+                    //                   Navigator.pop(context);
+                    //                 },
+                    //               ),
+                    //             ],
+                    //           );
+                    //           showDialog(
+                    //               context: context, builder: (context) => hapus);
+                    //         },
+                    //       )
+                    //     ],
+                    //   ),
+                    // ),
+
+                    Text('Dashboard My Activity',
+                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+                        ),
+                      IconButton(onPressed: () {
+                         Navigator.push(context, MaterialPageRoute(builder: (context){
+                          return Profilee();
+                        }
+                        ));
+                      },
+                        icon: Icon(Icons.person,
+                        color: Colors.white,
+                        size: 30,
+                        ),
+                        ),
+                        
+                     
+                        ]
+                        )
+                        ),
                       
-              ),
-            
-             
-          //  ],
-          //  )
-              ],
-              
-      
-       
+                      Container(
+                        margin: EdgeInsets.only(top: 100, left: 20, right: 20),
+                        
+                      
+          child:AnimatedTextKit(
+            isRepeatingAnimation: true,
+              animatedTexts: [
+                TyperAnimatedText('Halo ${userData.getFullname()}',
+                        speed: Duration(milliseconds: 100),
+                        textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)
+                        ),
+                TyperAnimatedText('Welcome to Ramayana My Activity'
+                        ,speed: Duration(milliseconds: 100),
+                        
+                         textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)
+                ),
+                 TyperAnimatedText('Halo ${userData.getFullname()} ',
+                        speed: Duration(milliseconds: 100),
+                        textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)
+                        ),
+                        TyperAnimatedText('Welcome to Ramayana My Activity'
+                        ,speed: Duration(milliseconds: 100),
+                        
+                         textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)
+                ),
+                 TyperAnimatedText('Halo ${userData.getFullname()}',
+                        speed: Duration(milliseconds: 100),
+                        textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)
+                        ),
+                        TyperAnimatedText('Welcome to Ramayana My Activity'
+                        ,speed: Duration(milliseconds: 100),
+                        
+                         textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)
+                ),
+                
+                       
+              ]
+            ),
+                      ),
+
+                Container(
+                
+                        margin: EdgeInsets.fromLTRB(10, 195, 10, 0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: Colors.white,
+                          boxShadow: [BoxShadow(
+                              color: Colors.black12,
+                              spreadRadius: 3,
+                              blurRadius: 3
+                            ),]
+                        ),
+                        height: 270,   
+                   width: 2000,  
+                   
+                        child:
+                
+                        
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                              Image.asset(
+                                'assets/rama.jpg',
+                                width: 200,
+                              )
+                       
+                            ],
+                  ),
+                          
+                  ),
+                
+                 
+              //  ],
+              //  )
+                  ],
+                  
+          
+           
+          ),
+        ],
       )
       );
     });

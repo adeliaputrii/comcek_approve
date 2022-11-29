@@ -43,7 +43,7 @@ class _SplashScreenRamayanaState extends State<SplashScreenRamayana> {
         ), 
        
       ),
-      imageSrc: "assets/ram.png",
+      imageSrc: "assets/rama.jpg",
     );
   }
 }
