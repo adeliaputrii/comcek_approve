@@ -49,10 +49,15 @@ class _RamayanaSignup extends State<RamayanaSignup> {
       body: Stack(
         children: <Widget>[
           Container(
-            // height: 900,
-            decoration: BoxDecoration(
-              color: Color.fromARGB(255, 168, 3, 3),
-            ),
+             width: 1000,
+             height: 2000,
+            // color: Colors.green,
+            child: Image.asset(
+                  "assets/rmy.jpeg",
+                  // height: 200,
+                   fit: BoxFit.cover,
+                   
+            )
           ),
 
           ListView(
@@ -203,7 +208,7 @@ class _RamayanaSignup extends State<RamayanaSignup> {
                           SnackBar(
                             backgroundColor: Colors.white,
                             content: Text(
-                              'Validation Successful',
+                              'Coba Cek Email Anda',
                               style: TextStyle(
                                   color: Colors.black,
                               ),

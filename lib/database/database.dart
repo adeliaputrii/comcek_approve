@@ -1,82 +1,53 @@
-// //dbhelper ini dibuat untuk
-// //membuat database, membuat tabel, proses insert, read, update dan delete
-        
-// import 'package:sqflite/sqflite.dart';
-// import 'package:sqflite/sqlite_api.dart';
-// import 'package:path/path.dart';
-// import 'package:uki_flutter/model/model.dart';
-        
-// class DbHelper {
-//     static final DbHelper _instance = DbHelper._internal();
-//     static Database? _database;
-        
-//     //inisialisasi beberapa variabel yang dibutuhkan
-//     final String tableName = 'tableKontak';
-//     final String columnId = 'id';
-//     final String columnName = 'name';
-//     final String columnNik = 'nik';
-//     final String columnMobileNo = 'mobileNo';
-//     final String columnCompany = 'company';
-    
-        
-//     DbHelper._internal();
-//     factory DbHelper() => _instance;
-        
-//     //cek apakah database ada
-//     Future<Database?> get _db  async {
-//         if (_database != null) {
-//             return _database;
-//         }
-//         _database = await _initDb();
-//         return _database;
-//     }
-        
-//     Future<Database?> _initDb() async {
-//         String databasePath = await getDatabasesPath();
-//         String path = join(databasePath, 'kontak.db');
-        
-//         return await openDatabase(path, version: 1, onCreate: _onCreate);
-//     }
-        
-//     //membuat tabel dan field-fieldnya
-//     Future<void> _onCreate(Database db, int version) async {
-//         var sql = "CREATE TABLE $tableName($columnId INTEGER PRIMARY KEY, "
-//             "$columnName TEXT,"
-//             "$columnMobileNo TEXT,"
-//             "$columnNik TEXT,)";
-//             "$columnCompany TEXT)";
-//              await db.execute(sql);
-//     }
-        
-//     //insert ke database
-//     Future<int?> saveKontak(Kontak kontak) async {
-//         var dbClient = await _db;
-//         return await dbClient!.insert(tableName, kontak.toMap());
-//     }
-        
-//     //read database
-//     Future<List?> getAllKontak() async {
-//         var dbClient = await _db;
-//         var result = await dbClient!.query(tableName, columns: [
-//             columnId,
-//             columnName,
-//             columnCompany,
-//             columnMobileNo,
-//             columnNik
-//         ]);
-        
-//         return result.toList();
-//     }
-        
-//     //update database
-//     Future<int?> updateKontak(Kontak kontak) async {
-//         var dbClient = await _db;
-//         return await dbClient!.update(tableName, kontak.toMap(), where: '$columnId = ?', whereArgs: [kontak.id]);
-//     }
-        
-//     //hapus database
-//     Future<int?> deleteKontak(int id) async {
-//         var dbClient = await _db;
-//         return await dbClient!.delete(tableName, where: '$columnId = ?', whereArgs: [id]);
-//     }
+import 'dart:async';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
+
+Future<Database> initilizaeDb() async {
+  Future<Database> db = openDatabase(
+      join(await getDatabasesPath(), 'shopping.db'), onCreate: (db, version) {
+    return db.execute(
+        'CREATE TABLE SHOPPING_ITEMS(ID INTEGER PRIMARY KEY AUTOINCREMENT, TITLE TEXT,  NIK TEXT, BOUGHT INTEGER, DATE_ADDED TEXT)');
+  }, version: 1);
+
+  return db;
+}
+
+Future<void> insertItemsToDb(title, nik, bought) async {
+  Database db = await initilizaeDb();
+  await db.transaction((txn) {
+    var dateAdded = DateTime.now().toString();
+    return txn.rawInsert(
+        "INSERT INTO SHOPPING_ITEMS(TITLE, BOUGHT, DATE_ADDED) VALUES('$title', '$nik', $bought, '$dateAdded')");
+  });
+  print('the item has been added');
+}
+
+Future<List> retreiveItemsFromDb() async {
+  Database db = await initilizaeDb();
+  return db.rawQuery('SELECT * FROM SHOPPING_ITEMS');
+}
+
+
+
+// Future<List> insertItemToDb(title) async {
+//   Database db = await initilizaeDb();
+//   var addedDate = DateTime.now().toString();
+//   db.rawQuery(
+//       'INSERT INTO SHOPPING_ITEMS(TITLE,BOUGHT,DATE_ADDED) VALUES("$title", 0, "$addedDate" )');
+//   return db.rawQuery('SELECT * FROM SHOPPING_ITEMS');
 // }
+
+// Future<List> getShoppingItmesFromDb() async {
+//   Database db = await initilizaeDb();
+//   return db.rawQuery('SELECT * FROM SHOPPING_ITEMS');
+// }
+
+Future<void> updateItemBoughtState(int id, int bought) async {
+  Database db = await initilizaeDb();
+  db.rawQuery('UPDATE SHOPPING_ITEMS SET BOUGHT =$bought WHERE ID = $id');
+}
+
+Future<void> deleteItem(int id) async {
+  Database db = await initilizaeDb();
+  db.rawQuery('DELETE FROM SHOPPING_ITEMS WHERE ID = $id');
+}

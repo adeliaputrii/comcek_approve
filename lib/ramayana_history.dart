@@ -5,7 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 import 'package:myactivity_project/ramayana_activity.dart';
 import 'package:myactivity_project/ramayana_home.dart';
-import 'package:myactivity_project/user.dart';
+import 'package:myactivity_project/service/SP_service/SP_service.dart';
+import 'package:myactivity_project/ramayana_userr.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class RamayanaHistory extends StatefulWidget {
@@ -16,6 +17,9 @@ class RamayanaHistory extends StatefulWidget {
 }
 
 class _RamayanaHistoryState extends State<RamayanaHistory> {
+
+  UserData userData = UserData();
+
   void fetchProduk() async {
     AktivitasModel.aktivitaslist.clear();
     final responseku = await http.post(
@@ -125,12 +129,17 @@ class _RamayanaHistoryState extends State<RamayanaHistory> {
         ),
 
         Container(
-            margin: EdgeInsets.only(left: 230, top: 90),
-            child: Text('Adhelia Putri Wardhana',
-                style: TextStyle(
+            margin: EdgeInsets.only(right: 0, top: 70, left: 10),
+            child: 
+            ListTile(
+              trailing: Text('${userData.getFullname()} ${userData.getUsernameID()}',
+               style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
                     fontWeight: FontWeight.w500)
+            )
+            
+               
             )
         ),
 

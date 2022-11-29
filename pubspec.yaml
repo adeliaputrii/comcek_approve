@@ -20,7 +20,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.19.0-314.0.dev <3.0.0'
+  sdk: ">=2.17.6 <3.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -41,8 +41,8 @@ dependencies:
   dio: ^4.0.6
   qr_flutter: ^4.0.0
   shared_preferences: any
-  esc_pos_bluetooth: ^0.4.1
-  flutter_bluetooth_basic: ^0.1.7
+  # esc_pos_bluetooth: ^0.4.1
+  # flutter_bluetooth_basic: ^0.1.7
   form_field_validator: ^1.1.0
   http: any
   relative_scale: ^2.0.0
@@ -52,8 +52,17 @@ dependencies:
   flutter_barcode_scanner: ^2.0.0
   pretty_qr_code: ^2.0.2
   barcode_flutter: ^1.1.2
-  flutter_svg: ^1.1.5
   flutter_email_sender: ^5.1.0
+  flutter_fader: ^2.0.0
+  tbib_splash_screen: ^0.0.6
+  bottom_bar_matu: ^1.2.1
+  expandable_bottom_bar: ^2.0.2
+  draggable_home: ^1.0.4
+  flutter_iconly: ^1.0.2
+  rounded_tabbar_widget: ^0.0.2
+  screen_brightness: ^0.2.2
+  rflutter_alert: ^2.0.2
+  motion_toast: ^2.5.4
 
 dev_dependencies:
   flutter_test:

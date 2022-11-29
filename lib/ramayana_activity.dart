@@ -144,7 +144,7 @@ class _ActivityState extends State<Activity> {
             ),
             Container(
               margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
-              width: 500,
+              // width: 500,
               height: 50,
               color: Color.fromARGB(255, 239, 237, 237),
              

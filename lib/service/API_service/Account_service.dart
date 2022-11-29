@@ -4,13 +4,13 @@ class APIUserService {
   static UserData userData = UserData();
 
   Future<int> loginUser({
-    required String user,
-    required String pass,
+    required String user_name,
+    required String password,
   }) async {
     try {
       final responseku = await http.post(Uri.parse(BaseUrl.login), body: {
-        "username": user.toLowerCase(),
-        "password": pass,
+        "user_name": user_name,
+        "password": password,
       });
       var data = jsonDecode(responseku.body);
       if (data['result'] == 1) {
