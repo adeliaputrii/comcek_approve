@@ -10,14 +10,17 @@ class SplashScreenRamayana extends StatefulWidget {
 }
 
 class _SplashScreenRamayanaState extends State<SplashScreenRamayana> {
+
   bool isLoaded = false;
+
   @override
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 10)).then((value) => setState(() {
-          isLoaded = true;
-        }));
+    isLoaded = true;
+    }));
   }
+
   @override
   Widget build(BuildContext context) {
     return SplashScreenView(
@@ -27,23 +30,20 @@ class _SplashScreenRamayanaState extends State<SplashScreenRamayana> {
           colors: [
             Colors.white,
             Colors.white,
-
           ],
           begin: FractionalOffset(0.0, 0.0),
           end: FractionalOffset(1.0, 0.0),
           stops: [0.0, 1.0],
           tileMode: TileMode.clamp),
           logoSize: 150,
-          
-      text: FadeAnimatedText(
-        "",
-        textStyle: const TextStyle(
+          text: FadeAnimatedText(
+          "",
+          textStyle: const TextStyle(
           fontSize: 20.0,
           fontWeight: FontWeight.bold,
         ), 
-       
       ),
-      imageSrc: "assets/rama.jpg",
+      imageSrc: "assets/rama(C).png",
     );
   }
 }

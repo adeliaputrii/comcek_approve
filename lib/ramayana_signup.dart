@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
- import 'package:http/http.dart' as http;
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:myactivity_project/ramayana_home.dart';
@@ -13,7 +13,8 @@ class RamayanaSignup extends StatefulWidget {
 }
 
 class _RamayanaSignup extends State<RamayanaSignup> {
-   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   final controller_username = TextEditingController();
   final controller_email = TextEditingController();
   final controller_nomor = TextEditingController();
@@ -49,14 +50,12 @@ class _RamayanaSignup extends State<RamayanaSignup> {
       body: Stack(
         children: <Widget>[
           Container(
-             width: 1000,
-             height: 2000,
-            // color: Colors.green,
+            width: 1000,
+            height: 2000,
+            color: Colors.green,
             child: Image.asset(
-                  "assets/rmy.jpeg",
-                  // height: 200,
-                   fit: BoxFit.cover,
-                   
+             "assets/rmy.jpeg",
+              fit: BoxFit.cover,   
             )
           ),
 
@@ -66,12 +65,7 @@ class _RamayanaSignup extends State<RamayanaSignup> {
                 margin: EdgeInsets.fromLTRB(20, 120, 20, 0),
                 height: 200,
                 width: 400,
-                // decoration: BoxDecoration(
-                //   // color: Color.fromARGB(255, 230, 230, 230),
-                //   borderRadius: BorderRadius.circular(10),
-                // //),
                 child:
-                
                  Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -90,12 +84,12 @@ class _RamayanaSignup extends State<RamayanaSignup> {
                 Form(
                   key: _formKey,
                   child: 
-                 Column(
-                  children: <Widget>[
-                   TextFormField(
-                  cursorColor: Colors.white,
+                    Column(
+                      children: <Widget>[
+
+                      TextFormField(
+                      cursorColor: Colors.white,
                       controller: controller_username,
-                      // validator: RequiredValidator(errorText: "Please Enter"),
                       keyboardType: TextInputType.multiline,
                       style: TextStyle(fontSize: 20, color: Colors.white),
                       decoration: InputDecoration(
@@ -104,29 +98,28 @@ class _RamayanaSignup extends State<RamayanaSignup> {
                       labelStyle: TextStyle(
                       color: Colors.white
                         ),
-
-                        prefixIcon: Icon(
-                          Icons.person,
-                          color: Colors.white,
-                          size: 30,
-                        ),
-                        hintText: 'Username', 
-                        hintStyle: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20
-                        ),
-                        enabledBorder: UnderlineInputBorder(borderSide: new BorderSide(color: Colors.white)),
-                        focusedBorder: UnderlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.white),
-                            )
+                      prefixIcon: Icon(
+                        Icons.person,
+                        color: Colors.white,
+                         size: 30,
+                      ),
+                      hintText: 'Username', 
+                      hintStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20
+                      ),
+                      enabledBorder: UnderlineInputBorder(borderSide: new BorderSide(color: Colors.white)),
+                      focusedBorder: UnderlineInputBorder(
+                      borderSide: new BorderSide(color: Colors.white),
+                      )
                       ),
                     ),
+
                     SizedBox(height: 30),
 
-                   TextFormField(
-                  cursorColor: Colors.white,
+                      TextFormField(
+                      cursorColor: Colors.white,
                       controller: controller_email,
-                      // validator: RequiredValidator(errorText: "Please Enter"),
                       keyboardType: TextInputType.multiline,
                       style: TextStyle(fontSize: 20, color: Colors.white),
                       decoration: InputDecoration(
@@ -135,104 +128,89 @@ class _RamayanaSignup extends State<RamayanaSignup> {
                       labelStyle: TextStyle(
                       color: Colors.white
                         ),
-
-                        prefixIcon: Icon(
+                      prefixIcon: Icon(
                           Icons.person,
                           color: Colors.white,
                           size: 30,
                         ),
                         hintText: 'Email', 
                         hintStyle: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20
+                        color: Colors.white,
+                        fontSize: 20
                         ),
                         enabledBorder: UnderlineInputBorder(borderSide: new BorderSide(color: Colors.white)),
                         focusedBorder: UnderlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.white),
-                            )
-                      ),
-                    ),
-                    SizedBox(height: 30),
+                          borderSide: new BorderSide(color: Colors.white),
+                          )
+                          ),
+                          ),
+                        
+                        SizedBox(height: 30),
 
-                    TextFormField(
-                      controller: controller_nomor,
-                      cursorColor: Colors.white,
-                    //  validator: RequiredValidator(errorText: "Please Enter"),
-                     
-                      // obscureText: true,
-                      keyboardType: TextInputType.multiline,
-                      style: TextStyle(fontSize: 20, color: Colors.white),
-                      decoration: InputDecoration(
-                        errorBorder: UnderlineInputBorder(borderSide: new BorderSide(color: Colors.white)),
-                        errorStyle: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
-                      labelStyle: TextStyle(
-                      color: Colors.white
-                        ),
-
-                        prefixIcon: Icon(
+                        TextFormField(
+                          controller: controller_nomor,
+                          cursorColor: Colors.white,
+                          keyboardType: TextInputType.multiline,
+                          style: TextStyle(fontSize: 20, color: Colors.white),
+                          decoration: InputDecoration(
+                          errorBorder: UnderlineInputBorder(borderSide: new BorderSide(color: Colors.white)),
+                          errorStyle: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w400),
+                          labelStyle: TextStyle(
+                          color: Colors.white
+                        ) ,
+                          prefixIcon: Icon(
                           Icons.person,
                           color: Colors.white,
                           size: 30,
-                        ),
-                        hintText: 'No.Handphone', 
-                        hintStyle: TextStyle(
+                          ),
+                          hintText: 'No.Handphone', 
+                          hintStyle: TextStyle(
                           color: Colors.white,
                           fontSize: 20
-                        ),
-                        enabledBorder: UnderlineInputBorder(borderSide: new BorderSide(color: Colors.white)),
-
-                        focusedBorder: UnderlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.white),
+                          ),
+                          enabledBorder: UnderlineInputBorder(borderSide: new BorderSide(color: Colors.white)),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: new BorderSide(color: Colors.white),
                             )
-                      ),
-                    ),
-                    SizedBox(height: 40),
-
-                    MaterialButton(
-                      padding: EdgeInsets.symmetric(horizontal: 30),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      child: Text(
-                        'Sign Up',
-                        style: TextStyle(
-                          fontSize: 17,
-                          color: Colors.white,
-                        ),
-                      ),
-                      color: Colors.red,
-                      onPressed: () async {
-                        sendEmail();
-                        if (_formKey.currentState!.validate()) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            backgroundColor: Colors.white,
-                            content: Text(
-                              'Coba Cek Email Anda',
-                              style: TextStyle(
-                                  color: Colors.black,
-                              ),
                             ),
                           ),
-                      );
-                        DateTime now = new DateTime.now();
-                        // var _image;
-                        // var formData = FormData.fromMap({
-                        //   'nama_user': controller_username.text,
-                        //   'password': controller_email.text,
-                        //   'subdivisi': controller_nomor.text,
 
-                        // });
-                        // var response = await dio.post(
-                        //     'https://api.emailjs.com/api/v1.0/email/send',
-                        //     data: formData
-                        // );
+                          SizedBox(height: 40),
+
+                          MaterialButton(
+                          padding: EdgeInsets.symmetric(horizontal: 30),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100),
+                          ),
+                          child: Text(
+                          'Sign Up',
+                          style: TextStyle(
+                          fontSize: 17,
+                          color: Colors.white,
+                          ),
+                        ),
+                          color: Colors.red,
+                          onPressed: () async {
+                            sendEmail();
+                            if (_formKey.currentState!.validate()) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: Colors.white,
+                                content: Text(
+                                  'Coba Cek Email Anda',
+                                  style: TextStyle(
+                                  color: Colors.black,
+                                ),
+                             ),
+                            ),
+                          );
+                        DateTime now = new DateTime.now();
                         print('Berhasil, ${controller_username.text}, ${controller_email.text}, ${controller_nomor.text}');
                         Navigator.push(context,
-                            MaterialPageRoute(
-                                builder: (context) {
-                                  return RamayanaLogin();
-                                } ));
+                          MaterialPageRoute(
+                          builder: (context) {
+                          return RamayanaLogin();
+                          } ));
                       };
                       }
                     ),

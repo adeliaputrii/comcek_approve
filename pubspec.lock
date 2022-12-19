@@ -43,13 +43,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
-  bottom_bar_matu:
-    dependency: "direct main"
-    description:
-      name: bottom_bar_matu
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.2.1"
   characters:
     dependency: transitive
     description:
@@ -106,13 +99,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.6"
-  draggable_home:
-    dependency: "direct main"
-    description:
-      name: draggable_home
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.4"
   expandable_bottom_bar:
     dependency: "direct main"
     description:
@@ -160,13 +146,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.1.0"
-  flutter_fader:
-    dependency: "direct main"
-    description:
-      name: flutter_fader
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.1"
   flutter_iconly:
     dependency: "direct main"
     description:
@@ -181,6 +160,11 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
+  flutter_localizations:
+    dependency: "direct main"
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   flutter_native_splash:
     dependency: transitive
     description:
@@ -200,6 +184,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_web_data_table:
+    dependency: "direct main"
+    description:
+      name: flutter_web_data_table
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -324,13 +315,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
+  month_picker_dialog_2:
+    dependency: "direct main"
+    description:
+      name: month_picker_dialog_2
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.8"
   motion_toast:
     dependency: "direct main"
     description:
       name: motion_toast
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.5.4"
+    version: "2.6.4"
   path:
     dependency: "direct main"
     description:
@@ -429,62 +427,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.4"
-  rounded_tabbar_widget:
-    dependency: "direct main"
-    description:
-      name: rounded_tabbar_widget
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.2"
   rxdart:
     dependency: transitive
     description:
       name: rxdart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.27.5"
-  screen_brightness:
-    dependency: "direct main"
-    description:
-      name: screen_brightness
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.2"
-  screen_brightness_android:
-    dependency: transitive
-    description:
-      name: screen_brightness_android
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.0"
-  screen_brightness_ios:
-    dependency: transitive
-    description:
-      name: screen_brightness_ios
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.0"
-  screen_brightness_macos:
-    dependency: transitive
-    description:
-      name: screen_brightness_macos
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.0+1"
-  screen_brightness_platform_interface:
-    dependency: transitive
-    description:
-      name: screen_brightness_platform_interface
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.0"
-  screen_brightness_windows:
-    dependency: transitive
-    description:
-      name: screen_brightness_windows
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.1"
+    version: "0.27.7"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -693,13 +642,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.4"
-  version:
-    dependency: "direct main"
-    description:
-      name: version
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.0.2"
   win32:
     dependency: transitive
     description:

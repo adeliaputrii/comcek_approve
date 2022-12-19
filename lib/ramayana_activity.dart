@@ -1,4 +1,3 @@
-
 import 'package:flutter/services.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:http/http.dart' as http;
@@ -18,8 +17,6 @@ class Activity extends StatefulWidget {
 
 class _ActivityState extends State<Activity> {
 
-
- 
  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final controller_nik = TextEditingController();
   final controller_fullname = TextEditingController();
@@ -31,13 +28,9 @@ class _ActivityState extends State<Activity> {
   final controller_target = TextEditingController();
   final controller_stk_numbers = TextEditingController();
   final controller_data_gambar = TextEditingController();
+  
   bool obscure=true;
-
   var dio = Dio();
-  late Size ukuranLayar;
-  var akses = 'usr';
-
-
   var selected;
   final List<String> data = [
     'Lajang',
@@ -46,6 +39,7 @@ class _ActivityState extends State<Activity> {
     'Duda'
   ];
 
+  //upload imagee
    XFile? image;
 
   final ImagePicker picker = ImagePicker();
@@ -53,12 +47,10 @@ class _ActivityState extends State<Activity> {
   //we can upload image from camera or from gallery based on parameter
   Future getImage(ImageSource media) async {
     var img = await picker.pickImage(source: media);
-
-    setState(() {
+     setState(() {
       image = image;
     });
   }
-
 
   //show popup dialog
   void myAlertCamera() {
@@ -86,11 +78,11 @@ class _ActivityState extends State<Activity> {
                       ],
                     ),
                   ),
-               
-            ),
-          );
-        });
-  }
+                ),
+              );
+             }
+            );
+          }
 
   void myAlertGallery() {
     showDialog(
@@ -101,7 +93,6 @@ class _ActivityState extends State<Activity> {
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             title: Text('Please choose media to select'),
             content: Container(
-
               height: MediaQuery.of(context).size.height / 20,
               child: 
                   MaterialButton(
@@ -117,45 +108,45 @@ class _ActivityState extends State<Activity> {
                         Text('From Gallery', style: TextStyle(color: Colors.white),),
                       ],
                     ),
+                   ),
                   ),
-                 
-                
-              
-            ),
-          );
-        });
-  }
+                );
+              });
+             }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
        appBar: AppBar(
         title: Text('Add Activity', style: TextStyle(fontSize: 23)),
         backgroundColor: Color.fromARGB(255, 255, 17, 17),
         elevation: 7.20  ,
-          toolbarHeight: 90,
-          
+        toolbarHeight: 90,
         ),   
+
         body: Stack(
+
           children: <Widget>[
+
             Container(
               margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
               color: Color.fromARGB(255, 253, 249, 249)
             ),
+
             Container(
               margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
-              // width: 500,
               height: 50,
               color: Color.fromARGB(255, 239, 237, 237),
-             
             ),
+
              Container(
-                    margin: EdgeInsets.fromLTRB(30, 30,30, 0),
+              margin: EdgeInsets.fromLTRB(30, 30,30, 0),
               child:
-              Text(
-                    'Form Activity', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 23, color: Colors.black),
+              Text('Form Activity', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 23, color: Colors.black),
                     ),
               ),
+
               Container(
                 margin: EdgeInsets.fromLTRB(30, 100, 30, 0),
                 child: 
@@ -163,146 +154,141 @@ class _ActivityState extends State<Activity> {
                   key: _formKey,
                   child: 
                 ListView(
-
                 children: <Widget>[
+
                   Text('NIK',
                   style: TextStyle(color: Color.fromARGB(255, 255, 17, 17), fontSize: 17, fontWeight: FontWeight.w500),
                   ),
+
                   TextFormField(
-                    controller: controller_nik,
-                   keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    validator: 
-                      RequiredValidator(errorText: "Please Enter"),
-                    cursorColor: Colors.black,
-                          style: TextStyle(
-                            fontSize: 17
-                          ),
-                          decoration: InputDecoration(
-                            labelStyle: TextStyle(color: Colors.black),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.black),
-                            )
-                          )
-                    
+                  controller: controller_nik,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  validator:
+                  RequiredValidator(errorText: "Please Enter"),
+                  cursorColor: Colors.black,
+                  style: TextStyle(
+                  fontSize: 17
+                  ),
+                  decoration: InputDecoration(
+                  labelStyle: TextStyle(color: Colors.black),
+                  focusedBorder: UnderlineInputBorder(
+                  borderSide: new BorderSide(color: Colors.black),
+                  )
+                  )
                   ),
                  
                   SizedBox(
                     height: 20,
                     width: 20,
-                    ),
-                   Text('Full Name',
+                  )
+                  ,
+                  Text('Full Name',
                   style: TextStyle(color: Color.fromARGB(255, 255, 17, 17),fontSize: 17, fontWeight: FontWeight.w500 ),
                   ),
-                 TextFormField(
-                    controller: controller_fullname,
-                    validator: RequiredValidator(errorText: "Please Enter"),
-                    cursorColor: Colors.black,
-                          style: TextStyle(fontSize: 17),
-                          decoration: InputDecoration(
-                            labelStyle: TextStyle(color: Colors.black),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.black),
-                            )
-                          )
-                    
-                  ),
-                  SizedBox(
-                    height: 20,
-                    width: 20,
-                    ),
-                     Text('Sub Divisi',
-                  style: TextStyle(color: Color.fromARGB(255, 255, 17, 17), fontSize: 17, fontWeight: FontWeight.w500),
-                  ),
-                  TextFormField(
-                    controller: controller_subdivisi,
-                    validator: RequiredValidator(errorText: "Please Enter"),
-                    cursorColor: Colors.black,
-                          style: TextStyle(fontSize: 17),
-                          decoration: InputDecoration(
-                            labelStyle: TextStyle(color: Colors.black),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.black),
-                            )
-                          )
-                    
-                  ),
-                  SizedBox(
-                    height: 20,
-                    width: 20,
-                    ),
-                     Text('Date Visit',
 
+                  TextFormField(
+                  controller: controller_fullname,
+                  validator: RequiredValidator(errorText: "Please Enter"),
+                  cursorColor: Colors.black,
+                  style: TextStyle(fontSize: 17),
+                  decoration: InputDecoration(
+                  labelStyle: TextStyle(color: Colors.black),
+                  focusedBorder: UnderlineInputBorder(
+                  borderSide: new BorderSide(color: Colors.black),
+                  )
+                  )
+                  ),
+
+                  SizedBox(
+                    height: 20,
+                    width: 20,
+                  ),
+
+                  Text('Sub Divisi',
+                  style: TextStyle(color: Color.fromARGB(255, 255, 17, 17), fontSize: 17, fontWeight: FontWeight.w500),
+                  ),
+
+                  TextFormField(
+                  controller: controller_subdivisi,
+                  validator: RequiredValidator(errorText: "Please Enter"),
+                  cursorColor: Colors.black,
+                  style: TextStyle(fontSize: 17),
+                  decoration: InputDecoration(
+                  labelStyle: TextStyle(color: Colors.black),
+                  focusedBorder: UnderlineInputBorder(
+                  borderSide: new BorderSide(color: Colors.black),
+                  )
+                  ) 
+                  ),
+
+                  SizedBox(
+                    height: 20,
+                    width: 20,
+                  ),
+
+                  Text('Date Visit',
                   style: TextStyle(color: Color.fromARGB(255, 255, 17, 17),fontSize: 17, fontWeight: FontWeight.w500 ),
                   ),
+
                   TextFormField(
-                    controller: controller_date_visit,
-                    validator: RequiredValidator(errorText: "Please Enter"),
-                    cursorColor: Colors.black,
-                          style: TextStyle(fontSize: 17),
-                          decoration: InputDecoration(
-                            labelStyle: TextStyle(color: Colors.black),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.black),
-                            )
-                          )
-                    
+                  controller: controller_date_visit,
+                  validator: RequiredValidator(errorText: "Please Enter"),
+                  cursorColor: Colors.black,
+                  style: TextStyle(fontSize: 17),
+                  decoration: InputDecoration(
+                  labelStyle: TextStyle(color: Colors.black),
+                  focusedBorder: UnderlineInputBorder(
+                  borderSide: new BorderSide(color: Colors.black),
+                  )
+                  )
                   ),
                   SizedBox(
                     height: 20,
                     width: 20,
-                    ),
-                     Text('Location',
-                  style: TextStyle(color: Color.fromARGB(255, 255, 17, 17), fontSize: 17, fontWeight: FontWeight.w500),
                   ),
-                   SizedBox(
-                    height: 20,
-                    width: 20,
-                    ),
-                    TextFormField(
-                    controller: controller_location,
-                    validator: RequiredValidator(errorText: "Please Enter"),
-                    cursorColor: Colors.black,
-                          style: TextStyle(),
-                          decoration: InputDecoration(
-                             border: OutlineInputBorder(),
-                    labelText: 'Search Location',
-                    prefixIcon: Icon(Icons.search, 
-                    color: Colors.black,),
-                    
-                    
-                            labelStyle: TextStyle(color: Colors.black),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.black),
-                            )
-                          )
+
+                  Text('Location',
+                  style: TextStyle(color: Color.fromARGB(255, 255, 17, 17), fontSize: 17, fontWeight: FontWeight.w500),
                   ),
                    
-                  
+                  SizedBox(
+                    height: 20,
+                    width: 20,
+                  ),
+                    
+                  TextFormField(
+                  controller: controller_location,
+                  validator: RequiredValidator(errorText: "Please Enter"),
+                  cursorColor: Colors.black,
+                  style: TextStyle(),
+                  decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Search Location',
+                  prefixIcon: Icon(Icons.search, 
+                  color: Colors.black,),
+                  labelStyle: TextStyle(color: Colors.black),
+                  focusedBorder: UnderlineInputBorder(
+                  borderSide: new BorderSide(color: Colors.black),
+                  )
+                  )
+                  ),
+
                   SizedBox(
                     height: 20,
                     width: 20
                   ),
+
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                      
-                  // Text('Status',
-                  // style: TextStyle(color: Color.fromARGB(255, 255, 17, 17), ),
-                  // ),
-                  // Flexible(child: 
-                  // TextField(
-                  //   controller: controller_status,
-                  // ),
-                  // ),
-                    
-                Container(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[ 
+
+                  Container(
                   child: DropdownButton(
                     value: selected,
                     hint: Text('Status',
                     style: TextStyle(
                       color: Color.fromARGB(255, 255, 17, 17),
-                      
                       fontSize: 17, fontWeight: FontWeight.w500
                     ),
                     ),
@@ -315,141 +301,147 @@ class _ActivityState extends State<Activity> {
                     items: data
                     .map(
                       (e) => DropdownMenuItem(
-                        
                         value: e,
-                        child: Text(e, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Color.fromARGB(255, 255, 17, 17)),),
+                        child: 
+                        Text(e, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Color.fromARGB(255, 255, 17, 17)),),
                       ),
                       )
                       .toList()
                     ),
-                 
                 ),
                 ]
                 ),
-                  
-                
+
                 SizedBox(
                     height: 20,
                     width: 20,
-                    ),
-                  Text('Description',
+                ),
+
+                Text('Description',
+                style: TextStyle(color: Color.fromARGB(255, 255, 17, 17), fontSize: 15, fontWeight: FontWeight.w500),
+                ),
+
+                TextFormField(
+                controller: controller_description,
+                validator: RequiredValidator(errorText: "Please Enter"),
+                cursorColor: Colors.black,
+                style: TextStyle(
+                fontSize: 15
+                ),
+                decoration: InputDecoration(
+                labelStyle: TextStyle(color: Colors.black),
+                focusedBorder: UnderlineInputBorder(
+                borderSide: new BorderSide(color: Colors.black),
+                )
+                ) 
+                ),
+
+                SizedBox(
+                  height: 20,
+                  width: 20,
+                ),
+
+                Text('Target',
+                style: TextStyle(color: Color.fromARGB(255, 255, 17, 17), fontSize: 15, fontWeight: FontWeight.w500),
+                ),
+
+                TextFormField(
+                controller: controller_target,
+                validator: RequiredValidator(errorText: "Please Enter"),
+                cursorColor: Colors.black,
+                style: TextStyle(fontSize: 15),
+                decoration: InputDecoration(
+                labelStyle: TextStyle(color: Colors.black),
+                focusedBorder: UnderlineInputBorder(
+                borderSide: new BorderSide(color: Colors.black),
+                )
+                ) 
+                ),
+
+                SizedBox(
+                  height: 20,
+                  width: 20,
+                ),
+
+                Text('STK NUMBERS',
                   style: TextStyle(color: Color.fromARGB(255, 255, 17, 17), fontSize: 15, fontWeight: FontWeight.w500),
-                  ),
-                  TextFormField(
-                    controller: controller_description,
-                    validator: RequiredValidator(errorText: "Please Enter"),
-                    cursorColor: Colors.black,
-                          style: TextStyle(
-                            fontSize: 15
-                          ),
-                          decoration: InputDecoration(
-                            labelStyle: TextStyle(color: Colors.black),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.black),
-                            )
-                          )
-                    
-                  ),
-                  SizedBox(
-                    height: 20,
-                    width: 20,
-                    ),
-                  Text('Target',
-                  style: TextStyle(color: Color.fromARGB(255, 255, 17, 17), fontSize: 15, fontWeight: FontWeight.w500),
-                  ),
-                  TextFormField(
-                    controller: controller_target,
-                    validator: RequiredValidator(errorText: "Please Enter"),
-                    cursorColor: Colors.black,
-                          style: TextStyle(fontSize: 15),
-                          decoration: InputDecoration(
-                            labelStyle: TextStyle(color: Colors.black),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.black),
-                            )
-                          )
-                    
-                  ),
-                  SizedBox(
-                    height: 20,
-                    width: 20,
-                    ),
-                    Text('STK NUMBERS',
-                    
-                  style: TextStyle(color: Color.fromARGB(255, 255, 17, 17), fontSize: 15, fontWeight: FontWeight.w500),
-                  ),
-                  TextFormField(
-                    keyboardType: TextInputType.number,
-                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    controller: controller_stk_numbers,
-                    validator: RequiredValidator(errorText: "Please Enter"),
-                    cursorColor: Colors.black,
-                          style: TextStyle(fontSize: 15),
-                          decoration: InputDecoration(
-                            labelStyle: TextStyle(color: Colors.black),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: new BorderSide(color: Colors.black),
-                            )
-                          )
-                    
-                  ),
-                  SizedBox(
-                    height: 20,
-                    width: 20,
-                    ),
+                ),
+
+                TextFormField(
+                keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                controller: controller_stk_numbers,
+                validator: RequiredValidator(errorText: "Please Enter"),
+                cursorColor: Colors.black,
+                style: TextStyle(fontSize: 15),
+                decoration: InputDecoration(
+                labelStyle: TextStyle(color: Colors.black),
+                focusedBorder: UnderlineInputBorder(
+                borderSide: new BorderSide(color: Colors.black),
+                )
+                ) 
+                ),
+
+                SizedBox(
+                  height: 20,
+                  width: 20,
+                ),
                   
-                 Text(
+                Text(
                   'Upload Foto',
                   style: TextStyle(color: Color.fromARGB(255, 255, 17, 17), fontSize: 17, fontWeight: FontWeight.w500),
                  ),
 
-                 Container(
-
+                Container(
                  margin: EdgeInsets.only(top: 20),
                   child: Row(
                     children: <Widget>[
+
                       Container(
                         decoration: BoxDecoration(
                         color: Color.fromARGB(255, 191, 183, 183),
                         borderRadius: BorderRadius.circular(5)
                         ),
+
                       child: IconButton(onPressed: () {
                         myAlertCamera();
                       }, 
+
                       icon: Icon(Icons.camera_alt),
                       ),
                   ),
+
                   Container(
                     margin: EdgeInsets.only(left: 15),
                     decoration: BoxDecoration(
                         color: Color.fromARGB(255, 191, 183, 183),
                         borderRadius: BorderRadius.circular(5)
                         ),
+
                      child:  IconButton(onPressed: () {
                         myAlertGallery();
                       }, 
+
                       icon: Icon(Icons.photo,),
                       )
+
                   )
-                    ],
+                  ],
                   ),
                  ),
+
                  Container(
-                  
                  margin: EdgeInsets.only(top: 20, bottom: 20),
                   decoration: BoxDecoration( 
                    color: Color.fromARGB(255, 255, 17, 17),
-                 //  borderRadius: BorderRadius.circular(20)
-                  
                   ),
-                
                   child: 
-
-                  TextButton(child: 
+                  TextButton(
+                  child: 
                   Text('Submit',style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white),
-                  
                   ),
                   onPressed: () async {
+
                     if (_formKey.currentState!.validate()) {
                       ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
@@ -462,10 +454,13 @@ class _ActivityState extends State<Activity> {
                             ),
                           ),
                       );
+
                     Navigator.push(context, MaterialPageRoute(builder: (context) {
                       return RamayanaHistory();
                     }));
+                    
                     DateTime now = new DateTime.now();
+
                     var formData = FormData.fromMap({
                       'nik': controller_nik.text,
                       'fullname': controller_fullname.text,
@@ -481,23 +476,22 @@ class _ActivityState extends State<Activity> {
                       //   filename: 'data_gambar${now.toString()}.png'
                       // ),
                     });
+
                     var response = await dio.post('http://ramayana.joeloecs.com/mobileapi/tambah_act.php',
                       data: formData
                     );
+
                     print('Berhasil, ${controller_nik.text}, ${controller_fullname.text}, ${controller_subdivisi.text}, ${controller_date_visit.text}, ${controller_location.text}, ${controller_status.text}, ${controller_description.text}, ${controller_target.text}, ${controller_stk_numbers.text}, ');
                   }
                   }
                   ),
-
                  )
-                     
-                  
                 ],
               ),
-                )
-              )
-          ]
-          ),
+            )
+          )
+        ]
+      ),
     );
   }
 
@@ -510,6 +504,5 @@ DropdownMenuItem<String> buildMenuItem(String item) =>
       style: TextStyle(fontWeight: FontWeight.w500, fontSize: 13, color: Color.fromARGB(255, 255, 17, 17)),
     ),
   );
-
 
 }

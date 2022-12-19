@@ -18,16 +18,14 @@ class Profilee extends StatefulWidget {
 
 class _ProfileeState extends State<Profilee> {
 
-
   TextEditingController myControllerFullname = TextEditingController();
   TextEditingController myControllerDivisi = TextEditingController();
   TextEditingController myControllerID = TextEditingController();
   TextEditingController myControllerEmail = TextEditingController();
  
-
   static UserData userData = UserData();
 
-   void dapetinData() async {
+  void dapetinData() async {
   UserData userData = UserData();
   await userData.getPref();
   String username = userData.getUsernameID();
@@ -44,92 +42,70 @@ class _ProfileeState extends State<Profilee> {
   void initState() {
     super.initState();
     UserData userData = UserData();
-  }
+  }      
+  
+  Widget myWidget = 
+  Center(
+    child: 
+      Container(
+      key: ValueKey(2),
+      margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+      child: 
+      Container (
+      width: 700,
+      height: 280,
+      decoration: BoxDecoration(
+      color: Color.fromARGB(255, 235, 227, 227),
+      borderRadius: BorderRadius.only(
+      topLeft: Radius.circular(20),
+      topRight: Radius.circular(20),
+      bottomLeft: Radius.circular(20),
+      bottomRight: Radius.circular(20),
+      ),
+      image: DecorationImage(
+       image: AssetImage('assets/newww.png'), fit: BoxFit.fill,
+          ),
+          ) ,
+      child: 
+       ListView(
+        children: [
+          
+          Container(
+          alignment: Alignment.centerRight,
+          height: 25,
+          margin:EdgeInsets.only(top: 175, bottom: 0, left: 10, right: 10),
+          child: 
+          ListTile(
+           trailing: Text('${userData.getFullname()}',
+           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white),
+           ),
+          ),
+          ),
 
+          Container(
+          alignment: Alignment.centerRight,
+          height: 50,
+          margin:EdgeInsets.only(top: 0, bottom: 0, left: 10, right: 10),
+          child: 
+            ListTile(
+            trailing: Text('${userData.getUsernameID()}',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white),
+            ),
+          ),
+          )
+            ],
+            ),
+            )
+            ),
+            );
 
-                        
-                    Widget myWidget =  
-                    Center(
-                      child: Container(
-                      key: ValueKey(2),
-                      margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                       child: Container (
-                        width: 700,
-                        height: 280,
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 235, 227, 227),
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20),
-                          bottomLeft: Radius.circular(20),
-                          bottomRight: Radius.circular(20),
-                        ),
-                         image: DecorationImage(
-                        image: AssetImage('assets/newww.png'), fit: BoxFit.fill,
-                           ),
-                           
-                        ) ,
-                        child: 
-                              
-                              ListView(
-                                children: [
-                                  Container(
-                                   alignment: Alignment.centerRight,
-                                   height: 25,
-                                    // color: Colors.white70,
-                                    margin:EdgeInsets.only(top: 175, bottom: 0, left: 10, right: 10),
-                                    child: 
-                                  
-                                        ListTile(
-                                      
-                                      trailing: Text('${userData.getFullname()}',
-                                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white),
-                                      
-                                      ),
-                                      
-                                      ),
-                                     
-                                   
-                                    
-                                    ),
-
-                                     Container(
-                               alignment: Alignment.centerRight,
-                               height: 50,
-                                // color: Colors.black38,
-                                margin:EdgeInsets.only(top: 0, bottom: 0, left: 10, right: 10),
-                                child: 
-                              
-                                    ListTile(
-                                  
-                                  trailing: Text('${userData.getUsernameID()}',
-                                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white),
-                                  
-                                  ),
-                                  
-                                  ),
-                                 
-                               
-                                
-                                )
-                                ],
-                              ),
-                          
-                       )
-                                ),
-                    );
-
-  //  TextEditingController _editingController = TextEditingController(text: '');
-  // String data = '';
-
- XFile? image;
+  XFile? image;
 
   final ImagePicker picker = ImagePicker();
 
   //we can upload image from camera or from gallery based on parameter
   Future getImage(ImageSource media) async {
     var img = await picker.pickImage(source: media);
-
     setState(() {
       image = img;
     });
@@ -142,7 +118,7 @@ class _ProfileeState extends State<Profilee> {
         builder: (BuildContext context) {
           return AlertDialog(
             shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             title: Text('Please choose media to select'),
             content: Container(
               height: MediaQuery.of(context).size.height / 8,
@@ -192,372 +168,289 @@ class _ProfileeState extends State<Profilee> {
         title: Text('Profile', style: TextStyle(fontSize: 23)),
         backgroundColor: Color.fromARGB(255, 255, 17, 17),
         elevation: 7.20  ,
-          toolbarHeight: 90,
+        toolbarHeight: 90,
         ),
+
          body: 
-         
          ListView(
            children: [
              Stack(
               children: <Widget>[
+                
                 Container(
-                  color: Colors.white,
+                color: Colors.white,
                 ),
-              
-                       Container(
-                  margin: EdgeInsets.fromLTRB(10, 380, 10, 0),
-                  child: Column(
+
+                Container(
+                margin: EdgeInsets.fromLTRB(10, 380, 10, 0),
+                child: 
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                         Text('Full Name',
+
+                      Text('Full Name',
                       style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 17),
                       ),
-                       TextFormField(
-                        controller: myControllerFullname..text = '${userData.getFullname()}',
-                        cursorColor: Colors.black,
-                              style: TextStyle(
-                                fontSize: 17
-                              ),
-                              decoration: InputDecoration(
-                                labelStyle: TextStyle(color: Colors.black),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: new BorderSide(color: Colors.black),
-                                )
-                              )
-                        
+
+                      TextFormField(
+                      controller: myControllerFullname..text = '${userData.getFullname()}',
+                      cursorColor: Colors.black,
+                      style: TextStyle(
+                      fontSize: 17
                       ),
+                      decoration: InputDecoration(
+                      labelStyle: TextStyle(color: Colors.black),
+                      focusedBorder: UnderlineInputBorder(
+                      borderSide: new BorderSide(color: Colors.black),
+                      )
+                      )
+                      ),
+
                       SizedBox(
                         height: 20,
                         width: 20,
-                        ),
-                        Text('Email',
+                      ),
+
+                      Text('Email',
                       style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 17),
                       ),
                       
                       TextFormField(
-                       controller: myControllerEmail..text = '${userData.getEmail()}',
-                        cursorColor: Colors.black,
-                              style: TextStyle(
-                                fontSize: 17
-                              ),
-                              decoration: InputDecoration(
-                                labelStyle: TextStyle(color: Colors.black),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: new BorderSide(color: Colors.black),
-                                )
-                              )
-                        
+                      controller: myControllerEmail..text = '${userData.getEmail()}',
+                      cursorColor: Colors.black,
+                      style: TextStyle(
+                      fontSize: 17
                       ),
+                      decoration: InputDecoration(
+                      labelStyle: TextStyle(color: Colors.black),
+                      focusedBorder: UnderlineInputBorder(
+                      borderSide: new BorderSide(color: Colors.black),
+                      )
+                      )
+                      ),
+
                       SizedBox(
                         height: 20,
                         width: 20,
-                        ),
+                      ),
+
                       Text('ID',
                       style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 17),
                       ),
+                      
                       TextFormField(
-                        cursorColor: Colors.black,
-                        
-                        decoration:
-                          InputDecoration(
-                           labelStyle: TextStyle(color: Colors.black),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: new BorderSide(color: Colors.black),
-                                )
-                          ),
-                    //  controller: _editingController,
-                   
-                   controller: myControllerID..text = '${userData.getUsernameID()}',
+                      cursorColor: Colors.black,
+                      decoration:
+                      InputDecoration(
+                      labelStyle: TextStyle(color: Colors.black),
+                      focusedBorder: UnderlineInputBorder(
+                      borderSide: new BorderSide(color: Colors.black),
+                      )
+                      ),
+                     controller: myControllerID..text = '${userData.getUsernameID()}',
                       ),
                      
                       SizedBox(
                         height: 20,
                         width: 20,
-                        ),
-                        Text('Sub Divisi',
+                      ),
+
+                      Text('Sub Divisi',
                       style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 17),
                       ),
+
                       TextFormField(
-                        controller: myControllerDivisi..text = '${userData.getSubdivisi()}',
-                        cursorColor: Colors.black,
-                              style: TextStyle(
-                                fontSize: 17
-                              ),
-                              decoration: InputDecoration(
-                                labelStyle: TextStyle(color: Colors.black),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: new BorderSide(color: Colors.black),
-                                )
-                              )
-                        
+                      controller: myControllerDivisi..text = '${userData.getSubdivisi()}',
+                      cursorColor: Colors.black,
+                      style: TextStyle(
+                      fontSize: 17
                       ),
+                      decoration: InputDecoration(
+                      labelStyle: TextStyle(color: Colors.black),
+                      focusedBorder: UnderlineInputBorder(
+                      borderSide: new BorderSide(color: Colors.black),
+                      )
+                      )
+                      ),
+
                       SizedBox(
                         height: 20,
                         width: 20,
                         ),
+
                       ],
                   )
                   ),
-                //  Container(
-                //   margin: EdgeInsets.only(top: 730, left: 10, right: 10),
-                //     color: Color.fromARGB(255, 255, 17, 17),
-                //      width: 1500,
-                //     // height: 50,
-                        
-                //   child:
-                 
-                //     MaterialButton(
-                //       height: 50,
-                //       // minWidth: 200,
-                //       shape: RoundedRectangleBorder(
-                //         borderRadius: BorderRadius.circular(20)
-                //         ),
-                //           onPressed: () {
-                //              setState(() {
-                //               _fullname = myControllerFullname.text;
-                //              _scanBarcode = myControllerID.text;
-                //         // data = _editingController.text;
-                //         _divisi = myControllerDivisi.text;
-                //         _email = myControllerEmail.text;
-                //       });
-                //           }, 
-                //           child: 
-                //            Text(
-                //           'UPDATE', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 22, color: Colors.white),
-                //            ),
-                //           ),
                   
-                //   ),
-                    
-               
-                 
-                // Container(
-                //   margin: EdgeInsets.only(top: 15, left: 20, right: 20),
-                //   height: 350,
-                   
-                //   decoration: BoxDecoration(
-                   
-                //     color: Color.fromARGB(255, 212, 212, 211),
-                //      boxShadow: [BoxShadow(
-                //       blurRadius: 5, 
-                //      // spreadRadius: 2
-                //      )],
-                //    // borderRadius: BorderRadius.circular(20),
-                     
-                //   ),
-                // ),
                  Container(
-                //  margin: EdgeInsets.only(top: 20, left: 20, right: 20),
                   height: 300,
-                   
                   decoration: BoxDecoration(
-                   
-                    color: Color.fromARGB(255, 235, 227, 227),
-                     boxShadow: [BoxShadow(
-                      blurRadius: 5, 
-                     // spreadRadius: 2
-                     )],
-                   // borderRadius: BorderRadius.circular(20),
-                     
+                  color: Color.fromARGB(255, 235, 227, 227),
+                  boxShadow: [BoxShadow(
+                  blurRadius: 5,  
+                  )],
                   ),
                 ),
-              //  Container(
-              //           margin: EdgeInsets.fromLTRB(70, 30, 70, 0),
-              //           child: 
-              //           Image.asset(
-              //         'assets/kartu.jpg',
-              //         width: 350,
-                     
-              //       )
-              //   ),
+                
                 Container( 
                  margin: EdgeInsets.only( top: 10, left: 10, right: 10),
-                // color: Colors.green,
-              child: 
-        Column(
-              
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-
-                AnimatedSwitcher(
-                  child: myWidget,
-                  duration: Duration(seconds: 1),
-                  transitionBuilder: (child, animation) => FadeTransition(
-                    opacity: animation,
-                    child: child,
-                    ),
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                Switch(
-                  activeColor: Color.fromARGB(255, 255, 17, 17),
-                  activeThumbImage:  AssetImage(
-                      'assets/ramayana.jpg',
+                  child: 
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
                       
-                    ),
-                  value: isOn, 
-                  onChanged: (newValue) {
-                    isOn = newValue;
-                    setState(() {
+                       AnimatedSwitcher(
+                        child: myWidget,
+                        duration: Duration(seconds: 1),
+                        transitionBuilder: (child, animation) => FadeTransition(
+                        opacity: animation,
+                        child: child,
+                          ),
+                      ),
+
+                      SizedBox(
+                        height: 30,
+                      ),
+
+                      Switch(
+                      activeColor: Color.fromARGB(255, 255, 17, 17),
+                      activeThumbImage:  AssetImage(
+                      'assets/ramayana(C).png',
+                      ),
+                      value: isOn, 
+                      onChanged: (newValue) {
+                      isOn = newValue;
+                      setState(() {
                       if(isOn)
                       myWidget = 
                       Center(
-                        child: Container(
-                          key: ValueKey(1),
-                          margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                           child: Container (
-                            width: 700,
-                            height: 280,
-                            decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 235, 227, 227),
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20),
-                              bottomLeft: Radius.circular(20),
-                              bottomRight: Radius.circular(20),
-                            ),
+                      child: 
+
+                        Container(
+                        key: ValueKey(1),
+                        margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                        child: 
+
+                          Container (
+                          width: 700,
+                          height: 280,
+                          decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 235, 227, 227),
+                          borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
+                          bottomLeft: Radius.circular(20),
+                          bottomRight: Radius.circular(20),
+                          ),
+                          image: DecorationImage(
+                          image: AssetImage('assets/desain(C).png'), 
+                          fit: BoxFit.fill
+                          ),
+                          ),
+                          child: 
+
+                            Container(
+                            margin: EdgeInsets.only(top: 20, bottom: 30, left: 70, right: 70),
+                            child:
                             
-                             image: DecorationImage(
-                                      image: AssetImage('assets/desain.jpg'), 
-                                      fit: BoxFit.fill
-                                      ),
-                                ),
-                                child: Container(
-                                margin: EdgeInsets.only(top: 20, bottom: 30, left: 70, right: 70),
-                                //color: Colors.green,
-                                
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children : <Widget>[
-                      
+                              Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children : <Widget>[
                                 QrImage(
-                                 //backgroundColor: Colors.red,
-                                     foregroundColor: Colors.white,
+                                foregroundColor: Colors.white,
                                 data: "${userData.getUsernameID()}",
                                 version: QrVersions.auto,
                                 size: 70.0,
-                              ), 
-                                BarCodeImage(
-                                 backgroundColor: Colors.white,
-                        params: Code128BarCodeParams(
-                          "${userData.getUsernameID()}",
-                          lineWidth: 2.65,                // width for a single black/white bar (default: 2.0)
-                          barHeight: 45,               // height for the entire widget (default: 100.0)
-                          withText: true,                // Render with text label or not (default: false)
-                        ),
-                        padding: EdgeInsets.only(bottom: 7),
-                        onError: (error) {               // Error handler
-                          print('error = $error');
-                          
-                        },
-                              ),
-                              
-                                       ])
-                              )
-                           ),
-                          ),
-                      );
+                                ),
+
+                                 BarCodeImage(
+                                  backgroundColor: Colors.white,
+                                  params: Code128BarCodeParams(
+                                  "${userData.getUsernameID()}",
+                                  lineWidth: 2.65,             
+                                  barHeight: 45,              
+                                  withText: true,               
+                                  ),
+                                  padding: EdgeInsets.only(bottom: 7),
+                                  onError: (error) {               // Error handler
+                                  print('error = $error'); 
+                                  },
+                                  ),
+                                        
+                            ])
+                                        )
+                                    ),
+                                    ),
+                            );
 
                       else 
                       myWidget =  
                       Center(
-                        child: Container(
-                          key: ValueKey(2),
-                          margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                           child: Container (
-                            width: 700,
-                            height: 280,
-                            decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 235, 227, 227),
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20),
-                              bottomLeft: Radius.circular(20),
-                              bottomRight: Radius.circular(20),
-                            ),
-                             image: DecorationImage(
-                            image: AssetImage('assets/newww.png'), fit: BoxFit.fill),
-                               ),
-                              child: 
-                              
-                              ListView(
-                                children: [
-                                  Container(
-                                   alignment: Alignment.centerRight,
-                                   height: 25,
-                                    // color: Colors.white70,
-                                    margin:EdgeInsets.only(top: 175, bottom: 0, left: 10, right: 10),
-                                    child: 
-                                  
-                                        ListTile(
-                                      
-                                      trailing: Text('${userData.getFullname()}',
-                                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white),
-                                      
-                                      ),
-                                      
-                                      ),
-                                     
-                                   
+                      child: 
+                      
+                        Container(
+                        key: ValueKey(2),
+                        margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                        child: 
+                          
+                          Container (
+                          width: 700,
+                          height: 280,
+                          decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 235, 227, 227),
+                          borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
+                          bottomLeft: Radius.circular(20),
+                          bottomRight: Radius.circular(20),
+                          ),
+                          image: DecorationImage(
+                          image: AssetImage('assets/newww.png'), fit: BoxFit.fill),
+                          ),
+                          child: 
                                     
-                                    ),
-
-                                     Container(
-                               alignment: Alignment.centerRight,
-                               height: 50,
-                                // color: Colors.black38,
-                                margin:EdgeInsets.only(top: 0, bottom: 0, left: 10, right: 10),
-                                child: 
-                              
-                                    ListTile(
-                                  
-                                  trailing: Text('${userData.getUsernameID()}',
-                                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white),
-                                  
-                                  ),
-                                  
-                                  ),
-                                 
-                               
+                              ListView(
+                              children: [
                                 
-                                )
-                                ],
-                              ),
-                                
+                                Container(
+                                 alignment: Alignment.centerRight,
+                                 height: 25,
+                                 margin:EdgeInsets.only(top: 175, bottom: 0, left: 10, right: 10),
+                                 child: 
+                                   ListTile(
+                                   trailing: Text('${userData.getFullname()}',
+                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white),
+                                   ),
+                                  ),
                                 ),
-                            
-                            ) 
-                                  
-                      );
-
-                    });
-                    
-                  }
-                   ),
-              
-              
-                ]
-                )
-                 ),
-       
-        //      Container(
-        //       margin: EdgeInsets.only(top: 20),
-        //        child: PrettyQr(
-        //   image: AssetImage('assets/ramayana.jpg'),
-        //   size: 215,
-        //   data: '$_scanBarcode',
-        //   errorCorrectLevel: QrErrorCorrectLevel.M,
-        //   typeNumber: 7,
-        //   roundEdges: false,
-        // ),
-        //      ),  
-                   
-       
+                                 
+                                 Container(
+                                  alignment: Alignment.centerRight,
+                                  height: 50,
+                                  margin:EdgeInsets.only(top: 0, bottom: 0, left: 10, right: 10),
+                                  child: 
+                                    
+                                    ListTile(
+                                    trailing: Text('${userData.getUsernameID()}',
+                                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white),
+                                     ),
+                                     ),
+                                   )
+                                      ],
+                                    ),
+                                      
+                                      ),
+                                   ) 
+                            );
+                          });
+                        }
+                        )
+                      ]
+                      )
+                      ),
               ] 
-              
              ),
            ],
          )
