@@ -523,7 +523,7 @@ class _RamayanaLogin extends State<RamayanaLogin> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          'Version 2.2.1 Copyright EDP',
+                          'Version 2.5 Copyright EDP',
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 17,

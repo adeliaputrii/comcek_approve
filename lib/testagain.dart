@@ -16,14 +16,14 @@ import 'package:myactivity_project/service/SP_service/SP_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
 
-class RamayanaHistory12 extends StatefulWidget {
-  const RamayanaHistory12({super.key});
+class RamayanaHistoryTest extends StatefulWidget {
+  const RamayanaHistoryTest({super.key});
 
   @override
-  State<RamayanaHistory12> createState() => _RamayanaHistory12State();
+  State<RamayanaHistoryTest> createState() => _RamayanaHistoryTestState();
 }
 
-class _RamayanaHistory12State extends State<RamayanaHistory12> {
+class _RamayanaHistoryTestState extends State<RamayanaHistoryTest> {
  TextEditingController dateInput = TextEditingController();
  TextEditingController sku = TextEditingController();
  TextEditingController m1 = TextEditingController();
@@ -224,7 +224,7 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                 
                 var formData = FormData.fromMap({
                               'is_approv': 1,
-                              'user_approv' : 'test',
+                              'user_approv' : 'test100checkboxlist',
                               'sku': selectedData,
                               'm1' : selectedData2
                             });
@@ -235,7 +235,7 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
 
                             print(
                                 // 'Berhasil, ${}, ${password.text},${password.text}, ${passwordReEnter.text}'
-                                'Berhasil, ${selectedData}, ${selectedData2} '
+                                'Berhasil, ${formData}'
                                 );
                             Duration(seconds: 10);
 
@@ -489,23 +489,26 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                               activeColor: Colors.red,
                               dense: true,
 
-                              value: e.isSelected,
+                              value:  e.isSelected,
+                              // selectedData.indexOf(e.sku) < 0 ? false : true,
 
                               onChanged: (bool? value) {
                                 //itemChange(newValue!, index);
                                 setState(() {
-                                  e.isSelected = value!;
-                                  if(selectedData.indexOf('00${e.sku}') < 0) {
+                                 e.isSelected = value!;
+                                if(selectedData.indexOf('00${e.sku}') < 0) {
                                   selectedData.add('00${e.sku}');
                                   selectedData2.add(e.m1);
                                      _rowSelectedCount += value ? 1 : -1;
                                   } else {
                                     selectedData.removeWhere((element) => element== '00${e.sku}');
-                                   selectedData2.removeLast();
+                                    selectedData2.removeWhere((element) => element== e.m1);
                                      _rowSelectedCount += value ? 1 : -1;
                                   }
                                   print(selectedData);
                                   print(selectedData2);
+                                  // print(selectedItem2);
+                                  // print(selectedValue);
                                 });
                               }
                               ),
@@ -828,23 +831,25 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                         ),
                         Checkbox(
                         activeColor: Colors.red,
-                                 value: e.isSelected,
+                       value: e.isSelected,
+                      //  selectedData.indexOf(e.sku) < 0 ? false : true,
 
                               onChanged: (bool? value) {
                                 //itemChange(newValue!, index);
                                 setState(() {
-                                  e.isSelected = value!;
+                                 e.isSelected = value!;
                                  if(selectedData.indexOf('00${e.sku}') < 0) {
                                   selectedData.add('00${e.sku}');
                                   selectedData2.add(e.m1);
                                      _rowSelectedCount += value ? 1 : -1;
                                   } else {
-                                    selectedData.removeWhere((element) => element == '00${e.sku}');
-                                    selectedData2.removeLast();
+                                    selectedData.removeWhere((element) => element== '00${e.sku}');
+                                    selectedData2.removeWhere((element) => element== e.m1);
                                      _rowSelectedCount += value ? 1 : -1;
                                   }
                                   print(selectedData);
                                   print(selectedData2);
+                                 
                                 });
                               }
                         )

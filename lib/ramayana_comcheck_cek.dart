@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:myactivity_project/cobacoba.dart';
 import 'package:myactivity_project/justtest.dart';
+import 'package:myactivity_project/models/model_apv.dart';
+import 'package:myactivity_project/models/model_tabel_approve.dart';
 import 'package:myactivity_project/ramayana_approve.dart';
 import 'package:myactivity_project/ramayana_approve_update.dart';
 import 'package:myactivity_project/ramayana_home.dart';
@@ -16,6 +18,7 @@ import 'package:myactivity_project/service/API_service/API_service_table.dart';
 import 'package:myactivity_project/service/SP_service/SP_service.dart';
 import 'package:myactivity_project/service/service_api/authForTable.dart';
 import 'package:myactivity_project/test.dart';
+import 'package:myactivity_project/testagain.dart';
 
 class RamayanaCompetitorCek extends StatefulWidget {
   const RamayanaCompetitorCek({super.key});
@@ -71,8 +74,8 @@ class _RamayanaCompetitorCekState extends State<RamayanaCompetitorCek> {
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
                     ),
 
-                    Text('Competitor Cek',
-                    style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold, color: Colors.white),
+                    Text('Competitor Checking',
+                    style: TextStyle(fontSize: 38, fontWeight: FontWeight.bold, color: Colors.white),
                     ),
 
                     Text('',
@@ -115,7 +118,7 @@ class _RamayanaCompetitorCekState extends State<RamayanaCompetitorCek> {
                     // await fetchData();
                     // print('HARUS BISA YA ELAH');
                   Navigator.push(context, MaterialPageRoute(builder: (context){
-                    return RamayanaHistory1();
+                    return RamayanaHistory12();
                   }));
                   },
                   child: Row(
@@ -154,7 +157,7 @@ class _RamayanaCompetitorCekState extends State<RamayanaCompetitorCek> {
                   ),
                   onPressed: () {
                      Navigator.push(context, MaterialPageRoute(builder: (context){
-                      return Chomcheck();
+                      return RamayanaHistory120(); 
                     }));
                     // Navigator.push(context, MaterialPageRoute(builder: (context){
                     //   return RamayanaRiwayat(initialDate: DateTime.now(),);

@@ -161,7 +161,7 @@ class _RamayanaState extends State<Ramayana> {
                 
                   Container(
                     margin: EdgeInsets.fromLTRB(10, 80, 10, 0),
-                    height: 500,
+                    height: 230,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       color: Color.fromARGB(255, 255, 255, 255),
@@ -183,34 +183,34 @@ class _RamayanaState extends State<Ramayana> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
                             
-                          Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                                MaterialButton(
-                                minWidth:  MediaQuery.of(context).size.width/6,
-                                height:  MediaQuery.of(context).size.height/13,
-                                shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50)
-                                ),
-                                color: Color.fromARGB(255, 255, 17, 17),
-                                onPressed: () {},
-                                child:  
-                                Icon(IconlyBold.paperPlus,
-                                size: 30,
-                                color: Colors.white,
-                                ),
-                                ),
+                          // Column(
+                          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          // crossAxisAlignment: CrossAxisAlignment.center,
+                          // children: [
+                          //       MaterialButton(
+                          //       minWidth:  MediaQuery.of(context).size.width/6,
+                          //       height:  MediaQuery.of(context).size.height/13,
+                          //       shape: RoundedRectangleBorder(
+                          //       borderRadius: BorderRadius.circular(50)
+                          //       ),
+                          //       color: Color.fromARGB(255, 255, 17, 17),
+                          //       onPressed: () {},
+                          //       child:  
+                          //       Icon(IconlyBold.paperPlus,
+                          //       size: 30,
+                          //       color: Colors.white,
+                          //       ),
+                          //       ),
 
-                                SizedBox(
-                                height: 10,
-                                ),
+                          //       SizedBox(
+                          //       height: 10,
+                          //       ),
 
-                                Text('Add Activity',
-                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                                )
-                          ],
-                          ),
+                          //       Text('Add Activity',
+                          //       style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          //       )
+                          // ],
+                          // ),
 
                           Column(
                           children: [
@@ -223,10 +223,10 @@ class _RamayanaState extends State<Ramayana> {
                                 color: Color.fromARGB(255, 255, 17, 17),
                                 onPressed: () {
                                   Navigator.push(context, MaterialPageRoute(builder: (context){
-                                    return RamayanaHistory();
+                                    return RamayanaCompetitorCek();
                                   }));
                                 }, 
-                                child:  Icon(IconlyBold.document,
+                                child:  Icon(IconlyBold.editSquare,
                                 size: 30,
                                 color: Colors.white,
                                 ),
@@ -236,7 +236,7 @@ class _RamayanaState extends State<Ramayana> {
                                 height: 10,
                                 ),
 
-                                Text('List Activity',
+                                Text('Competitor Checking',
                                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
                           ],
                           ),
@@ -273,99 +273,99 @@ class _RamayanaState extends State<Ramayana> {
                         ],
                         ),
 
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        //   children: <Widget>[
                             
-                          Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                                MaterialButton(
-                                minWidth:  MediaQuery.of(context).size.width/6,
-                                height:  MediaQuery.of(context).size.height/13,
-                                shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50)
-                                ),
-                                color: Color.fromARGB(255, 255, 17, 17),
-                                onPressed: () {},
-                                child:  
-                                Icon(IconlyBold.wallet,
-                                size: 30,
-                                color: Colors.white,
-                                ),
-                                ),
+                        //   Column(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        //   crossAxisAlignment: CrossAxisAlignment.center,
+                        //   children: [
+                        //         MaterialButton(
+                        //         minWidth:  MediaQuery.of(context).size.width/6,
+                        //         height:  MediaQuery.of(context).size.height/13,
+                        //         shape: RoundedRectangleBorder(
+                        //         borderRadius: BorderRadius.circular(50)
+                        //         ),
+                        //         color: Color.fromARGB(255, 255, 17, 17),
+                        //         onPressed: () {},
+                        //         child:  
+                        //         Icon(IconlyBold.wallet,
+                        //         size: 30,
+                        //         color: Colors.white,
+                        //         ),
+                        //         ),
 
-                                SizedBox(
-                                height: 10,
-                                ),
+                        //         SizedBox(
+                        //         height: 10,
+                        //         ),
 
-                                Text('Menu1',
-                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                                )
-                          ],
-                          ),
+                        //         Text('Menu1',
+                        //         style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                        //         )
+                        //   ],
+                        //   ),
 
-                          Column(
-                          children: [
-                                MaterialButton(
-                                minWidth:  MediaQuery.of(context).size.width/6,
-                                height:  MediaQuery.of(context).size.height/13,
-                                shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50)
-                                ),
-                                color: Color.fromARGB(255, 255, 17, 17),
-                                onPressed: () {}, 
-                                child:  Icon(IconlyBold.work,
-                                size: 30,
-                                color: Colors.white,
-                                ),
-                                ),
+                        //   Column(
+                        //   children: [
+                        //         MaterialButton(
+                        //         minWidth:  MediaQuery.of(context).size.width/6,
+                        //         height:  MediaQuery.of(context).size.height/13,
+                        //         shape: RoundedRectangleBorder(
+                        //         borderRadius: BorderRadius.circular(50)
+                        //         ),
+                        //         color: Color.fromARGB(255, 255, 17, 17),
+                        //         onPressed: () {}, 
+                        //         child:  Icon(IconlyBold.work,
+                        //         size: 30,
+                        //         color: Colors.white,
+                        //         ),
+                        //         ),
 
-                                SizedBox(
-                                height: 10,
-                                ),
+                        //         SizedBox(
+                        //         height: 10,
+                        //         ),
 
-                                Text('Menu2',
-                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
-                          ],
-                          ),
+                        //         Text('Menu2',
+                        //         style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
+                        //   ],
+                        //   ),
 
-                          Column(
-                          children: [
-                                MaterialButton(
-                                minWidth:  MediaQuery.of(context).size.width/6,
-                                height:  MediaQuery.of(context).size.height/13,
-                                shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50)
-                                ),
-                                color: Color.fromARGB(255, 255, 17, 17),
-                                onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context){
-                                  return RamayanaCompetitorCek();
-                                }));
-                              }, 
-                                child: 
-                                Icon(IconlyBold.editSquare,
-                                size: 30,
-                                color: Colors.white,
-                                ),
-                                ),
+                        //   Column(
+                        //   children: [
+                        //         MaterialButton(
+                        //         minWidth:  MediaQuery.of(context).size.width/6,
+                        //         height:  MediaQuery.of(context).size.height/13,
+                        //         shape: RoundedRectangleBorder(
+                        //         borderRadius: BorderRadius.circular(50)
+                        //         ),
+                        //         color: Color.fromARGB(255, 255, 17, 17),
+                        //         onPressed: () {
+                        //         Navigator.push(context, MaterialPageRoute(builder: (context){
+                        //           return RamayanaCompetitorCek();
+                        //         }));
+                        //       }, 
+                        //         child: 
+                        //         Icon(IconlyBold.editSquare,
+                        //         size: 30,
+                        //         color: Colors.white,
+                        //         ),
+                        //         ),
 
-                                SizedBox(
-                                height: 10,
-                                ),
+                        //         SizedBox(
+                        //         height: 10,
+                        //         ),
 
-                                Text('COM Check',
-                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
-                         ],
-                         ) 
-                        ],
-                        ),
+                        //         Text('COM Check',
+                        //         style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
+                        //  ],
+                        //  ) 
+                        // ],
+                        // ),
 
-                        SizedBox(
-                          height: 90,
-                        )
+                        // SizedBox(
+                        //   height: 90,
+                        // )
                       ],
                     ),
                   ),

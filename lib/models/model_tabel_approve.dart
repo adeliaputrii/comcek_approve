@@ -1,65 +1,52 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
+import 'package:myactivity_project/service/SP_service/SP_service.dart';
 
-class ApiBookmark {
-  final String sku;
-  final String toko;
-  final String m1;
-  final String hbeli;
-  final String hjual;
-  final String hjual_baru;
-  final String date_cr;
-  final String time_cr;
-  final String user_cr;
-  final String is_approv;
-  final String date_approve;
-  final String user_approv;
-
-
-  
-
-  ApiBookmark({
+class ApproveModel1 {
+  ApproveModel1({
     required this.sku,
     required this.toko,
     required this.m1,
     required this.hbeli,
     required this.hjual,
-    required this.hjual_baru,
+    required this.hjualBaru,
     required this.date_cr,
     required this.time_cr,
     required this.user_cr,
-    required this.is_approv,
-    required this.date_approve,
-    required this.user_approv,
-
+    required this.isapv,
+    required this.dateapv,
+    required this.userapv,
+    this.item1 = '',
+    this.item2 = '',
+    this.value = false,
+    this.isSelected = false,
+    this.isSelectedCont = true
   });
 
-  factory ApiBookmark.fromJson(Map<String, dynamic> json) {
-    return ApiBookmark(
-      sku: json['sku'],
-      toko: json['toko'],
-      m1: json['m1'],
-      hbeli: json['hbeli'],
-      hjual: json['hjual'],
-      hjual_baru: json['hjual_baru'],
-      date_cr: json['date_cr'],
-      time_cr: json['time_cr'],
-      user_cr: json['user_cr'],
-      is_approv: json['is_approv'],
-      date_approve: json['date_approve'],
-      user_approv: json['user_approv'],
-    );
-  }
-   
-}
-   Future<ApiBookmark> getUsers() async {
-    final response = await http.get(
-      Uri.parse('https://android-api.ramayana.co.id:8304/api/v1/activity/tbl_commcheck')
-    );
-    if(response.statusCode == 200) {
-      return ApiBookmark.fromJson(json.decode(response.body)[0]);
-    } else {
-      throw Exception('Faied to load post');
-    }
-   }
+  // ignore: non_constant_identifier_names
   
+  final String toko, m1, hbeli, hjual, hjualBaru, date_cr, time_cr, user_cr, isapv, dateapv, userapv;
+  String  item1, item2;
+  final int sku;
+  bool isSelected;
+  bool isSelectedCont;
+  bool value;
+  
+    factory ApproveModel1.fromjson(Map<String, dynamic> json1,) => ApproveModel1(
+    sku : json1["sku"],
+    toko : json1["toko"],
+    m1 : json1["m1"],
+    hbeli : json1["hbeli"],
+    // .qty : json["qty"] :: '' ? 0 : int.parse(json["qty"]),
+    hjual : json1["hjual"],
+    hjualBaru: json1["hjual_baru"],
+    date_cr : json1["date_cr"],
+    time_cr : json1["time_cr"],
+    user_cr : json1["user_cr"],
+    isapv : json1["is_approv"],
+    dateapv : json1["date_approve"],
+    userapv : json1["user_approv"],
+    );
+    
+  static List<ApproveModel1> approvelist1 = [];
+  
+}

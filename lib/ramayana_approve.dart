@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:myactivity_project/justtest.dart';
 import 'package:myactivity_project/models/model_apv.dart';
 import 'package:myactivity_project/models/models_act.dart';
@@ -25,8 +26,24 @@ class _RamayanaHistory1State extends State<RamayanaHistory1> {
  TextEditingController dateInput = TextEditingController();
 
   var dio = Dio();
+  var selected1;
+    final List<String> data1 = [
+    'MD1',
+    'MD2',
+    'MD3',
+    'MD4'
+  ];
+
+  var selected2;
+    final List<String> data2 = [
+    'RB17',
+    'R136',
+    'S204',
+    'S445'
+  ];
   UserData userData = UserData();
-fetchProduk({
+
+  fetchProduk({
     required String m1
   }) async {
     
@@ -58,7 +75,7 @@ fetchProduk({
 
    void initState() {
     super.initState();
-    fetchProduk(m1: '081');
+    fetchProduk(m1: '082');
     dateInput.text = "";
   }  
 
@@ -142,7 +159,7 @@ fetchProduk({
                 
                 var formData = FormData.fromMap({
                               'is_approv': '1',
-                              'user_approv' : 'test',
+                              'user_approv' : 'test_comcek_build',
                               'sku': '00414975',
                               'm1' : '081'
                             });
@@ -181,7 +198,6 @@ fetchProduk({
     showCupertinoModalPopup(context: context, builder: (context) => popup);
   }
   bool _checkBoxVal = false;
-  bool _checkBoxValAll = false;
   bool click = true;
   bool click2 = true;
   int _rowSelectedCount = 0;
@@ -194,54 +210,145 @@ fetchProduk({
     return Scaffold(
 
       appBar: AppBar(
-        title: Text('Approve', style: TextStyle(fontSize: 23)),
-        backgroundColor: Color.fromARGB(255, 255, 17, 17),
-        elevation: 1 ,
-        toolbarHeight: 90,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context){
+                      return RamayanaCompetitorCek();
+                    }));
+          },
+          icon: Icon(IconlyLight.arrowLeft, color: Color.fromARGB(255, 255, 255, 255), size: 25,),
+        ),
+        title: 
+        Container(
+          margin: EdgeInsets.only(left: 120),
+         child: Text('Approve', style: TextStyle(fontSize: 23, color: Color.fromARGB(255, 255, 255, 255), fontWeight: FontWeight.bold),),
+            
+            
+        ),
+        backgroundColor: Color.fromARGB(255, 255, 14, 14),
+        elevation: 5,
+        toolbarHeight: 80,
         ),
       body: 
       Stack(
         children: [
           Container(
-            color: Colors.white,
+            color: Color.fromARGB(255, 244, 244, 244),
           ),
+           Container(
+          margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+            height: 130,
+            decoration: BoxDecoration(
+              color: Color.fromARGB(255, 232, 15, 15),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black12,
+                  spreadRadius: 3,
+                  blurRadius: 3,
+                )
+              ],
+            )
+        ),
+
+        Container(
+          margin: EdgeInsets.only(left: 10, top: 20),
+            child: Text('List Approve',
+              style: TextStyle(
+              color: Colors.white,
+              fontSize: 25,
+              fontWeight: FontWeight.w700)
+            ),
+        ),
+
+        Container(
+          margin: EdgeInsets.only(right: 0, top: 70, left: 10),
+            child: 
+            ListTile(
+              trailing: Text('${userData.getFullname()} ${userData.getUsernameID()}',
+               style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.w500)
+              )
+            )
+        ),
           Container(
-                margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
-                height: 80,
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 255, 244, 244),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                      width: 1, 
-                      color: Colors.red
+          margin: EdgeInsets.fromLTRB(0, 125, 0, 0),
+          height: 60,
+          decoration: 
+          BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(color: Colors.black12, spreadRadius: 5, blurRadius: 15)
+            ],
+          ),
+          child: 
+          Container(
+            margin: EdgeInsets.only(left: 50, right: 50),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment:CrossAxisAlignment.center,
+              children: <Widget>[
+                DropdownButton(
+                    value: selected2,
+                    hint: Text('TOKO',
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 255, 17, 17),
+                      fontSize: 17, fontWeight: FontWeight.w500
                     ),
-                ),
-                child: 
-                Container(
-                  margin: EdgeInsets.only(left: 10, right: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text('${ApproveModel.approvelist.length} SKU', 
-                      style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
+                    ),
+                    onChanged: (value) {
+                      print(value);
+                      setState(() {
+                        selected2 = value;
+                      });
+                    },
+                    items: data2
+                    .map(
+                      (e) => DropdownMenuItem(
+                        value: e,
+                        child: 
+                        Text(e, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Color.fromARGB(255, 255, 17, 17)),),
                       ),
-                      Checkbox(
-                        activeColor: Colors.red,
-                        onChanged: (value) {
-                          _checkBoxValAll = value!;
-                          _rowSelectedCount = value ? ApproveModel.approvelist.length : 0;
-                          setState(() {});
-                        },
-                        value: _checkBoxValAll,)
-                    ],
-                  ),
-                ),
-              ),
+                      )
+                      .toList()
+                    ),
+                DropdownButton(
+                    value: selected1,
+                    hint: Text('MD',
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 255, 17, 17),
+                      fontSize: 17, fontWeight: FontWeight.w500
+                    ),
+                    ),
+                    onChanged: (value) {
+                      print(value);
+                      setState(() {
+                        selected1 = value;
+                      });
+                    },
+                    items: data1
+                    .map(
+                      (e) => DropdownMenuItem(
+                        value: e,
+                        child: 
+                        Text(e, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: Color.fromARGB(255, 255, 17, 17)),),
+                      ),
+                      )
+                      .toList()
+                    ),
+                 
+              ],
+            ),
+          ),
+        ),
+
+        
        
         Container(
-            margin: EdgeInsets.only(top: 100, bottom: 120),
+            margin: EdgeInsets.only(top: 200, bottom: 120),
             decoration: BoxDecoration(
-            color: Colors.white,
+            color: Color.fromARGB(255, 244, 244, 244),
            
           ),
             child: ListView(
@@ -259,16 +366,18 @@ fetchProduk({
             duration: Duration(milliseconds: 800),
             firstChild: 
            Container(
-            margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
+            margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
             height: 180,
             decoration: BoxDecoration(
-              color: Color.fromARGB(255, 255, 244, 244),
-              borderRadius: BorderRadius.circular(20),
               border: Border.all(
-                  width: 1, 
-                  color: Colors.red
-                ),
+                          width: 1, 
+                          color: Colors.red
+                        ),
+            
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(15),
             ),
+              
             child: 
             Container(
               margin: EdgeInsets.only(left: 10, right: 10, top: 0),
@@ -280,35 +389,27 @@ fetchProduk({
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('MD', 
-                          style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 20, decoration: TextDecoration.underline),
-                          ),
+                      Container(
+                        margin: EdgeInsets.only(left: 15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('${e.m1}', 
+                             style: TextStyle(color: Color.fromARGB(255, 255, 0, 0), fontSize: 18, decoration: TextDecoration.underline),
+                            ),
                         SizedBox(
-                          width: 30,
+                            width: 30,
+                          ),
+                         Text('Nama Barang', 
+                         style: TextStyle(color: Color.fromARGB(255, 255, 0, 0), fontSize: 18, decoration: TextDecoration.underline),
                         ),
-                         Text('Toko', 
-                      style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 20, decoration: TextDecoration.underline),
-                      ),
-                      SizedBox(
-                          width: 30,
+                        ],
                         ),
-                       Text('SKU', 
-                      style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 20, decoration: TextDecoration.underline),
-                      ),
-                      SizedBox(
-                          width: 30,
-                        ),
-                       Text('Nama Barang', 
-                     style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 20, decoration: TextDecoration.underline),
-                      ),
-                      ],
                       ),
                       Checkbox(
                         activeColor: Colors.red,
                         onChanged: (value) {
+                          print(value);
                           _checkBoxVal = value!;
                           _rowSelectedCount += value ? 1 : -1;
                           setState(() {
@@ -320,8 +421,37 @@ fetchProduk({
                   ),
                   Container(
                     margin: EdgeInsets.only(left: 15),
-                    child: Text('Selisih Harga',
-                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 18),
+                    child: 
+                    Row(
+                      children: [
+                             Text('${e.hjual}', 
+                         style: TextStyle(color: Colors.black, fontSize: 15),
+                          ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                         Text('${e.hjualBaru}', 
+                      style: TextStyle(color: Colors.black, fontSize: 15),
+                      ),
+                      SizedBox(
+                          width: 20,
+                        ),
+                       Text('${e.hbeli}', 
+                      style: TextStyle(color: Colors.black, fontSize: 15),
+                      ),
+                      SizedBox(
+                          width: 20,
+                        ),
+                         Text('MarL', 
+                      style: TextStyle(color: Colors.black,  fontSize: 15),
+                      ),
+                      SizedBox(
+                          width: 20,
+                        ),
+                        Text('SelHAr',
+                        style: TextStyle(color: Colors.black, fontSize: 15),
+                        ),
+                      ],
                     ),
                   ),
                   Container(
@@ -340,9 +470,11 @@ fetchProduk({
                           height: 35,
                           width: 130,
                           child: 
-                          Center(child: Text('Start Date', style: TextStyle(fontWeight: FontWeight.w500, fontSize: 17, color: Colors.black),)),
+                          Center(child: Text('Start Date', style: TextStyle(fontSize: 15, color: Colors.black),)),
                         ),
-                        SizedBox(height: 10),
+                         SizedBox(width: 10),
+                        Text('s/d'),
+                        SizedBox(width: 10),
                         Container(
                           margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
                            decoration:  BoxDecoration(
@@ -355,7 +487,7 @@ fetchProduk({
                           height: 35,
                           width: 130,
                           child: 
-                          Center(child: Text('End Date', style: TextStyle(fontWeight: FontWeight.w500, fontSize: 17, color: Colors.black),)),
+                          Center(child: Text('End Date', style: TextStyle( fontSize: 15, color: Colors.black),)),
                         ),
                       ],
                     ),
@@ -381,10 +513,10 @@ fetchProduk({
             secondChild: 
              Container(
             margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
-            height: 300,
+            height: 280,
             decoration: BoxDecoration(
-              color: Color.fromARGB(255, 255, 244, 244),
-              borderRadius: BorderRadius.circular(20),
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(15),
               border: Border.all(
                   width: 1, 
                   color: Colors.red
@@ -401,48 +533,71 @@ fetchProduk({
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('${e.m1}', 
-                          style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 20, decoration: TextDecoration.underline),
-                          ),
+                      Container(
+                        margin: EdgeInsets.only(left: 15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('${e.m1}', 
+                             style: TextStyle(color: Color.fromARGB(255, 255, 0, 0), fontSize: 17, decoration: TextDecoration.underline),
+                            ),
                         SizedBox(
-                          width: 30,
+                            width: 30,
+                          ),
+                         Text('Nama Barang', 
+                         style: TextStyle(color: Color.fromARGB(255, 255, 0, 0), fontSize: 17, decoration: TextDecoration.underline),
                         ),
-                         Text('${e.toko}', 
-                      style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 20, decoration: TextDecoration.underline),
-                      ),
-                      SizedBox(
-                          width: 30,
+                        ],
                         ),
-                       Text('${e.sku}', 
-                      style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 20, decoration: TextDecoration.underline),
-                      ),
-                      SizedBox(
-                          width: 30,
-                        ),
-                       Text('Nama Barang', 
-                     style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 20, decoration: TextDecoration.underline),
-                      ),
-                      ],
                       ),
                       Checkbox(
                         activeColor: Colors.red,
-                        onChanged: ( value) {
+                        onChanged: (value) {
                           _checkBoxVal = value!;
                           _rowSelectedCount += value ? 1 : -1;
-                          setState(() {});
+                          setState(() {
+                           
+                          });
                         },
                         value: _checkBoxVal,)
                     ],
                   ),
                   Container(
-                    margin: EdgeInsets.only(left: 15, top: 10),
-                    child: Text('Selisih Harga',
-                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 18),
+                    margin: EdgeInsets.only(left: 15),
+                    child: 
+                    Row(
+                      children: [
+                             Text('${e.hjual}', 
+                         style: TextStyle(color: Colors.black,  fontSize: 15),
+                          ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                         Text('${e.hjualBaru}', 
+                      style: TextStyle(color: Colors.black,fontSize: 15),
+                      ),
+                      SizedBox(
+                          width: 20,
+                        ),
+                       Text('${e.hbeli}', 
+                      style: TextStyle(color: Colors.black, fontSize: 15),
+                      ),
+                      SizedBox(
+                          width: 20,
+                        ),
+                         Text('MarL', 
+                      style: TextStyle(color: Colors.black,fontSize: 15),
+                      ),
+                      SizedBox(
+                          width: 20,
+                        ),
+                        Text('SelHar',
+                        style: TextStyle(color: Colors.black,fontSize: 15),
+                        ),
+                      ],
                     ),
                   ),
+                 
                   Container(
                     margin: EdgeInsets.only(left: 10, top: 20),
                     child: Row(
@@ -471,7 +626,7 @@ fetchProduk({
                                 hintText: 'Start Date',
                                 labelStyle: TextStyle(color: Colors.red),
                                 hintStyle:
-                                    TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.w500),
+                                    TextStyle(color: Colors.black, fontSize: 15,),
                                 enabledBorder: UnderlineInputBorder(
                                     borderSide:
                                         new BorderSide(color: Colors.red,),),
@@ -502,7 +657,9 @@ fetchProduk({
                                        ),
                            )
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(width: 10),
+                        Text('s/d'),
+                        SizedBox(width: 10),
                         Container(
                           margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
                            decoration:  BoxDecoration(
@@ -526,7 +683,7 @@ fetchProduk({
                                 hintText: 'End Date',
                                 labelStyle: TextStyle(color: Colors.red),
                                 hintStyle:
-                                    TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.w500),
+                                    TextStyle(color: Colors.black, fontSize: 15,),
                                 enabledBorder: UnderlineInputBorder(
                                     borderSide:
                                         new BorderSide(color: Colors.red,),),
@@ -567,24 +724,21 @@ fetchProduk({
                         Text(
                           'HB             :  ${e.hbeli}',
                           style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400,
+                            fontSize: 15,
                           ),
                         ),
                         SizedBox(height: 10),
                         Text(
                           'HJ             :  ${e.hjual}',
-                          style: TextStyle( 
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400,
+                           style: TextStyle(
+                            fontSize: 15,
                           ),
                         ),
                         SizedBox(height: 10),
                         Text(
                           'HJ BARU  :  ${e.hjualBaru}',
                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400,
+                            fontSize: 15,
                           ),
                         ),
                       ],
@@ -636,4 +790,12 @@ fetchProduk({
         ])
     );
   }
+   DropdownMenuItem<String> buildMenuItem(String item) =>
+  DropdownMenuItem(
+    value: item,
+    child: Text(
+      item, 
+      style: TextStyle(fontWeight: FontWeight.w500, fontSize: 13, color: Color.fromARGB(255, 255, 17, 17)),
+    ),
+  );
 }

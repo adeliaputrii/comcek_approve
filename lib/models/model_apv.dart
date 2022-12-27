@@ -4,8 +4,10 @@ class ApproveModel {
   }
 
   // ignore: non_constant_identifier_names
-  late String  toko, m1, hbeli, hjual, hjualBaru, date_cr, time_cr, user_cr, isapv, dateapv, userapv ;
+  
+  late String toko, m1, hbeli, hjual, hjualBaru, date_cr, time_cr, user_cr, isapv, dateapv, userapv ;
   late int sku;
+  
 
     ApproveModel.fromjson(Map<String, dynamic> json,) {
     this.sku = json["sku"];
