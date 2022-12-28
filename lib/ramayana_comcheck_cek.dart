@@ -13,6 +13,7 @@ import 'package:myactivity_project/ramayana_home.dart';
 import 'package:myactivity_project/ramayana_profile.dart';
 import 'package:myactivity_project/ramayana_riwayat.dart';
 import 'package:myactivity_project/ramayana_riwayat_apv.dart';
+import 'package:myactivity_project/ramayana_riwayat_update.dart';
 import 'package:myactivity_project/ramayana_void.dart';
 import 'package:myactivity_project/service/API_service/API_service_table.dart';
 import 'package:myactivity_project/service/SP_service/SP_service.dart';
@@ -157,7 +158,7 @@ class _RamayanaCompetitorCekState extends State<RamayanaCompetitorCek> {
                   ),
                   onPressed: () {
                      Navigator.push(context, MaterialPageRoute(builder: (context){
-                      return RamayanaHistory120(); 
+                      return RamayanaRiwayatUpdate(); 
                     }));
                     // Navigator.push(context, MaterialPageRoute(builder: (context){
                     //   return RamayanaRiwayat(initialDate: DateTime.now(),);

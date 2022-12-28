@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
@@ -61,17 +62,19 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
 
     var data = jsonDecode(responseku.body);
    
-    if (data['status'] == 200) {
+    if (data['status'] == 200 ) {
       print("API Success");
       print(data);
       int count = data['data'].length;
       for (int i = 0; i < count; i++) {
         ApproveModel1.approvelist1.add(ApproveModel1.fromjson(data['data'][i]));
-      }
+
+      } 
       print('check length ${ApproveModel1.approvelist1.length}');
       print(data['data'].toString());
 
-    } else {
+    } 
+     else {
       print('NO DATA');
     }
     
@@ -94,10 +97,8 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
  
   bool click = true;
   bool click2 = true;
+  int isapv = 0;
   int _rowSelectedCount = 0;
-  var selectedItem;
-  var selectedItem2;
-  bool selectedValue = false;
   List selectedData = [];
   List selectedData2 = [];
 
@@ -223,8 +224,8 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
               onPressed: ()  async{
                 
                 var formData = FormData.fromMap({
-                              'is_approv': 1,
-                              'user_approv' : 'test',
+                              'is_approv': isapv,
+                              'user_approv' : 'adel',
                               'sku': selectedData,
                               'm1' : selectedData2
                             });
@@ -422,10 +423,48 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                 var hjB = '${e.hjualBaru}';
                 var hjBd = double.parse(hjB);
                 var selisih = hjD - hjBd;
+                var selisihStr = selisih.toString();
                 bool yesornay = hbD > hjBd;
+               
+                kondisiHb() {
+                List<String> resultHb = hb.split('');
+                  if (resultHb.length >7) {
+                  resultHb.insert((resultHb.length - 7), '.');
+                } 
+                else if (resultHb.length > 10) {
+                  resultHb.insert((resultHb.length - 7), '.');
+                  resultHb.insert((resultHb.length - 10), '.');
+                }
+                var resultHbDone = resultHb.join('');
+                return resultHbDone;
+                }
+
+                kondisiHj() {
+                List<String> resultHj = hj.split('');
+                  if (resultHj.length > 7) {
+                  resultHj.insert((resultHj.length - 7), '.');
+                }  else if (resultHj.length > 10) {
+                  resultHj.insert((resultHj.length - 7), '.');
+                  resultHj.insert((resultHj.length - 10), '.');
+                }
+                var resultHjDone = resultHj.join('');
+                return resultHjDone;
+                }
+
+                kondisiHjb() {
+                List<String> resultHjb = hjB.split('');
+                  if (resultHjb.length >7) {
+                  resultHjb.insert((resultHjb.length - 7), '.');
+                }  else if (resultHjb.length > 10) {
+                  resultHjb.insert((resultHjb.length - 7), '.');
+                  resultHjb.insert((resultHjb.length - 10), '.');
+                }
+                var resultHjbDone = resultHjb.join('');
+                return resultHjbDone;
+                }
+               
                 
-                print(selisih);
-                print('nama user ${e.sku}');
+             
                 return 
           
         Column(
@@ -550,13 +589,13 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                     child: 
                    Row(
                       children: [
-                         Text('${e.hjual}', 
+                         Text('${kondisiHb()}', 
                       style: TextStyle(color: Colors.black, fontSize: 15),
                       ),
                       SizedBox(
                           width: 20,
                         ),
-                       Text('${e.hjualBaru}', 
+                       Text('${kondisiHjb()}', 
                       style: TextStyle(color: Colors.black, fontSize: 15),
                       ),
                       SizedBox(
@@ -572,7 +611,7 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                         padding: const EdgeInsets.only(left:5),
                         child: double.parse(e.hbeli) >  double.parse(e.hjualBaru)
                             ? Text(
-                                "${selisih}",
+                                "${selisihStr}",
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                     color: Colors.red,
@@ -580,7 +619,7 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                                 ) 
                             )
                             : Text(
-                                "${selisih}",
+                                "${selisihStr}",
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                     color: Colors.black,
@@ -661,13 +700,13 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                     child: 
                     Row(
                       children: [
-                         Text('${e.hjual}', 
+                         Text('${kondisiHb()}', 
                       style: TextStyle(color: Colors.black, fontSize: 15),
                       ),
                       SizedBox(
                           width: 20,
                         ),
-                       Text('${e.hjualBaru}', 
+                       Text('${kondisiHjb()}', 
                       style: TextStyle(color: Colors.black, fontSize: 15),
                       ),
                       SizedBox(
@@ -681,7 +720,7 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                         ),
                          Padding(
                         padding: const EdgeInsets.only(left:5),
-                        child: double.parse(e.hbeli) >  double.parse(e.hjualBaru)
+                        child:  double.parse(e.hbeli) >  double.parse(e.hjualBaru)
                             ? Text(
                                 "${selisih}",
                                 textAlign: TextAlign.left,
@@ -894,7 +933,7 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                             Container(
                               margin: EdgeInsets.only(left: 10),
                               child: Text(
-                                ': ${e.hbeli}',
+                                ': ${kondisiHb()}',
                                 style: TextStyle(
                                   fontSize: 15,
                                 ),
@@ -919,7 +958,7 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                               margin: EdgeInsets.only(left: 10),
                               width: 120,
                               child: Text(
-                                ': ${e.hjual}',
+                                ': ${kondisiHj()}',
                                 style: TextStyle(
                                   fontSize: 15,
                                 ),
