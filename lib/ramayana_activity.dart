@@ -476,7 +476,7 @@ class _ActivityState extends State<Activity> {
                       //   filename: 'data_gambar${now.toString()}.png'
                       // ),
                     });
-
+                  
                     var response = await dio.post('http://ramayana.joeloecs.com/mobileapi/tambah_act.php',
                       data: formData
                     );

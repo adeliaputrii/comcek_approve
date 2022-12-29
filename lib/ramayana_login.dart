@@ -307,9 +307,11 @@ class _RamayanaLogin extends State<RamayanaLogin> {
                               'user_name': username.text,
                               'password': password.text,
                             });
-
+                            var prod = 'https://';
+                            var dev = 'https://dev-';
+                            var tipeurl = '${prod}';
                             var response = await dio.post(
-                                'https://android-api.ramayana.co.id:8304/api/v1/auth/reset.password',
+                                '${tipeurl}android-api.ramayana.co.id:8304/api/v1/auth/reset.password',
                                 data: formData);
 
                             print(

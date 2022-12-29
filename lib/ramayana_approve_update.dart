@@ -52,10 +52,13 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
     required String m1
   }) async {
   
-    
+    var prod = 'https://';
+    var dev = 'https://dev-';
+    var tipeurl = '${prod}';
     ApproveModel1.approvelist1.clear();
     final responseku = await http.post(
-      Uri.parse('https://android-api.ramayana.co.id:8304/v1/activity/tbl_commcheck'),
+      Uri.parse('${tipeurl}android-api.ramayana.co.id:8304/v1/activity/tbl_commcheck'),
+      // Uri.parse('https://android-api.ramayana.co.id:8304/v1/activity/tbl_commcheck'),
         body: {
           'm1' : m1
         });
@@ -229,9 +232,11 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                               'sku': selectedData,
                               'm1' : selectedData2
                             });
-
+                            var prod = 'https://';
+                            var dev = 'https://dev-';
+                            var tipeurl = '${prod}';
                             var response = await dio.post(
-                                'https://android-api.ramayana.co.id:8304/v1/activity/updateApproveCommcheck',
+                                '${tipeurl}android-api.ramayana.co.id:8304/v1/activity/updateApproveCommcheck',
                                 data: formData);
 
                             print(
@@ -463,8 +468,21 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                 return resultHjbDone;
                 }
                
-                
-             
+                kondisiSelisih() {
+              List<String> resultSelisih = selisihStr.split('');
+              resultSelisih.add('0');
+              resultSelisih.add('0');
+               if (resultSelisih.length >7) {
+                  resultSelisih.insert((resultSelisih.length - 7), '.');
+                }  else if (resultSelisih.length > 10) {
+                  resultSelisih.insert((resultSelisih.length - 7), '.');
+                  resultSelisih.insert((resultSelisih.length - 10), '.');
+                }
+                var resultSelisihDone = resultSelisih.join('');
+                return resultSelisihDone;
+                }
+              
+
                 return 
           
         Column(
@@ -611,7 +629,7 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                         padding: const EdgeInsets.only(left:5),
                         child: double.parse(e.hbeli) >  double.parse(e.hjualBaru)
                             ? Text(
-                                "${selisihStr}",
+                                "${kondisiSelisih()}",
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                     color: Colors.red,
@@ -619,7 +637,7 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                                 ) 
                             )
                             : Text(
-                                "${selisihStr}",
+                                "${kondisiSelisih()}",
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                     color: Colors.black,
@@ -722,7 +740,7 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                         padding: const EdgeInsets.only(left:5),
                         child:  double.parse(e.hbeli) >  double.parse(e.hjualBaru)
                             ? Text(
-                                "${selisih}",
+                                "${kondisiSelisih()}",
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                     color: Colors.red,
@@ -730,7 +748,7 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                                 ) 
                             )
                             : Text(
-                                "${selisih}",
+                                "${kondisiSelisih()}",
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                     color: Colors.black,
