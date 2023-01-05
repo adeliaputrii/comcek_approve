@@ -25,9 +25,8 @@ class RamayanaHistory12 extends StatefulWidget {
 }
 
 class _RamayanaHistory12State extends State<RamayanaHistory12> {
- TextEditingController dateInput = TextEditingController();
- TextEditingController sku = TextEditingController();
- TextEditingController m1 = TextEditingController();
+ TextEditingController startDate = TextEditingController();
+ TextEditingController endDate = TextEditingController();
 
   var dio = Dio();
   var selected1;
@@ -47,7 +46,6 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
   ];
 
   UserData userData = UserData();
-
   fetchProduk({
     required String m1
   }) async {
@@ -71,7 +69,6 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
       int count = data['data'].length;
       for (int i = 0; i < count; i++) {
         ApproveModel1.approvelist1.add(ApproveModel1.fromjson(data['data'][i]));
-
       } 
       print('check length ${ApproveModel1.approvelist1.length}');
       print(data['data'].toString());
@@ -84,22 +81,21 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
     
      setState(() {});
   }
+
   var map1 = <String, String>{};
   var map2 = <String, String>{};
 
    void initState() {
     super.initState();
-    fetchProduk(m1: '081');
-    dateInput.text = "";
+    fetchProduk(m1: '082');
+    startDate.text = "";
+    endDate.text = "";
    
     
     
   }  
  
-  
- 
-  bool click = true;
-  bool click2 = true;
+  bool checkedAll = false;
   int isapv = 0;
   int _rowSelectedCount = 0;
   List selectedData = [];
@@ -107,7 +103,8 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
 
   int get selectedItems => _rowSelectedCount;
   int get selectedItemsAll => ApproveModel1.approvelist1.length - _rowSelectedCount;
-
+  
+  
    void approve1() {
     if (selectedItems == 0) {
       AlertDialog popup1 = AlertDialog(
@@ -219,24 +216,29 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                     fontSize: 15),
               ),
             ),
+           
             MaterialButton(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
               height: 40,
               color: Colors.green,
               onPressed: ()  async{
-                
+               
                 var formData = FormData.fromMap({
-                              'is_approv': isapv,
-                              'user_approv' : 'adel',
-                              'sku': selectedData,
-                              'm1' : selectedData2
+                              'is_approv': 1,
+                              'user_approv' : 'ramayana',
+                              'periode_start[0]' : startDate.text,
+                              'periode_end[0]' :  endDate,
+                              'sku[0]': selectedData[0],
+                              'm1[0]' : selectedData2[0]
+                             
                             });
+
                             var prod = 'https://';
                             var dev = 'https://dev-';
                             var tipeurl = '${prod}';
                             var response = await dio.post(
-                                '${tipeurl}android-api.ramayana.co.id:8304/v1/activity/updateApproveCommcheck',
+                                'https://android-api.ramayana.co.id:8304/v1/activity/updateApproveCommcheck',
                                 data: formData);
 
                             print(
@@ -349,7 +351,7 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
           ),
           child: 
           Container(
-            margin: EdgeInsets.only(left: 50, right: 50),
+            margin: EdgeInsets.only(left: 30, right: 30),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment:CrossAxisAlignment.center,
@@ -402,8 +404,54 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                       )
                       .toList()
                     ),
-                 
+                   Checkbox(
+                              // tileColor: Colors.greenAccent,
+                            activeColor: Colors.red,
+                              value: checkedAll,
+
+                              onChanged: (value) {
+                                //itemChange(newValue!, index);
+                                setState(() {
+                                  checkedAll = value!;
+                                 ApproveModel1.approvelist1.forEach((element) {
+                                  var iniSkuStr = '${element.sku}';
+                                  var m1nie = '${element.m1}';
+                                  kondisiSku() {
+                                    List<String> resultSku = iniSkuStr.split('');
+                                    final nol = List.filled(8 - resultSku.length, 0);
+                                    final List<String> strs = nol.map((e) => e.toString()).toList();
+                                    var resultSkuAdd = strs + resultSku;
+                                    var resultSkuDone = resultSkuAdd.join('');
+                                    return resultSkuDone;
+                                  }
+                                
+                                   element.isSelected = value;
+                                  if(checkedAll == true && selectedData.indexOf(element) < 0  && selectedData2.indexOf(element) < 0) {
+                                  
+                                  selectedData.add(kondisiSku());
+                                  selectedData2.add(element.m1);
+                                  
+                                  
+                                     _rowSelectedCount = element.isSelected ? ApproveModel1.approvelist1.length : 0;
+                                    
+                                  } else {
+                                    selectedData.removeRange(0, selectedData.length);
+                                    selectedData2.removeRange(0, selectedData2.length);
+                                    //  selectedData.remove(element.isSelected ? '' : kondisiSku());
+                                    // selectedData2.remove(element.isSelected ? '' : m1nie);
+                                     _rowSelectedCount = element.isSelected ? ApproveModel1.approvelist1.length : 0;
+                                 
+                                   }
+                                  print(element.sku);
+                                 },);
+                                  print(selectedData);
+                                  print(selectedData2);
+                                });
+                              }
+                              ),
+            
               ],
+              
             ),
           ),
         ),
@@ -420,8 +468,10 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
             ListView(
               children: ApproveModel1.approvelist1.map((e) {
             
-                
+                var m1nie = '${e.m1}';
                 var hb = '${e.hbeli}';
+                var iniSku = e.sku;
+                var iniSkuStr = iniSku.toString();
                 var hbD = double.parse(hb);
                 var hj = '${e.hjual}';
                 var hjD = double.parse(hj);
@@ -433,62 +483,144 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                
                 kondisiHb() {
                 List<String> resultHb = hb.split('');
-                  if (resultHb.length >7) {
-                  resultHb.insert((resultHb.length - 7), '.');
+                // print(resultHb);
+                final hapus = resultHb.remove('.');
+                  if (resultHb.length > 6 && resultHb.length <= 9) {
+                  resultHb.remove(hapus);
+                  resultHb.remove('0');
+                  resultHb.insert(resultHb.length - 2, ',');
+                  resultHb.insert((resultHb.length - 6), '.');
+                  
                 } 
-                else if (resultHb.length > 10) {
-                  resultHb.insert((resultHb.length - 7), '.');
+                else if (resultHb.length >= 10 && resultHb.length <= 12) {
+                  resultHb.remove(hapus);
+                  resultHb.remove('0');
+                  resultHb.insert(resultHb.length - 2, ',');
+                  resultHb.insert((resultHb.length - 6), '.');
                   resultHb.insert((resultHb.length - 10), '.');
                 }
+                else if (resultHb.length >= 13) {
+                  resultHb.remove(hapus);
+                  resultHb.remove('0');
+                  resultHb.insert(resultHb.length - 2, ',');
+                  resultHb.insert((resultHb.length - 6), '.');
+                  resultHb.insert((resultHb.length - 10), '.');
+                  resultHb.insert((resultHb.length - 14), '.');
+                }
+               
                 var resultHbDone = resultHb.join('');
                 return resultHbDone;
                 }
 
                 kondisiHj() {
-                List<String> resultHj = hj.split('');
-                  if (resultHj.length > 7) {
-                  resultHj.insert((resultHj.length - 7), '.');
-                }  else if (resultHj.length > 10) {
-                  resultHj.insert((resultHj.length - 7), '.');
+               List<String> resultHj = hj.split('');
+                // print(resultHb);
+                final hapus = resultHj.remove('.');
+                  if (resultHj.length > 6 && resultHj.length <= 9) {
+                  resultHj.remove(hapus);
+                  resultHj.remove('0');
+                  resultHj.insert(resultHj.length - 2, ',');
+                  resultHj.insert((resultHj.length - 6), '.');
+                  
+                } 
+                else if (resultHj.length >= 10 && resultHj.length <= 12) {
+                  resultHj.remove(hapus);
+                  resultHj.remove('0');
+                  resultHj.insert(resultHj.length - 2, ',');
+                  resultHj.insert((resultHj.length - 6), '.');
                   resultHj.insert((resultHj.length - 10), '.');
+                }
+                else if (resultHj.length >= 13) {
+                  resultHj.remove(hapus);
+                  resultHj.remove('0');
+                  resultHj.insert(resultHj.length - 2, ',');
+                  resultHj.insert((resultHj.length - 6), '.');
+                  resultHj.insert((resultHj.length - 10), '.');
+                  resultHj.insert((resultHj.length - 14), '.');
                 }
                 var resultHjDone = resultHj.join('');
                 return resultHjDone;
                 }
 
                 kondisiHjb() {
-                List<String> resultHjb = hjB.split('');
-                  if (resultHjb.length >7) {
-                  resultHjb.insert((resultHjb.length - 7), '.');
-                }  else if (resultHjb.length > 10) {
-                  resultHjb.insert((resultHjb.length - 7), '.');
+                 List<String> resultHjb = hjB.split('');
+                // print(resultHb);
+                final hapus = resultHjb.remove('.');
+                  if (resultHjb.length > 6 && resultHjb.length <= 9) {
+                  resultHjb.remove(hapus);
+                  resultHjb.remove('0');
+                  resultHjb.insert(resultHjb.length - 2, ',');
+                  resultHjb.insert((resultHjb.length - 6), '.');
+                  
+                } 
+                else if (resultHjb.length >= 10 && resultHjb.length <= 12) {
+                  resultHjb.remove(hapus);
+                  resultHjb.remove('0');
+                  resultHjb.insert(resultHjb.length - 2, ',');
+                  resultHjb.insert((resultHjb.length - 6), '.');
                   resultHjb.insert((resultHjb.length - 10), '.');
+                }
+                else if (resultHjb.length >= 13) {
+                  resultHjb.remove(hapus);
+                  resultHjb.remove('0');
+                  resultHjb.insert(resultHjb.length - 2, ',');
+                  resultHjb.insert((resultHjb.length - 6), '.');
+                  resultHjb.insert((resultHjb.length - 10), '.');
+                  resultHjb.insert((resultHjb.length - 14), '.');
                 }
                 var resultHjbDone = resultHjb.join('');
                 return resultHjbDone;
                 }
                
                 kondisiSelisih() {
+                  final sel = '4050.0';
               List<String> resultSelisih = selisihStr.split('');
-              resultSelisih.add('0');
-              resultSelisih.add('0');
-               if (resultSelisih.length >7) {
-                  resultSelisih.insert((resultSelisih.length - 7), '.');
-                }  else if (resultSelisih.length > 10) {
-                  resultSelisih.insert((resultSelisih.length - 7), '.');
-                  resultSelisih.insert((resultSelisih.length - 10), '.');
+              final hapus = resultSelisih.remove('.');
+              final strip = resultSelisih.remove('-');
+              if (resultSelisih.length < 5 ) {
+                  resultSelisih.remove(hapus);
+                  resultSelisih.remove(strip);
+                  resultSelisih.insert(resultSelisih.length - 1, ',');
+                  resultSelisih;
+                }
+               else if (resultSelisih.length >= 5 && resultSelisih.length < 8) {
+                  resultSelisih.remove(hapus);
+                  resultSelisih.insert(resultSelisih.length - 1, ',');
+                  resultSelisih.insert((resultSelisih.length - 5), '.');
+                } 
+                 else if (resultSelisih.length >= 8  && resultSelisih.length < 12) {
+                  resultSelisih.remove(hapus);
+                  resultSelisih.insert(resultSelisih.length - 1, ',');
+                  resultSelisih.insert((resultSelisih.length - 5), '.');
+                  resultSelisih.insert((resultSelisih.length - 9), '.');
+                }
+                 else if (resultSelisih.length >= 11) {
+                  resultSelisih.remove(hapus);
+                  resultSelisih.insert(resultSelisih.length - 1, ',');
+                  resultSelisih.insert((resultSelisih.length - 5), '.');
+                  resultSelisih.insert((resultSelisih.length - 9), '.');
+                  resultSelisih.insert((resultSelisih.length - 13), '.');
                 }
                 var resultSelisihDone = resultSelisih.join('');
                 return resultSelisihDone;
                 }
-              
 
+                kondisiSku() {
+                  List<String> resultSku = iniSkuStr.split('');
+                  final nol = List.filled(8 - resultSku.length, 0);
+                  final List<String> strs = nol.map((e) => e.toString()).toList();
+                  var resultSkuAdd = strs + resultSku;
+                  var resultSkuDone = resultSkuAdd.join('');
+                  return resultSkuDone;
+                }
                 return 
+        
           
         Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+         
           AnimatedCrossFade(
             crossFadeState:
                 e.isSelectedCont ? CrossFadeState.showFirst : CrossFadeState.showSecond,
@@ -496,7 +628,7 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
             firstChild: 
            Container(
             margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
-            height: 127,
+            height: 82,
             decoration: BoxDecoration(
               border: Border.all(
                           width: 1, 
@@ -508,24 +640,27 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
             ),
               
             child: 
-            Container(
-              margin: EdgeInsets.only(left: 10, right: 5, top: 0),
+            MaterialButton(
+              onPressed: () {
+                 setState(() {
+                         e.isSelectedCont = !e.isSelectedCont;
+                        });
+              },
               child: 
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                      Container(
-                        margin: EdgeInsets.only(top: 5, ),
-                        child: 
-                             CheckboxListTile(
-                              title: Row(
+                    
+                              Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                  Text('Nama Barang', 
                          style: TextStyle(color: Color.fromARGB(255, 255, 0, 0), fontSize: 17,  fontWeight: FontWeight.bold),
                         ),
-                                 Container(
+                                 Row(
+                                   children: [
+                                     Container(
                               height: 26,
                               width: 50,
                               decoration: BoxDecoration(
@@ -535,40 +670,50 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                                child: 
                                Center(
                                  child: Text('${e.m1}', 
-                                     style: TextStyle(color: Colors.white, fontSize: 16,fontWeight: FontWeight.bold,),
-                                    ),
+                                         style: TextStyle(color: Colors.white, fontSize: 16,fontWeight: FontWeight.bold,),
+                                        ),
                                ),
                              ),
-                                ]
-                              ),
-                              tileColor: Colors.greenAccent,
-                              controlAffinity: ListTileControlAffinity.trailing,
-                              activeColor: Colors.red,
-                              dense: true,
-
+                                 
+                              Checkbox(
+                              // tileColor: Colors.greenAccent,
+                            activeColor: Colors.red,
                               value: e.isSelected,
 
                               onChanged: (bool? value) {
                                 //itemChange(newValue!, index);
                                 setState(() {
                                   e.isSelected = value!;
-                                  if(selectedData.indexOf('00${e.sku}') < 0) {
-                                  selectedData.add('00${e.sku}');
+                                  final check = ApproveModel1.approvelist1.every((element) => element.isSelected);
+                                  checkedAll = check;
+                                  if(e.isSelected == true ) {
+                                  selectedData.add(kondisiSku());
                                   selectedData2.add(e.m1);
                                      _rowSelectedCount += value ? 1 : -1;
-                                  } else {
-                                    selectedData.removeWhere((element) => element== '00${e.sku}');
-                                   selectedData2.removeLast();
+                                  } 
+                                  // else if (checkedAll == true) {
+                                  //   selectedData.removeRange(0, selected)
+                                  // }
+                                  else {
+                                    selectedData.remove(e.isSelected ? '' : kondisiSku());
+                                    selectedData2.remove(e.isSelected ? '' : m1nie);
                                      _rowSelectedCount += value ? 1 : -1;
                                   }
                                   print(selectedData);
                                   print(selectedData2);
+                                  print(startDate.text);
+                                  print(endDate.text);
                                 });
                               }
                               ),
-                        // ],
-                        // ),
-                      ),
+                                ],
+                                 ),
+                                ]
+                              ),
+                             
+                     
+                   
+                     
 
                       // CheckboxListTile(
                             
@@ -603,11 +748,10 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                       //         ),
                    
                   Container(
-                    margin: EdgeInsets.only(left: 15,),
                     child: 
                    Row(
                       children: [
-                         Text('${kondisiHb()}', 
+                         Text('${kondisiHj()}', 
                       style: TextStyle(color: Colors.black, fontSize: 15),
                       ),
                       SizedBox(
@@ -618,12 +762,6 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                       ),
                       SizedBox(
                           width: 20,
-                        ),
-                         Text('MarBaru', 
-                      style: TextStyle(color: Colors.black,fontSize: 15),
-                      ),
-                      SizedBox(
-                          width: 10,
                         ),
                          Padding(
                         padding: const EdgeInsets.only(left:5),
@@ -645,25 +783,32 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                                 ) 
                             ),
                     ),
+                        
+                      SizedBox(
+                          width: 20,
+                        ),
+                         Text('MarBaru', 
+                      style: TextStyle(color: Colors.black,fontSize: 15),
+                      ),
                       ],
                     ),
                   ),
-                  Center(
-                    child: 
+                  // Center(
+                  //   child: 
                     
-                    IconButton(
-                      icon: Icon(
-                        Icons.arrow_drop_down,
-                      ),
-                      iconSize: 38,
-                      color: Colors.black,
-                      onPressed: () {
-                        setState(() {
-                         e.isSelectedCont = !e.isSelectedCont;
-                        });
-                      },
-                    ),
-                  ),
+                  //   IconButton(
+                  //     icon: Icon(
+                  //       Icons.arrow_drop_down,
+                  //     ),
+                  //     iconSize: 38,
+                  //     color: Colors.black,
+                  //     onPressed: () {
+                  //       setState(() {
+                  //        e.isSelectedCont = !e.isSelectedCont;
+                  //       });
+                  //     },
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -671,7 +816,7 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
             secondChild: 
              Container(
             margin: EdgeInsets.fromLTRB(10, 10, 10, 0),
-            height: 305,
+            height: 256,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(15),
@@ -681,15 +826,19 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                 ),
             ),
             child: 
-            Container(
-              margin: EdgeInsets.only(left: 10, right: 10, top: 0),
+            MaterialButton(
+              onPressed: () {
+                 setState(() {
+                         e.isSelectedCont = !e.isSelectedCont;
+                        });
+              },
               child: 
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                       Container(
-                        margin: EdgeInsets.only(left: 15, right: 15, top: 15),
+                        margin: EdgeInsets.only(top: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -714,11 +863,11 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                         ),
                       ),
                   Container(
-                    margin: EdgeInsets.only(left: 15, top: 10),
+                    margin: EdgeInsets.only(top: 10),
                     child: 
                     Row(
                       children: [
-                         Text('${kondisiHb()}', 
+                         Text('${kondisiHj()}', 
                       style: TextStyle(color: Colors.black, fontSize: 15),
                       ),
                       SizedBox(
@@ -730,13 +879,7 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                       SizedBox(
                           width: 20,
                         ),
-                         Text('MarBaru', 
-                      style: TextStyle(color: Colors.black,fontSize: 15),
-                      ),
-                      SizedBox(
-                          width: 10,
-                        ),
-                         Padding(
+                        Padding(
                         padding: const EdgeInsets.only(left:5),
                         child:  double.parse(e.hbeli) >  double.parse(e.hjualBaru)
                             ? Text(
@@ -756,12 +899,19 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                                 ) 
                             ),
                     ),
+                      SizedBox(
+                          width: 20,
+                        ),
+                         Text('MarBaru', 
+                      style: TextStyle(color: Colors.black,fontSize: 15),
+                      ),
+                         
                       ],
                     ),
                   ),
                  
                   Container(
-                    margin: EdgeInsets.only(left: 10, top: 10),
+                    margin: EdgeInsets.only( top: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -783,7 +933,7 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                                Container(
                                 margin: EdgeInsets.only(left: 23, top: 15),
                                  child: TextField(
-                                             controller: dateInput,
+                                             controller: startDate,
                                               decoration: InputDecoration(
                                     border: UnderlineInputBorder(
                                         borderSide: BorderSide(
@@ -815,7 +965,7 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                                                  print(
                                                      formattedDate); 
                                                  setState(() {
-                                                   dateInput.text =
+                                                   startDate.text =
                                                        formattedDate;
                                                  });
                                                } else {}
@@ -841,7 +991,7 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                            child: Container(
                             margin: EdgeInsets.only(left: 23, top: 15),
                              child: TextField(
-                                         controller: dateInput,
+                                         controller: endDate,
                                           decoration: InputDecoration(
                                 border: UnderlineInputBorder(
                                     borderSide: BorderSide(
@@ -873,7 +1023,7 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                                              print(
                                                  formattedDate); 
                                              setState(() {
-                                               dateInput.text =
+                                               endDate.text =
                                                    formattedDate;
                                              });
                                            } else {}
@@ -891,17 +1041,21 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                                 //itemChange(newValue!, index);
                                 setState(() {
                                   e.isSelected = value!;
-                                 if(selectedData.indexOf('00${e.sku}') < 0) {
-                                  selectedData.add('00${e.sku}');
+                                  final check = ApproveModel1.approvelist1.every((element) => element.isSelected);
+                                  checkedAll = check;
+                                 if(e.isSelected == true) {
+                                  selectedData.add(kondisiSku());
                                   selectedData2.add(e.m1);
                                      _rowSelectedCount += value ? 1 : -1;
                                   } else {
-                                    selectedData.removeWhere((element) => element == '00${e.sku}');
-                                    selectedData2.removeLast();
+                                    selectedData.remove(e.isSelected ? '' : kondisiSku());
+                                    selectedData2.remove(e.isSelected ? '' : m1nie);
                                      _rowSelectedCount += value ? 1 : -1;
                                   }
                                   print(selectedData);
                                   print(selectedData2);
+                                  print(startDate.text);
+                                  print(endDate.text);
                                 });
                               }
                         )
@@ -909,7 +1063,7 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.fromLTRB(20, 10, 0, 0),
+                    margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
                     child: Column(
                       children: [
                          Row(
@@ -927,7 +1081,7 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                             Container(
                               margin: EdgeInsets.only(left: 10),
                               child: Text(
-                                ': ${e.sku}',
+                                ': ${kondisiSku()}',
                                 style: TextStyle(
                                   fontSize: 15,
                                 ),
@@ -1002,22 +1156,7 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                       ],
                     ),
                   ),
-                  Center(
-                    child: 
-                    IconButton(
-                      icon: Icon(
-                        Icons.arrow_drop_up,
-                      ),
-                      iconSize: 38,
-                      color: Colors.black,
-                      onPressed: () {
-                        setState(() {
-                         e.isSelectedCont = !e.isSelectedCont;
-                        });
-                      },
-                      
-                    ),
-                  ),
+                
                 ],
               ),
             ),

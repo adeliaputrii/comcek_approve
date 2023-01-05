@@ -34,7 +34,8 @@ void main() async {
     ),
     title: 'rals-tools',
     debugShowCheckedModeBanner: false,
-    home: username == null ? SplashScreenRamayana() : DefaultBottomBarController(child: Ramayana()),
+    home: DefaultBottomBarController(child: Ramayana())
+    //  username == null ? SplashScreenRamayana() : DefaultBottomBarController(child: Ramayana()),
     // DefaultBottomBarController(child: Ramayana())
     
     ));
