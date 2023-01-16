@@ -12,6 +12,7 @@ import 'package:dio/dio.dart';
 import 'package:myactivity_project/ramayana_activity.dart';
 import 'package:myactivity_project/ramayana_comcheck_cek.dart';
 import 'package:myactivity_project/ramayana_home.dart';
+import 'package:myactivity_project/service/API_service/API_service.dart';
 import 'package:myactivity_project/service/API_service/API_service_table.dart';
 import 'package:myactivity_project/service/SP_service/SP_service.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -25,8 +26,7 @@ class RamayanaHistory12 extends StatefulWidget {
 }
 
 class _RamayanaHistory12State extends State<RamayanaHistory12> {
- TextEditingController startDate = TextEditingController();
- TextEditingController endDate = TextEditingController();
+
 
   var dio = Dio();
   var selected1;
@@ -52,10 +52,10 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
   
     var prod = 'https://';
     var dev = 'https://dev-';
-    var tipeurl = '${prod}';
+    var tipeurl = '${dev}';
     ApproveModel1.approvelist1.clear();
     final responseku = await http.post(
-      Uri.parse('${tipeurl}android-api.ramayana.co.id:8304/v1/activity/tbl_commcheck'),
+      Uri.parse('${tipeurl}android-api.ramayana.co.id:8305/v1/activity/tbl_commcheck'),
       // Uri.parse('https://android-api.ramayana.co.id:8304/v1/activity/tbl_commcheck'),
         body: {
           'm1' : m1
@@ -88,11 +88,6 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
    void initState() {
     super.initState();
     fetchProduk(m1: '082');
-    startDate.text = "";
-    endDate.text = "";
-   
-    
-    
   }  
  
   bool checkedAll = false;
@@ -100,6 +95,10 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
   int _rowSelectedCount = 0;
   List selectedData = [];
   List selectedData2 = [];
+  List controllersStart = [];
+  List controllersEnd = [];
+  
+  
 
   int get selectedItems => _rowSelectedCount;
   int get selectedItemsAll => ApproveModel1.approvelist1.length - _rowSelectedCount;
@@ -145,7 +144,9 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
       actionsPadding: EdgeInsets.only(bottom: 20),
     );
     showCupertinoModalPopup(context: context, builder: (context) => popup1);
-    }  else {
+    
+    }
+    else {
     AlertDialog popup = AlertDialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
@@ -217,34 +218,28 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
               ),
             ),
            
+            
             MaterialButton(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
               height: 40,
               color: Colors.green,
               onPressed: ()  async{
+                 APIApproveService api = APIApproveService();
+                    List<ApproveModel1> modelyangsudahdiapprove = ApproveModel1.approvelist1.where((tiapitem) => tiapitem.isSelected).toList();
+                    
+                    await api.ApproveSKU(
+                                  is_approv: '1', 
+                                  user_approv: '${userData.getFullname()}', 
+                                  approvedModelsList: modelyangsudahdiapprove
+                                );
                
-                var formData = FormData.fromMap({
-                              'is_approv': 1,
-                              'user_approv' : 'ramayana',
-                              'periode_start[0]' : startDate.text,
-                              'periode_end[0]' :  endDate,
-                              'sku[0]': selectedData[0],
-                              'm1[0]' : selectedData2[0]
-                             
-                            });
-
-                            var prod = 'https://';
-                            var dev = 'https://dev-';
-                            var tipeurl = '${prod}';
-                            var response = await dio.post(
-                                'https://android-api.ramayana.co.id:8304/v1/activity/updateApproveCommcheck',
-                                data: formData);
 
                             print(
                                 // 'Berhasil, ${}, ${password.text},${password.text}, ${passwordReEnter.text}'
-                                'Berhasil, ${selectedData}, ${selectedData2} '
+                                'Berhasil'
                                 );
+              
                             Duration(seconds: 10);
 
                             Navigator.pushAndRemoveUntil(
@@ -445,7 +440,13 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                                   print(element.sku);
                                  },);
                                   print(selectedData);
+                                  print('damn 89');
                                   print(selectedData2);
+                                  print('damn 70');
+                                  print(controllersStart);
+                                  print('damn 34');
+                                  print(controllersEnd);
+                                  print('damn 88');
                                 });
                               }
                               ),
@@ -467,7 +468,10 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
             child: 
             ListView(
               children: ApproveModel1.approvelist1.map((e) {
-            
+                
+                void initState() {
+                super.initState();
+              }
                 var m1nie = '${e.m1}';
                 var hb = '${e.hbeli}';
                 var iniSku = e.sku;
@@ -613,6 +617,34 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                   var resultSkuDone = resultSkuAdd.join('');
                   return resultSkuDone;
                 }
+              //  kondisiLoop() {
+              //   List controllersStart = [];
+               
+              //   List controllersEnd = [];
+                
+              //   print(controllersStart);
+              //   print(controllersEnd);
+              //   var count = selectedData.length;
+              //   for (int x = 0; x < count; x++ ) {
+                  
+              //   controllersStart.add(e.startDate.text.toString());
+              //     controllersEnd.add(e.endDate.text.toString());
+              //    print('periode_start[${x}] : ${controllersStart[x]}');
+              //    print('periode_end[${x}] : ${controllersEnd[x]}');
+              //    print('sku[${x}] : ${selectedData[x]}');
+              //    print('m1[${x}] : ${selectedData2[x]}');
+              //    if(selectedData.length < count) {
+              //     break;
+              //    }
+              //   }
+              //  }
+                  // 
+                  // controllersStart.add(e.startDate.text.toString());
+                  //  List controllersEnd = [];
+                  //  controllersEnd.add(e.endDate.text.toString());
+                  //  print(controllersStart);
+                  //  print(controllersEnd);
+
                 return 
         
           
@@ -701,8 +733,8 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                                   }
                                   print(selectedData);
                                   print(selectedData2);
-                                  print(startDate.text);
-                                  print(endDate.text);
+                                  print(controllersStart);
+                                  print(controllersStart);
                                 });
                               }
                               ),
@@ -933,7 +965,7 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                                Container(
                                 margin: EdgeInsets.only(left: 23, top: 15),
                                  child: TextField(
-                                             controller: startDate,
+                                             controller: e.startDate,
                                               decoration: InputDecoration(
                                     border: UnderlineInputBorder(
                                         borderSide: BorderSide(
@@ -950,23 +982,46 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                                         borderSide:
                                             new BorderSide(color: Colors.red),)),
                                              readOnly: true,
+                                            //  aku disini
                                              onTap: () async {
                                                DateTime? pickedDate = await showDatePicker(
                                                    context: context,
                                                    initialDate: DateTime.now(),
                                                    firstDate: DateTime(1950),
-                                                   lastDate: DateTime(2100));
-                                
+                                                   lastDate: DateTime(2100),
+                                                   builder: (context, child) {
+                                                     return Theme(
+                                                      data:  
+                                                      Theme.of(context).copyWith(
+                                                      colorScheme: ColorScheme.light(
+                                                        primary: Color.fromARGB(255, 255, 17, 17), 
+                                                        onPrimary: Colors.white,
+                                                        onSurface: Colors.black,
+                                                      ),
+                                                      textButtonTheme: TextButtonThemeData(
+                                                        style: TextButton.styleFrom(
+                                                          primary: Colors.red
+                                                        )
+                                                      ),
+                                                      ),
+                                                      child: child!,
+                                                     );
+                                                     
+                                                   },
+                                                   );
+                                                   
                                                if (pickedDate != null) {
-                                                 print(
-                                                     pickedDate); 
+                                                //  print(
+                                                //      pickedDate); 
                                                  String formattedDate =
                                                      DateFormat('yyyy-MM-dd').format(pickedDate);
-                                                 print(
-                                                     formattedDate); 
+                                                  print(formattedDate); 
+                                                  print('damn 33');
                                                  setState(() {
-                                                   startDate.text =
+                                                   e.startDate.text =
                                                        formattedDate;
+                                                    controllersStart.add(e.startDate.text.toString());
+                                                    // print(controllersStart);
                                                  });
                                                } else {}
                                              },
@@ -991,7 +1046,7 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                            child: Container(
                             margin: EdgeInsets.only(left: 23, top: 15),
                              child: TextField(
-                                         controller: endDate,
+                                         controller: e.endDate,
                                           decoration: InputDecoration(
                                 border: UnderlineInputBorder(
                                     borderSide: BorderSide(
@@ -1013,18 +1068,41 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                                                context: context,
                                                initialDate: DateTime.now(),
                                                firstDate: DateTime(1950),
-                                               lastDate: DateTime(2100));
-                            
+                                               lastDate: DateTime(2100),
+                                               builder: (context, child) {
+                                                     return Theme(
+                                                      data:  
+                                                      Theme.of(context).copyWith(
+                                                      colorScheme: ColorScheme.light(
+                                                        primary: Color.fromARGB(255, 255, 17, 17), 
+                                                        onPrimary: Colors.white,
+                                                        onSurface: Colors.black,
+                                                      ),
+                                                      textButtonTheme: TextButtonThemeData(
+                                                        style: TextButton.styleFrom(
+                                                          primary: Colors.red
+                                                        )
+                                                      ),
+                                                      ),
+                                                      child: child!,
+                                                     );
+                                                     
+                                                   },
+                                               );
+                                              
                                            if (pickedDate != null) {
-                                             print(
-                                                 pickedDate); 
+                                            //  print(
+                                            //      pickedDate); 
                                              String formattedDate =
                                                  DateFormat('yyyy-MM-dd').format(pickedDate);
-                                             print(
-                                                 formattedDate); 
+                                            //  print(
+                                            //      formattedDate); 
                                              setState(() {
-                                               endDate.text =
+                                               e.endDate.text =
                                                    formattedDate;
+                                                   controllersEnd.add(e.endDate.text.toString());
+                                                  //  print(controllersEnd);
+
                                              });
                                            } else {}
                                          },
@@ -1054,8 +1132,8 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                                   }
                                   print(selectedData);
                                   print(selectedData2);
-                                  print(startDate.text);
-                                  print(endDate.text);
+                                  print(controllersStart);
+                                  print(controllersEnd);
                                 });
                               }
                         )
@@ -1185,12 +1263,12 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                     style: TextStyle(color: Colors.white, fontSize: 18),
                   ),
                   color: Color.fromARGB(255, 255, 17, 17),
-                  onPressed: () {
-                    approve1();
+                  onPressed: () async {
+                  approve1();
                   }))    
              
         ])
-        
+         
     );
   }
   

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:myactivity_project/service/SP_service/SP_service.dart';
 
 class ApproveModel1 {
@@ -19,7 +20,7 @@ class ApproveModel1 {
     this.item2 = '',
     this.value = false,
     this.isSelected = false,
-    this.isSelectedCont = true
+    this.isSelectedCont = true,
   });
 
   // ignore: non_constant_identifier_names
@@ -30,6 +31,9 @@ class ApproveModel1 {
   bool isSelected;
   bool isSelectedCont;
   bool value;
+  final TextEditingController startDate = TextEditingController();
+  final TextEditingController endDate = TextEditingController();
+
   
     factory ApproveModel1.fromjson(Map<String, dynamic> json1,) => ApproveModel1(
     sku : json1["sku"],
