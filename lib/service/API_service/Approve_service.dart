@@ -3,21 +3,19 @@ part of 'API_service.dart';
 class APIApproveService{
   
   Future<int> ApproveSKU({
-    required String is_approv,
     required String user_approv,
+    required String is_approv,
     required List<ApproveModel1>approvedModelsList,
   })async{
     try{
       var datajson = {};
-      datajson['is_approv'] = is_approv;
       datajson['user_approv'] = user_approv;
+      datajson['is_approv'] = is_approv;
   for(var i = 0; i < approvedModelsList.length; i++){
-  var strKeyUntukSku = 'sku[$i]';
-  var strKeyUntukMd = 'm1[$i]';
+  var strKeyUntukId = 'id_komcek[$i]';
   var strKeyUntukStartDate = 'periode_start[$i]';
   var strKeyUntukEndDate = 'periode_end[$i]';
-  datajson[strKeyUntukSku] = '00${approvedModelsList[i].sku.toString()}';
-  datajson[strKeyUntukMd] = approvedModelsList[i].m1;
+  datajson[strKeyUntukId] = '${approvedModelsList[i].id_komcek.toString()}';
   datajson[strKeyUntukStartDate] = approvedModelsList[i].startDate.text.toString();
   datajson[strKeyUntukEndDate] = approvedModelsList[i].endDate.text.toString();
 }

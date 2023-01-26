@@ -27,7 +27,7 @@ class _RamayanaRiwayatUpdateState extends State<RamayanaRiwayatUpdate> {
   var tipeurl = '${prod}';
     ApproveModel1.approvelist1.clear();
     final responseku = await http.post(
-      Uri.parse('${tipeurl}android-api.ramayana.co.id:8304/v1/activity/tbl_commcheck'),
+      Uri.parse('${tipeurl}android-api.ramayana.co.id:8305/v1/activity/tbl_commcheck_approve'),
       // Uri.parse('https://android-api.ramayana.co.id:8304/v1/activity/tbl_commcheck'),
         body: {
           'm1' : m1
@@ -59,7 +59,7 @@ class _RamayanaRiwayatUpdateState extends State<RamayanaRiwayatUpdate> {
 
    void initState() {
     super.initState();
-    fetchProduk(m1: '082');
+    fetchProduk(m1: '081');
     
     
   }  
@@ -290,7 +290,8 @@ class _RamayanaRiwayatUpdateState extends State<RamayanaRiwayatUpdate> {
                   return resultSkuDone;
                 }
                 
-               
+              
+
                 return 
         
           
@@ -340,67 +341,78 @@ class _RamayanaRiwayatUpdateState extends State<RamayanaRiwayatUpdate> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                 Text('Nama Barang', 
-                         style: TextStyle(color: Color.fromARGB(255, 255, 0, 0), fontSize: 17,  fontWeight: FontWeight.bold),
+                                 Text('${e.deskripsi_brg}', 
+                         style: TextStyle(color: Color.fromARGB(255, 255, 0, 0), fontSize: 15,  fontWeight: FontWeight.w500),
                         ),
                                  Row(
                                    children: [
-                                     Container(
-                              height: 26,
-                              width: 50,
-                              decoration: BoxDecoration(
-                              color: Colors.black,
-                              borderRadius: BorderRadius.circular(20)
-                              ),
-                               child: 
-                               Center(
-                                 child: Text('${e.m1}', 
-                                         style: TextStyle(color: Colors.white, fontSize: 16,fontWeight: FontWeight.bold,),
+                                     if (e.isapv == '1') ...[
+                                       Container(
+                                          height: 26,
+                                          width: 65,
+                                          decoration: BoxDecoration(
+                                          color: Colors.blue,
+                                          borderRadius: BorderRadius.circular(15)
+                                          ),
+                                          child: 
+                                          Center(
+                                            child: Text('Approve', 
+                                                    style: TextStyle(color: Colors.white, fontSize: 15,fontWeight: FontWeight.bold,),
+                                                    ),
+                                          ),
                                         ),
-                               ),
-                             ),
-                                 
+                                      ] else if (e.isapv == '2')...[
+                                        Container(
+                                          height: 26,
+                                          width: 60,
+                                          decoration: BoxDecoration(
+                                          color: Colors.red,
+                                          borderRadius: BorderRadius.circular(15)
+                                          ),
+                                          child: 
+                                          Center(
+                                            child: Text('Cancel', 
+                                                    style: TextStyle(color: Colors.white, fontSize: 15,fontWeight: FontWeight.bold,),
+                                                    ),
+                                          ),
+                                        ),
+                                      ] else if (e.isapv == '3')...[
+                                        Container(
+                                          height: 26,
+                                          width: 55,
+                                          decoration: BoxDecoration(
+                                          color: Colors.green,
+                                          borderRadius: BorderRadius.circular(15)
+                                          ),
+                                          child: 
+                                          Center(
+                                            child: Text('Done', 
+                                                    style: TextStyle(color: Colors.white, fontSize: 15,fontWeight: FontWeight.bold,),
+                                                    ),
+                                          ),
+                                        ),
+                                      ] else if (e.isapv == '4')...[
+                                        Container(
+                                          height: 26,
+                                          width: 65,
+                                          decoration: BoxDecoration(
+                                          color: Color.fromARGB(255, 38, 176, 160),
+                                          borderRadius: BorderRadius.circular(15)
+                                          ),
+                                          child: 
+                                          Center(
+                                            child: Text('Expired', 
+                                                    style: TextStyle(color: Colors.white, fontSize: 15,fontWeight: FontWeight.bold,),
+                                                    ),
+                                          ),
+                                        ),
+                                      ],
+                    //                
                              
                                 ],
                                  ),
                                 ]
                               ),
-                             
-                     
-                   
-                     
-
-                      // CheckboxListTile(
-                            
-                      //         tileColor: Colors.greenAccent,
-                      //         controlAffinity: ListTileControlAffinity.trailing,
-                      //         activeColor: Colors.pink[300],
-                      //         dense: true,
-
-                      //         value: e.isSelected,
-
-                      //         onChanged: (bool? value) {
-                      //           //itemChange(newValue!, index);
-                      //           setState(() {
-                      //             e.isSelected = value!;
-                      //             if(e.isSelected) {
-                      //               selectedItem = '00${e.sku}';
-                      //               selectedItem2 = '00${e.m1}';
-                      //               selectedValue =  e.isSelected;
-                      //                _rowSelectedCount += value ? 1 : -1;
-                      //             }
-                      //             else{
-                      //               selectedItem = '';
-                      //               selectedItem2 = '';
-                      //               selectedValue = e.isSelected;
-                      //                _rowSelectedCount += value ? 1 : -1;
-                      //             }
-                      //             print(selectedItem);
-                      //             print(selectedItem2);
-                      //             print(selectedValue);
-                      //           });
-                      //         }
-                      //         ),
                    
                   Container(
                     margin: EdgeInsets.only(top: 5),
@@ -443,28 +455,12 @@ class _RamayanaRiwayatUpdateState extends State<RamayanaRiwayatUpdate> {
                       SizedBox(
                           width: 20,
                         ),
-                         Text('MarBaru', 
+                         Text('${kondisiHjb()}', 
                       style: TextStyle(color: Colors.black,fontSize: 15),
                       ),
                       ],
                     ),
                   ),
-                  // Center(
-                  //   child: 
-                    
-                  //   IconButton(
-                  //     icon: Icon(
-                  //       Icons.arrow_drop_down,
-                  //     ),
-                  //     iconSize: 38,
-                  //     color: Colors.black,
-                  //     onPressed: () {
-                  //       setState(() {
-                  //        e.isSelectedCont = !e.isSelectedCont;
-                  //       });
-                  //     },
-                  //   ),
-                  // ),
                 ],
               ),
             ),
@@ -506,23 +502,76 @@ class _RamayanaRiwayatUpdateState extends State<RamayanaRiwayatUpdate> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                         Text('Nama Barang', 
-                         style: TextStyle(color: Color.fromARGB(255, 255, 0, 0), fontSize: 17,  fontWeight: FontWeight.bold),
+                         Text('${e.deskripsi_brg}', 
+                         style: TextStyle(color: Color.fromARGB(255, 255, 0, 0), fontSize: 16,  fontWeight: FontWeight.w500),
                         ),
-                         Container(
-                              height: 26,
-                              width: 50,
-                              decoration: BoxDecoration(
-                              color: Colors.black,
-                              borderRadius: BorderRadius.circular(20)
-                              ),
-                               child: 
-                               Center(
-                                 child: Text('${e.m1}', 
-                                     style: TextStyle(color: Colors.white, fontSize: 16,fontWeight: FontWeight.bold,),
-                                    ),
-                               ),
-                             ),
+                       Row(
+                                   children: [
+                                     if (e.isapv == '1') ...[
+                                       Container(
+                                          height: 26,
+                                          width: 65,
+                                          decoration: BoxDecoration(
+                                          color: Colors.blue,
+                                          borderRadius: BorderRadius.circular(15)
+                                          ),
+                                          child: 
+                                          Center(
+                                            child: Text('Approve', 
+                                                    style: TextStyle(color: Colors.white, fontSize: 15,fontWeight: FontWeight.bold,),
+                                                    ),
+                                          ),
+                                        ),
+                                      ] else if (e.isapv == '2')...[
+                                        Container(
+                                          height: 26,
+                                          width: 60,
+                                          decoration: BoxDecoration(
+                                          color: Colors.red,
+                                          borderRadius: BorderRadius.circular(15)
+                                          ),
+                                          child: 
+                                          Center(
+                                            child: Text('Cancel', 
+                                                    style: TextStyle(color: Colors.white, fontSize: 15,fontWeight: FontWeight.bold,),
+                                                    ),
+                                          ),
+                                        ),
+                                      ] else if (e.isapv == '3')...[
+                                        Container(
+                                          height: 26,
+                                          width: 55,
+                                          decoration: BoxDecoration(
+                                          color: Colors.green,
+                                          borderRadius: BorderRadius.circular(15)
+                                          ),
+                                          child: 
+                                          Center(
+                                            child: Text('Done', 
+                                                    style: TextStyle(color: Colors.white, fontSize: 15,fontWeight: FontWeight.bold,),
+                                                    ),
+                                          ),
+                                        ),
+                                      ] else if (e.isapv == '4')...[
+                                        Container(
+                                          height: 26,
+                                          width: 65,
+                                          decoration: BoxDecoration(
+                                          color: Color.fromARGB(255, 38, 176, 160),
+                                          borderRadius: BorderRadius.circular(15)
+                                          ),
+                                          child: 
+                                          Center(
+                                            child: Text('Expired', 
+                                                    style: TextStyle(color: Colors.white, fontSize: 15,fontWeight: FontWeight.bold,),
+                                                    ),
+                                          ),
+                                        ),
+                                      ],
+                    //                
+                             
+                                ],
+                                 ),
                         ],
                         ),
                       ),
@@ -566,7 +615,7 @@ class _RamayanaRiwayatUpdateState extends State<RamayanaRiwayatUpdate> {
                       SizedBox(
                           width: 20,
                         ),
-                         Text('MarBaru', 
+                         Text('${kondisiHjb()}', 
                       style: TextStyle(color: Colors.black,fontSize: 15),
                       ),
                          
@@ -593,7 +642,7 @@ class _RamayanaRiwayatUpdateState extends State<RamayanaRiwayatUpdate> {
                               height: 35,
                               width: 130,
                               child: 
-                              Center(child: Text('Start Date'))
+                              Center(child: Text('${e.periode_awal}'))
                             ),
                         
                         SizedBox(width: 10),
@@ -610,7 +659,7 @@ class _RamayanaRiwayatUpdateState extends State<RamayanaRiwayatUpdate> {
                           ),
                           height: 35,
                           width: 130,
-                           child: Center(child: Text('Start Date'))
+                           child: Center(child: Text('${e.periode_akhir}'))
                         ),
                           ],
                         ),
@@ -702,6 +751,16 @@ class _RamayanaRiwayatUpdateState extends State<RamayanaRiwayatUpdate> {
                               width: 120,
                               child: Text(
                                 'Margin Lama',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: 10),
+                              width: 120,
+                              child: Text(
+                                ': ${kondisiHj()}',
                                 style: TextStyle(
                                   fontSize: 15,
                                 ),
