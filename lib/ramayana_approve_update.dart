@@ -72,6 +72,46 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
       } 
       print('check length ${ApproveModel1.approvelist1.length}');
       print(data['data'].toString());
+      if(ApproveModel1.approvelist1.length == 0) {
+         AlertDialog popup1 = AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+
+      // shadowColor: Colors.black,
+      titlePadding: EdgeInsets.all(0),
+      title: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+          ),
+          height: 170,
+          width: 2000,
+          child: Image.asset(
+            'assets/omaigat.png',
+          )),
+      content: Container(
+        margin: EdgeInsets.only(bottom: 10),
+        height: 30,
+        child:
+            Center(
+              child: Text(
+                'Tidak ada data yang membutuhkan persetujuan',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+          
+      ),
+      actionsAlignment: MainAxisAlignment.start,
+      actionsPadding: EdgeInsets.only(bottom: 20),
+    );
+    showCupertinoModalPopup(context: context, builder: (context) => popup1);
+      }
 
     } 
      else {
@@ -87,7 +127,7 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
 
    void initState() {
     super.initState();
-    fetchProduk(m1: '082');
+    fetchProduk(m1: '081');
   }  
  
   bool checkedAll = false;
@@ -229,8 +269,9 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                     List<ApproveModel1> modelyangsudahdiapprove = ApproveModel1.approvelist1.where((tiapitem) => tiapitem.isSelected).toList();
                     
                     await api.ApproveSKU(
-                                  is_approv: '1', 
-                                  user_approv: '${userData.getFullname()}', 
+                                  
+                                  user_approv: 'user_testing1', 
+                                  is_approv: '1',
                                   approvedModelsList: modelyangsudahdiapprove
                                 );
                
@@ -617,33 +658,8 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                   var resultSkuDone = resultSkuAdd.join('');
                   return resultSkuDone;
                 }
-              //  kondisiLoop() {
-              //   List controllersStart = [];
+
                
-              //   List controllersEnd = [];
-                
-              //   print(controllersStart);
-              //   print(controllersEnd);
-              //   var count = selectedData.length;
-              //   for (int x = 0; x < count; x++ ) {
-                  
-              //   controllersStart.add(e.startDate.text.toString());
-              //     controllersEnd.add(e.endDate.text.toString());
-              //    print('periode_start[${x}] : ${controllersStart[x]}');
-              //    print('periode_end[${x}] : ${controllersEnd[x]}');
-              //    print('sku[${x}] : ${selectedData[x]}');
-              //    print('m1[${x}] : ${selectedData2[x]}');
-              //    if(selectedData.length < count) {
-              //     break;
-              //    }
-              //   }
-              //  }
-                  // 
-                  // controllersStart.add(e.startDate.text.toString());
-                  //  List controllersEnd = [];
-                  //  controllersEnd.add(e.endDate.text.toString());
-                  //  print(controllersStart);
-                  //  print(controllersEnd);
 
                 return 
         
@@ -687,8 +703,8 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                 Text('Nama Barang', 
-                         style: TextStyle(color: Color.fromARGB(255, 255, 0, 0), fontSize: 17,  fontWeight: FontWeight.bold),
+                                 Text('${e.deskripsi_brg}', 
+                         style: TextStyle(color: Color.fromARGB(255, 255, 0, 0), fontSize: 15,  fontWeight: FontWeight.w500),
                         ),
                                  Row(
                                    children: [
@@ -819,7 +835,7 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                       SizedBox(
                           width: 20,
                         ),
-                         Text('MarBaru', 
+                         Text('${kondisiHjb()}', 
                       style: TextStyle(color: Colors.black,fontSize: 15),
                       ),
                       ],
@@ -874,8 +890,8 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                         Text('Nama Barang', 
-                         style: TextStyle(color: Color.fromARGB(255, 255, 0, 0), fontSize: 17,  fontWeight: FontWeight.bold),
+                         Text('${e.deskripsi_brg}', 
+                         style: TextStyle(color: Color.fromARGB(255, 255, 0, 0), fontSize: 16,  fontWeight: FontWeight.w500),
                         ),
                          Container(
                               height: 26,
@@ -934,7 +950,7 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                       SizedBox(
                           width: 20,
                         ),
-                         Text('MarBaru', 
+                         Text('${kondisiHjb()}', 
                       style: TextStyle(color: Colors.black,fontSize: 15),
                       ),
                          
@@ -971,7 +987,7 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                                         borderSide: BorderSide(
                                             color: Colors.red, width: 5.0),
                                       ),
-                                    hintText: 'Start Date',
+                                    hintText: '${e.periode_awal}',
                                     labelStyle: TextStyle(color: Colors.red),
                                     hintStyle:
                                         TextStyle(color: Colors.black, fontSize: 15,),
@@ -1052,7 +1068,7 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                                     borderSide: BorderSide(
                                         color: Colors.red, width: 5.0),
                                   ),
-                                hintText: 'End Date',
+                                hintText: '${e.periode_akhir}',
                                 labelStyle: TextStyle(color: Colors.red),
                                 hintStyle:
                                     TextStyle(color: Colors.black, fontSize: 15,),
@@ -1229,6 +1245,16 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                                 ),
                               ),
                             ),
+                            Container(
+                              margin: EdgeInsets.only(left: 10),
+                              width: 120,
+                              child: Text(
+                                ': ${kondisiHj()}',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                ),
+                              ),
+                            ),
                      ],
                          ),
                       ],
@@ -1251,7 +1277,7 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
             )
             ),
               Container(
-              margin: EdgeInsets.fromLTRB(179, 770, 179, 50),
+              margin: EdgeInsets.fromLTRB(179, 770, 179, 0),
               child: MaterialButton(
                   padding: EdgeInsets.symmetric(horizontal: 40),
                   height: 40,
