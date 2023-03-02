@@ -67,7 +67,7 @@ class _ProfileeState extends State<Profilee> {
           ),
           ) ,
       child: 
-       ListView(
+       Column(
         children: [
           
           Container(
@@ -175,9 +175,11 @@ class _ProfileeState extends State<Profilee> {
          ListView(
            children: [
              Stack(
+              fit: StackFit.loose,
               children: <Widget>[
                 
                 Container(
+                  // height: MediaQuery.of(context).size.height/1.29,
                 color: Colors.white,
                 ),
 
@@ -194,6 +196,7 @@ class _ProfileeState extends State<Profilee> {
                       ),
 
                       TextFormField(
+                        readOnly: true,
                       controller: myControllerFullname..text = '${userData.getFullname()}',
                       cursorColor: Colors.black,
                       style: TextStyle(
@@ -217,6 +220,7 @@ class _ProfileeState extends State<Profilee> {
                       ),
                       
                       TextFormField(
+                        readOnly: true,
                       controller: myControllerEmail..text = '${userData.getEmail()}',
                       cursorColor: Colors.black,
                       style: TextStyle(
@@ -240,6 +244,7 @@ class _ProfileeState extends State<Profilee> {
                       ),
                       
                       TextFormField(
+                        readOnly: true,
                       cursorColor: Colors.black,
                       decoration:
                       InputDecoration(
@@ -261,6 +266,7 @@ class _ProfileeState extends State<Profilee> {
                       ),
 
                       TextFormField(
+                        readOnly: true,
                       controller: myControllerDivisi..text = '${userData.getSubdivisi()}',
                       cursorColor: Colors.black,
                       style: TextStyle(

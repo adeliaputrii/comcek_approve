@@ -3,23 +3,13 @@ import 'dart:convert';
 import 'package:expandable_bottom_bar/expandable_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-import 'package:myactivity_project/cobacoba.dart';
-import 'package:myactivity_project/justtest.dart';
-import 'package:myactivity_project/models/model_apv.dart';
 import 'package:myactivity_project/models/model_tabel_approve.dart';
-import 'package:myactivity_project/ramayana_approve.dart';
 import 'package:myactivity_project/ramayana_approve_update.dart';
 import 'package:myactivity_project/ramayana_home.dart';
 import 'package:myactivity_project/ramayana_profile.dart';
-import 'package:myactivity_project/ramayana_riwayat.dart';
-import 'package:myactivity_project/ramayana_riwayat_apv.dart';
 import 'package:myactivity_project/ramayana_riwayat_update.dart';
 import 'package:myactivity_project/ramayana_void.dart';
-import 'package:myactivity_project/service/API_service/API_service_table.dart';
 import 'package:myactivity_project/service/SP_service/SP_service.dart';
-import 'package:myactivity_project/service/service_api/authForTable.dart';
-import 'package:myactivity_project/test.dart';
-import 'package:myactivity_project/testagain.dart';
 
 class RamayanaCompetitorCek extends StatefulWidget {
   const RamayanaCompetitorCek({super.key});
@@ -46,9 +36,17 @@ class _RamayanaCompetitorCekState extends State<RamayanaCompetitorCek> {
         children: [
           Stack(
             children: <Widget>[
+             
               Container(
-                color:  Colors.white
+                  margin: EdgeInsets.only(top: 250),
+                      height: 150,
+                      color: Color.fromARGB(255, 255, 17, 17),
+                    ),
+              Container(
+                color:  Color.fromARGB(255, 111, 60, 60)
               ), 
+
+               
 
               Container(
                 height: 250,
@@ -61,14 +59,12 @@ class _RamayanaCompetitorCekState extends State<RamayanaCompetitorCek> {
                 ),
               ), 
 
-              Container(
-                margin: EdgeInsets.only(top: 250),
-                color:  Color.fromARGB(255, 255, 17, 17),
-              ),     
+               
                     
              Container(
               margin: EdgeInsets.fromLTRB(20, 80, 20, 0),
               height: 50,
+              
               child: 
                Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -93,15 +89,15 @@ class _RamayanaCompetitorCekState extends State<RamayanaCompetitorCek> {
 
               Container(
                 margin: EdgeInsets.only(top: 250),
+                height: 250,
                 decoration: BoxDecoration(
                 color:  Colors.white,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(150),
-                  // topRight: Radius.circular(70)
                 )
                 ),
               ),
-
+              
               Container(
                 margin: EdgeInsets.fromLTRB(30, 230, 30, 0),
                 // color: Colors.green,
@@ -191,9 +187,9 @@ class _RamayanaCompetitorCekState extends State<RamayanaCompetitorCek> {
                     ),
                     
                     SizedBox(
-                      height: 150,
+                      height: 120,
                     ),
-
+                    
                     Container(
                       child: MaterialButton(
                         height: 70,
@@ -211,12 +207,13 @@ class _RamayanaCompetitorCekState extends State<RamayanaCompetitorCek> {
                           color: Colors.white,
                           size: 30,),
                       ),
-                    )
+                    ),
+                    
                   ],
                 ),
               ),
 
-             
+            
               
               
             ],

@@ -163,13 +163,14 @@ String stepThree({required String angkaPertama, required String angkaKedua}) {
                 ),
 
                 Container(
-                  width: 500,
+                  width: MediaQuery.of(context).size.width/1,
                   height: 170,
                   color: Color.fromARGB(255, 255, 17, 17),
                 ),
                 
                 Container(
                 margin: EdgeInsets.fromLTRB(30, 30,30, 0),
+                
                 child:
                   Text(
                   'Form Void', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 23, color: Colors.white),
@@ -245,16 +246,14 @@ String stepThree({required String angkaPertama, required String angkaKedua}) {
 
                   Container(
                     margin: EdgeInsets.fromLTRB(160, 230, 160, 0),
+                    width: 150,
                     decoration: BoxDecoration(
                       color: Color.fromARGB(255, 255, 17, 17),
                       borderRadius: BorderRadius.circular(30)
                       ),
                       height: 40,
                       child: 
-                        Container(
-                          margin: EdgeInsets.only(right: 7),
-                          width: 150,
-                          child: 
+                       
                           TextButton(
                             child: 
                              Text(
@@ -269,7 +268,7 @@ String stepThree({required String angkaPertama, required String angkaKedua}) {
                                }
                               },
                             ),
-                          )
+                        
                           ),
                    
                   Container(

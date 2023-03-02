@@ -1,21 +1,27 @@
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:expandable_bottom_bar/expandable_bottom_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_udid/flutter_udid.dart';
 import 'dart:convert';
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:motion_toast/resources/arrays.dart';
+import 'package:myactivity_project/ramayana_device_info.dart';
 import 'package:myactivity_project/ramayana_home.dart';
 import 'package:myactivity_project/ramayana_profile.dart';
 import 'package:myactivity_project/ramayana_signup.dart';
 import 'package:dio/dio.dart';
 import 'package:myactivity_project/ramayana_void.dart';
+import 'package:myactivity_project/service/API_service/LogAPI_service.dart';
 import 'package:myactivity_project/service/SP_service/SP_service.dart';
 import 'package:myactivity_project/service/API_service/API_service.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:myactivity_project/service/service_api/auth.dart';
+import 'package:platform_device_id/platform_device_id.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,7 +42,36 @@ class _RamayanaLogin extends State<RamayanaLogin> {
   TextEditingController pass = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController passwordReEnter = TextEditingController();
+ 
 
+
+  DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+
+  String _udid = 'Unknown';
+
+   @override
+  void initState() {
+    super.initState();
+    initPlatformState();
+  }
+
+   Future<void> initPlatformState() async {
+    String udid;
+    try {
+      udid = await FlutterUdid.consistentUdid;
+    } on PlatformException {
+      udid = 'Failed to get UDID.';
+    }
+
+    if (!mounted) return;
+
+    setState(() {
+      _udid = udid;
+    });
+  }
+   
+  
+  
   String _user_name = '';
   String _password = '';
 
@@ -83,11 +118,15 @@ class _RamayanaLogin extends State<RamayanaLogin> {
       position: MotionToastPosition.top,
     ).show(context);
   }
-
+  
   loginPressed() async {
     if (username.text.isNotEmpty && pass.text.isNotEmpty) {
+      AndroidDeviceInfo info = await deviceInfo.androidInfo;
+      
       http.Response response =
-          await AuthServices.login(username.text, pass.text);
+      //  await AuthServices.login(username.text, pass.text);
+          await AuthServicesLog.login(
+            username.text, pass.text, '0', '${info.version.release}', '${DateTime.now()}', '${_udid} ','info2', '${username.text}' ,'toko' ,'${info.device}');
       Map responseMap = jsonDecode(response.body);
       if (responseMap['userpass'] == "0") {
         await userData.setUser(data: responseMap);
@@ -511,8 +550,30 @@ class _RamayanaLogin extends State<RamayanaLogin> {
                               color: Colors.red,
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
+                                  AndroidDeviceInfo info = await deviceInfo.androidInfo;
+                                  LogService logService = LogService();
+                                 
+                                    DateTime dt = DateTime.parse('2023-02-16 03:00:00.000');
+                                  String time = DateFormat('hh:mm').format(dt);
+                                    print(time);
+                                  // await logService.LogActivity(
+                                  //   id_log: '1',
+                                  //   user_name: username.text,
+                                  //   password: pass.text,
+                                  //   progname: '081',
+                                  //   versi: '${info.version.release}',
+                                  //   date_run: 'mobile2',
+                                  //   info1: 'kosong',
+                                  //   info2: 'kosong',
+                                  //   userid: '${userData.getFullname()}',
+                                  //   toko: 'mobile7',
+                                  //   devicename: '${info.device}',
+
+                                  // );
+                                  print('Berhasil, username :${username.text} password :${pass.text}, versi :${info.version.release} device :${info.device} imei : ${info.id}');
                                   await loginPressed();
                                   print('huhu');
+
                                 }
                               })
                         ],

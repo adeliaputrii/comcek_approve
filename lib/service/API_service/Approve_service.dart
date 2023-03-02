@@ -31,3 +31,48 @@ return 0;
     }
   }
 }
+
+
+// part of 'API_service.dart';
+
+// class APILogService{
+  
+//   Future<int> LogActivity({
+//     required String id_log,
+//     required String user_name,
+//     required String password,
+//     required String progname, 
+//     required String versi, 
+//     required String date_run, 
+//     required String info1, 
+//     required String info2, 
+//     required String userid, 
+//     required String toko, 
+//     required String devicename
+//   })async{
+//     try {
+//       var datajson = {};
+//       datajson['id_log'] = id_log;
+//       datajson['user_name'] = user_name;
+//       datajson['password'] = password;
+//       datajson['progname'] = progname;
+//       datajson['versi'] = versi;
+//       datajson['date_run'] = date_run;
+//       datajson['info1'] = info1;
+//       datajson['info2'] = info2;
+//       datajson['userid'] = userid;
+//       datajson['toko'] = toko;
+//       datajson['devicename'] = devicename;
+// }
+  
+// final Responseku = await http.post(Uri.parse(BaseUrl.urllog), body: datajson);
+// var data = jsonDecode(Responseku.body);
+// if (data['status'] == 200) {
+//   print('UPDATE SUCSESS');
+//   print(datajson);
+// }
+// return 0; 
+//     }on Exception{
+//       return 3;
+//     }
+//   }

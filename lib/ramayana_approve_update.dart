@@ -3,8 +3,6 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-import 'package:myactivity_project/justtest.dart';
-import 'package:myactivity_project/models/model_apv.dart';
 import 'package:myactivity_project/models/model_tabel_approve.dart';
 import 'package:myactivity_project/models/models_act.dart';
 import 'package:http/http.dart' as http;
@@ -13,7 +11,6 @@ import 'package:myactivity_project/ramayana_activity.dart';
 import 'package:myactivity_project/ramayana_comcheck_cek.dart';
 import 'package:myactivity_project/ramayana_home.dart';
 import 'package:myactivity_project/service/API_service/API_service.dart';
-import 'package:myactivity_project/service/API_service/API_service_table.dart';
 import 'package:myactivity_project/service/SP_service/SP_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
@@ -322,12 +319,7 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
           icon: Icon(IconlyLight.arrowLeft, color: Color.fromARGB(255, 255, 255, 255), size: 25,),
         ),
         title: 
-        Container(
-          margin: EdgeInsets.only(left: 120),
-         child: Text('Approve', style: TextStyle(fontSize: 23, color: Color.fromARGB(255, 255, 255, 255), fontWeight: FontWeight.bold),),
-            
-            
-        ),
+        Text('Approve', style: TextStyle(fontSize: 23, color: Color.fromARGB(255, 255, 255, 255), fontWeight: FontWeight.bold),),
         backgroundColor: Color.fromARGB(255, 255, 14, 14),
         elevation: 5,
         toolbarHeight: 80,
@@ -612,6 +604,7 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                   resultHjb.insert((resultHjb.length - 6), '.');
                   resultHjb.insert((resultHjb.length - 10), '.');
                   resultHjb.insert((resultHjb.length - 14), '.');
+
                 }
                 var resultHjbDone = resultHjb.join('');
                 return resultHjbDone;
@@ -653,13 +646,23 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                 kondisiSku() {
                   List<String> resultSku = iniSkuStr.split('');
                   final nol = List.filled(8 - resultSku.length, 0);
+                  print(nol);
                   final List<String> strs = nol.map((e) => e.toString()).toList();
                   var resultSkuAdd = strs + resultSku;
                   var resultSkuDone = resultSkuAdd.join('');
                   return resultSkuDone;
                 }
 
+               var timeNow = DateFormat('HH:mm').format(DateTime.now());
                
+  var timeSplit = timeNow.split('');
+  timeSplit.removeAt(2);
+  var timeJoin = timeSplit.join('');
+  var timeint = int.parse(timeJoin);
+  print(timeNow);
+  print(timeSplit);
+  // print(timeJoin);
+  print(timeint);
 
                 return 
         
@@ -841,6 +844,7 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
                       ],
                     ),
                   ),
+                  
                   // Center(
                   //   child: 
                     

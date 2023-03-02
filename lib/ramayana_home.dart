@@ -1,8 +1,15 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:myactivity_project/datetime.dart';
+import 'package:myactivity_project/example.dart';
 import 'package:myactivity_project/ramayana_comcheck_cek.dart';
+import 'package:myactivity_project/ramayana_device_info.dart';
+import 'package:myactivity_project/ramayana_idcash.dart';
 import 'package:myactivity_project/service/service_api/auth.dart';
 import 'package:path/path.dart' as Path;
 import 'package:relative_scale/relative_scale.dart';
@@ -26,6 +33,7 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 
 
 class Ramayana extends StatefulWidget {
+  
   const Ramayana({super.key});
 
   @override
@@ -34,6 +42,8 @@ class Ramayana extends StatefulWidget {
 
 class _RamayanaState extends State<Ramayana> {
 
+  
+
   static UserData userData = UserData();
   @override
    void initState() {
@@ -41,6 +51,9 @@ class _RamayanaState extends State<Ramayana> {
     dapetinData();
    }
 
+ 
+
+DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
  Future<void> dapetinData() async {
   UserData userData = UserData();
   await userData.getPref();
@@ -161,7 +174,7 @@ class _RamayanaState extends State<Ramayana> {
                 
                   Container(
                     margin: EdgeInsets.fromLTRB(10, 80, 10, 0),
-                    height: 230,
+                    height: 200,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       color: Color.fromARGB(255, 255, 255, 255),
@@ -183,34 +196,38 @@ class _RamayanaState extends State<Ramayana> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
                             
-                          // Column(
-                          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          // crossAxisAlignment: CrossAxisAlignment.center,
-                          // children: [
-                          //       MaterialButton(
-                          //       minWidth:  MediaQuery.of(context).size.width/6,
-                          //       height:  MediaQuery.of(context).size.height/13,
-                          //       shape: RoundedRectangleBorder(
-                          //       borderRadius: BorderRadius.circular(50)
-                          //       ),
-                          //       color: Color.fromARGB(255, 255, 17, 17),
-                          //       onPressed: () {},
-                          //       child:  
-                          //       Icon(IconlyBold.paperPlus,
-                          //       size: 30,
-                          //       color: Colors.white,
-                          //       ),
-                          //       ),
+                          Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                                MaterialButton(
+                                minWidth:  MediaQuery.of(context).size.width/6,
+                                height:  MediaQuery.of(context).size.height/13,
+                                shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50)
+                                ),
+                                color: Color.fromARGB(255, 255, 17, 17),
+                                onPressed: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context){
+                                    return RamayanaIDCash();
+                                  }));
+                                },
+                                child:  
+                                Icon(Icons.credit_score_rounded,
+                                size: 35,
+                                color: Colors.white,
+                                ),
+                                ),
 
-                          //       SizedBox(
-                          //       height: 10,
-                          //       ),
+                                SizedBox(
+                                height: 10,
+                                ),
 
-                          //       Text('Add Activity',
-                          //       style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                          //       )
-                          // ],
-                          // ),
+                                Text('ID Cash',
+                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                                )
+                          ],
+                          ),
 
                           Column(
                           children: [
@@ -226,8 +243,8 @@ class _RamayanaState extends State<Ramayana> {
                                     return RamayanaCompetitorCek();
                                   }));
                                 }, 
-                                child:  Icon(IconlyBold.editSquare,
-                                size: 30,
+                                child:  Icon(Icons.edit_document,
+                                size: 35,
                                 color: Colors.white,
                                 ),
                                 ),
@@ -256,8 +273,8 @@ class _RamayanaState extends State<Ramayana> {
                                 }));
                               }, 
                                 child: 
-                                Icon(IconlyBold.scan,
-                                size: 30,
+                                Icon(Icons.document_scanner_rounded,
+                                size: 35,
                                 color: Colors.white,
                                 ),
                                 ),
@@ -277,9 +294,61 @@ class _RamayanaState extends State<Ramayana> {
                         //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         //   children: <Widget>[
                             
+                          // Column(
+                          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          // crossAxisAlignment: CrossAxisAlignment.center,
+                          // children: [
+                          //       MaterialButton(
+                          //       minWidth:  MediaQuery.of(context).size.width/6,
+                          //       height:  MediaQuery.of(context).size.height/13,
+                          //       shape: RoundedRectangleBorder(
+                          //       borderRadius: BorderRadius.circular(50)
+                          //       ),
+                          //       color: Colors.white,
+                          //       onPressed: () {},
+                          //       child:  
+                          //       Icon(IconlyBold.wallet,
+                          //       size: 30,
+                          //       color: Colors.white,
+                          //       ),
+                          //       ),
+
+                          //       SizedBox(
+                          //       height: 10,
+                          //       ),
+
+                          //       Text('Menu1',
+                          //       style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          //       )
+                          // ],
+                          // ),
+
+                          // Column(
+                          // children: [
+                          //       MaterialButton(
+                          //       minWidth:  MediaQuery.of(context).size.width/6,
+                          //       height:  MediaQuery.of(context).size.height/13,
+                          //       shape: RoundedRectangleBorder(
+                          //       borderRadius: BorderRadius.circular(50)
+                          //       ),
+                          //       color: Color.fromARGB(255, 255, 17, 17),
+                          //       onPressed: () {}, 
+                          //       child:  Icon(IconlyBold.work,
+                          //       size: 30,
+                          //       color: Colors.white,
+                          //       ),
+                          //       ),
+
+                          //       SizedBox(
+                          //       height: 10,
+                          //       ),
+
+                          //       Text('Menu2',
+                          //       style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
+                          // ],
+                          // ),
+                         
                         //   Column(
-                        //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        //   crossAxisAlignment: CrossAxisAlignment.center,
                         //   children: [
                         //         MaterialButton(
                         //         minWidth:  MediaQuery.of(context).size.width/6,
@@ -288,84 +357,34 @@ class _RamayanaState extends State<Ramayana> {
                         //         borderRadius: BorderRadius.circular(50)
                         //         ),
                         //         color: Color.fromARGB(255, 255, 17, 17),
-                        //         onPressed: () {},
-                        //         child:  
-                        //         Icon(IconlyBold.wallet,
-                        //         size: 30,
-                        //         color: Colors.white,
-                        //         ),
-                        //         ),
-
-                        //         SizedBox(
-                        //         height: 10,
-                        //         ),
-
-                        //         Text('Menu1',
-                        //         style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                        //         )
-                        //   ],
-                        //   ),
-
-                        //   Column(
-                        //   children: [
-                        //         MaterialButton(
-                        //         minWidth:  MediaQuery.of(context).size.width/6,
-                        //         height:  MediaQuery.of(context).size.height/13,
-                        //         shape: RoundedRectangleBorder(
-                        //         borderRadius: BorderRadius.circular(50)
-                        //         ),
-                        //         color: Color.fromARGB(255, 255, 17, 17),
-                        //         onPressed: () {}, 
-                        //         child:  Icon(IconlyBold.work,
-                        //         size: 30,
-                        //         color: Colors.white,
-                        //         ),
-                        //         ),
-
-                        //         SizedBox(
-                        //         height: 10,
-                        //         ),
-
-                        //         Text('Menu2',
-                        //         style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
-                        //   ],
-                        //   ),
-
-                        //   Column(
-                        //   children: [
-                        //         MaterialButton(
-                        //         minWidth:  MediaQuery.of(context).size.width/6,
-                        //         height:  MediaQuery.of(context).size.height/13,
-                        //         shape: RoundedRectangleBorder(
-                        //         borderRadius: BorderRadius.circular(50)
-                        //         ),
-                        //         color: Color.fromARGB(255, 255, 17, 17),
-                        //         onPressed: () {
+                        //         onPressed: () async {
+                        //           AndroidDeviceInfo info = await deviceInfo.androidInfo;
+                        //           print(info.version.release);
+                        //           print(info.device);
+                        //           print('yess');
                         //         Navigator.push(context, MaterialPageRoute(builder: (context){
-                        //           return RamayanaCompetitorCek();
+                        //           return MyApp();
                         //         }));
                         //       }, 
                         //         child: 
-                        //         Icon(IconlyBold.editSquare,
-                        //         size: 30,
-                        //         color: Colors.white,
-                        //         ),
+                        //         FaIcon(FontAwesomeIcons.circleInfo,
+                        //        color: Colors.white,
+                        //        size: 30,
+                        //        )
                         //         ),
 
                         //         SizedBox(
                         //         height: 10,
                         //         ),
 
-                        //         Text('COM Check',
+                        //         Text('Device Info',
                         //         style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
                         //  ],
                         //  ) 
                         // ],
                         // ),
 
-                        // SizedBox(
-                        //   height: 90,
-                        // )
+                       
                       ],
                     ),
                   ),
@@ -406,18 +425,24 @@ class _RamayanaState extends State<Ramayana> {
                     Text('Dashboard My Activity',
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
                     ),
-
-                    IconButton(onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context){
-                      return Profilee();
-                      }
-                      ));
-                      },
+                     Row(
+                       children: [
+                         IconButton(onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context){
+                          return Profilee();
+                          }
+                          ));
+                          },
                     icon: Icon(Icons.person,
                     color: Colors.white,
                     size: 30,
                     ),
                     ),
+                      
+                  
+                       ],
+                     ),
+                   
                     ]
                     )
                     ),
