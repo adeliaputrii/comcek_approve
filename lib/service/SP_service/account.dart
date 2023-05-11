@@ -14,6 +14,7 @@ class UserData {
   static const String user_picUrl_str = "userpic_url_str";
   static const String user_token_str = "user_token_str";
   static const String user_toko_str = "user_toko_str";
+  static const String user_akses_str = "user_akses_str";
   static const String user_subdivisi_str = "user_subdivisi_str";
 
   static bool _isAdmin = false;
@@ -30,6 +31,7 @@ class UserData {
   static String _userID = ''; 
   static late String _userToken= '';
   static late String _userToko= '';
+  static late String _userAkses= '';
 
   bool getAdminStatus() {
     return _isAdmin;
@@ -45,6 +47,9 @@ class UserData {
 
   String getUserToko() {
     return _userToko;
+  }
+  String getUserAkses() {
+    return _userAkses;
   }
 
   String getUserPassword() {
@@ -96,6 +101,7 @@ class UserData {
     print("Toko     : $_userToko");
     print("Email    : $_userEmail");
     print("Subdivisi: $_userSubdivisi");
+    print("Akses    : $_userAkses");
     // print("Phone    : $_userPhone");
     // print("adress   : $_userAdress");
     // print("Password : $_userPassword");
@@ -119,6 +125,7 @@ class UserData {
     pref.setString(UserData.user_address_str, nodata);
     pref.setString(UserData.user_token_str, nodata);
     pref.setString(UserData.user_toko_str, nodata);
+    pref.setString(UserData.user_akses_str, nodata);
     pref.setBool(UserData.isAdmin_str, false);
     pref.setBool(UserData.logstatus, false);
     await getPref();
@@ -137,6 +144,11 @@ class UserData {
     pref.setString(UserData.user_subdivisi_str, data['data']['id_sub_divisi'].toString());
     pref.setString(UserData.user_token_str, data['access_token'].toString());
     pref.setString(UserData.user_toko_str, data['data']['toko'].toString());
+    pref.setString(UserData.user_toko_str, data['data']['toko'].toString());
+    pref.setString(UserData.user_akses_str, data['data']['akses_menu']);
+
+
+    
     // if (data['akses'] == 'adm') {
     //   pref.setBool(UserData.isAdmin_str, true);
     // } else {
@@ -162,6 +174,9 @@ class UserData {
     _userAdress = pref.getString(user_address_str).toString();  
     _userToken = pref.getString(user_token_str).toString();  
     _userToko = pref.getString(user_toko_str).toString(); 
+    _userAkses = pref.getString(user_akses_str).toString();; 
+    print(_userAkses);
+    print('wkwk 1212112');
     if (pref.getBool(logstatus) == null || pref.getBool(logstatus) == false) {
       _statuslog = false;
     } else {

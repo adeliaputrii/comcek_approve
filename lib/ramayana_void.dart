@@ -1,7 +1,11 @@
+
 import 'package:barcode_flutter/barcode_flutter.dart';
+import 'package:device_info_plus/device_info_plus.dart';
+import 'package:dio/dio.dart';
 import 'package:expandable_bottom_bar/expandable_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_udid/flutter_udid.dart';
 import 'package:myactivity_project/ramayana_home.dart';
 import 'package:myactivity_project/service/SP_service/SP_service.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -26,10 +30,37 @@ class _BlankState extends State<Blank> with RouteAware {
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+  String _udid = 'Unknown';
+    var dio = Dio();
+  UserData userData = UserData();
+  bool _isKeptOn = true;
+  double _brightness = 1.0;
+
   @override
   void initState() {
     super.initState();
+    initPlatformState();
+    print('123');
   }
+
+
+
+Future<void> initPlatformState() async {
+    String udid;
+    try {
+      udid = await FlutterUdid.consistentUdid;
+    } on PlatformException {
+      udid = 'Failed to get UDID.';
+    }
+
+    if (!mounted) return;
+
+    setState(() {
+      _udid = udid;
+    });
+  }
+
 
   TextEditingController myController = TextEditingController();
 
@@ -173,7 +204,7 @@ String stepThree({required String angkaPertama, required String angkaKedua}) {
                 
                 child:
                   Text(
-                  'Form Void', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 23, color: Colors.white),
+                  'Approval Void & Return', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 23, color: Colors.white),
                    ),
                   ),
 
@@ -260,6 +291,27 @@ String stepThree({required String angkaPertama, required String angkaKedua}) {
                             'GENERATE', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20, color: Colors.white),
                              ),
                             onPressed: () async {
+                          
+                              AndroidDeviceInfo info = await deviceInfo.androidInfo;
+                        var formData = FormData.fromMap({
+                              'progname': 'RALS_TOOLS ',
+                              'versi': '2.12 v.2',
+                              'date_run': '${DateTime.now()}',
+                              'info1': 'Aktivitas Void - Menu Void',
+                              ' info2': '${_udid} ',
+                              'userid': '${userData.getUsernameID()}',
+                              ' toko': '${userData.getUserToko()}',
+                              ' devicename': '${info.device}',
+                              'TOKEN': 'R4M4Y4N4'
+                            });
+                            var prod = 'https://';
+                            var dev = 'https://dev-';
+                            var tipeurl = '${prod}';
+                            var response = await dio.post(
+                                '${tipeurl}android-api.ramayana.co.id:8305/v1/activity/createmylog',
+                                data: formData);   
+                                
+                                print('berhasil $_udid');    
                                if (_formKey.currentState!.validate()) {
                                 data = await _getLogikaVoid(); 
                                 setState(() {   
@@ -273,10 +325,35 @@ String stepThree({required String angkaPertama, required String angkaKedua}) {
                    
                   Container(
                    margin: EdgeInsets.fromLTRB(10, 350, 10, 0),
-                   child: AnimatedOpacity(
+                   child: 
+                   AnimatedOpacity(
                    opacity: _visible ? 1.0 : 0.0,
                    duration: const Duration(milliseconds: 500),
-                   child: Container(
+                   child: 
+        //            Column(
+        //         children: <Widget>[
+        //           new Row(
+        //             mainAxisAlignment: MainAxisAlignment.center,
+        //             children: <Widget>[
+        //               new Text("Screen is kept on ? "),
+        //               new Checkbox(value: _isKeptOn, onChanged: (bool? b){
+        //                 Screen.keepOn(b);
+        //                 setState((){_isKeptOn = b!; });
+        //               })
+        //             ]
+        //           ),
+        //           new Text("Brightness :"),
+        //           new Slider(value : _brightness, onChanged : (double b){
+        //             setState((){
+        //                _brightness = b;
+        //              });
+        //             Screen.setBrightness(b);
+        //           })
+        //         ]
+        //     )
+        // ),
+                   
+                   Container(
                        margin: EdgeInsets.fromLTRB(10, 0,10, 0),
                         child: 
                           Column(
@@ -320,8 +397,9 @@ String stepThree({required String angkaPertama, required String angkaKedua}) {
                  ],
                 ),
                 )
+                   )
                 ),
-              )
+              
             ]
             ),
         ],

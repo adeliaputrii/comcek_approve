@@ -16,8 +16,14 @@ class AuthServicesLog {
      String info2, 
      String userid, 
      String toko, 
-     String devicename,) async {
-    Map data = {
+     String devicename,
+     String imei
+     ) async {
+      
+    print('damn 88');
+    print(imei);
+   Map data = {
+    
       'user_name' : user_name,
       'password' : password,
       'progname' : progname,
@@ -28,7 +34,10 @@ class AuthServicesLog {
       'userid' : userid,
       'toko' : toko,
       'devicename' : devicename,
+      'imei' : imei
     };
+    print('damn 555');
+    print(data);
     var body = json.encode(data);
     var url = Uri.parse(baseURLog);
     http.Response response = await http.post(

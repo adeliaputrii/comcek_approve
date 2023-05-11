@@ -1,43 +1,39 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
-import 'package:http/http.dart'as http;
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:myactivity_project/models/model_idacash_cust.dart';
 import 'package:myactivity_project/models/model_idcash.dart';
 import 'package:myactivity_project/models/model_idcash_bulan.dart';
-import 'package:myactivity_project/models/model_idcash_hari.dart';
-import 'package:myactivity_project/models/model_idcash_tahun.dart';
+import 'package:myactivity_project/ramayana_id_cash_riwayat.dart';
 import 'package:myactivity_project/ramayana_idcash.dart';
-import 'package:myactivity_project/ramayana_idcash_riawayatTahun.dart';
 import 'package:myactivity_project/ramayana_idcash_riwayatBulan.dart';
-import 'package:myactivity_project/service/SP_service/SP_service.dart';
 
-class RamayanaRiwayatIDCash extends StatefulWidget {
-  const RamayanaRiwayatIDCash({super.key});
+
+class RamayanaRiwayatIDCash2 extends StatefulWidget {
+  const RamayanaRiwayatIDCash2({super.key});
 
   @override
-  State<RamayanaRiwayatIDCash> createState() => _RamayanaRiwayatIDCashState();
+  State<RamayanaRiwayatIDCash2> createState() => _RamayanaRiwayatIDCash2State();
 }
 
-class _RamayanaRiwayatIDCashState extends State<RamayanaRiwayatIDCash> {
+class _RamayanaRiwayatIDCash2State extends State<RamayanaRiwayatIDCash2> {
 
-  UserData userData = UserData();
-
-
-
-     fetchDataTahun({
-    required String nokartu, 
+   fetchDataBulan({
+    required String nokartu,
+    required String tahun
    }) async {
     var prod = 'https://';
     var dev = 'https://dev-';
     var tipeurl = '${dev}';
-    final Map<String, ApprovalIdcashCustomerTahun> profileMap = new Map();
-     ApprovalIdcashCustomerTahun. approvalidcashtahun.clear();
+    final Map<String, ApprovalIdcashCustomerBulan> profileMap = new Map();
+      ApprovalIdcashCustomerBulan.  approvalidcashbulan.clear();
     final responseku = await http.post(
-      Uri.parse('${tipeurl}android-api.ramayana.co.id:8305/v1/membercards/tbl_trxsaldokaryawanYY'),
+      Uri.parse('${tipeurl}android-api.ramayana.co.id:8305/v1/membercards/tbl_trxsaldokaryawanMM'),
       body: {
-        'nokartu' : '${ApprovalIdcash.approvalidcash[0]}'
-        // 'nokartu' : '1100180309385576'
+        'nokartu' : '${ApprovalIdcash.approvalidcash[0]}',
+        // 'nokartu' : '1100180309385576',
+        'tahun' : '${ApprovalIdcash.approvalidcash[1]}'
+        
         }
       );
     var data = jsonDecode(responseku.body);
@@ -47,15 +43,15 @@ class _RamayanaRiwayatIDCashState extends State<RamayanaRiwayatIDCash> {
       print(data);
       int count = data['data'].length;
       for (int i = 0; i < count; i++) {
-         ApprovalIdcashCustomerTahun. approvalidcashtahun.add( ApprovalIdcashCustomerTahun.fromjson(data['data'][i]));
+          ApprovalIdcashCustomerBulan.  approvalidcashbulan.add(  ApprovalIdcashCustomerBulan.fromjson(data['data'][i]));
       } 
-      // ApprovalIdcashCustomerTahun.approvalidcashtahun.forEach((element) {
-      //   profileMap[element.tahun] = element;
-      //    ApprovalIdcashCustomerTahun.approvalidcashtahun = profileMap.values.toList();
+      // ApprovalIdcashCustomerBulan.approvalidcashbulan.forEach((element) {
+      //   profileMap[element.month] = element;
+      //    ApprovalIdcashCustomerBulan.approvalidcashbulan = profileMap.values.toList();
       //  });
-      print('check length ${ ApprovalIdcashCustomerTahun.approvalidcashtahun.length}');
+      print('check length ${  ApprovalIdcashCustomerBulan. approvalidcashbulan.length}');
       print(data['data'].toString());
-    if(ApprovalIdcashCustomerTahun.approvalidcashtahun.length == 0) {
+      if(ApprovalIdcashCustomerBulan.approvalidcashbulan.length == 0) {
          AlertDialog popup1 = AlertDialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
@@ -81,7 +77,7 @@ class _RamayanaRiwayatIDCashState extends State<RamayanaRiwayatIDCash> {
         child:
             Center(
               child: Text(
-                'Anda tidak memiliki riwayat transaksi',
+                'NO DATA',
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 15,
@@ -95,6 +91,7 @@ class _RamayanaRiwayatIDCashState extends State<RamayanaRiwayatIDCash> {
     );
     showCupertinoModalPopup(context: context, builder: (context) => popup1);
       }
+
     } 
      else {
       print('NO DATA');
@@ -102,25 +99,16 @@ class _RamayanaRiwayatIDCashState extends State<RamayanaRiwayatIDCash> {
     }
    
    setState(() {});
-
   }
 
-
- 
+  
    @override
    void initState() {
     super.initState();
-    fetchDataTahun(nokartu: '${ApprovalIdcash.approvalidcash[0]}');
-    // fetchDataTahun(nokartu: '1100180309385576');
+    fetchDataBulan(nokartu: '${ApprovalIdcash.approvalidcash[0]}', tahun: '${ApprovalIdcash.approvalidcash[1]}');
+    // fetchDataBulan(nokartu: '1100180309385576', tahun: '${ApprovalIdcash.approvalidcash[1]}');
    }
 
-  var selected2;
-    final List<String> data2 = [
-    'RB17',
-    'R136',
-    'S204',
-    'S445'
-  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -128,8 +116,10 @@ class _RamayanaRiwayatIDCashState extends State<RamayanaRiwayatIDCash> {
         leading: IconButton(
           onPressed: () {
             ApprovalIdcash.approvalidcash.removeLast();
+            print(ApprovalIdcash.approvalidcash);
+            print(ApprovalIdcash.approvalidcash);
             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
-              return RamayanaIDCash();
+              return RamayanaRiwayatIDCash();
             }), (route) => false);
           },
           icon: Icon(Icons.arrow_back),
@@ -163,13 +153,7 @@ class _RamayanaRiwayatIDCashState extends State<RamayanaRiwayatIDCash> {
               child: 
               Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text('Tahun', style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic)),
-                      Text('Total', style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic)),
-                    ],
-                  ),
+                  Center(child: Text('${ApprovalIdcash.approvalidcash[1]}', style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic))),
                Container(
                 margin: EdgeInsets.only(top: 15, left: 50, right: 50),
                  color: Color.fromARGB(255, 197, 197, 197),
@@ -183,9 +167,9 @@ class _RamayanaRiwayatIDCashState extends State<RamayanaRiwayatIDCash> {
               
               child: 
                ListView(
-                children: ApprovalIdcashCustomerTahun.approvalidcashtahun.map((e) {
-
-                  kondisiSelisih() {
+                children:  ApprovalIdcashCustomerBulan.approvalidcashbulan.map((e) {
+                
+                kondisiSelisih() {
                     var ex = '${e.nilai}';
                     List<String> resultSelisih = ex.split('');
                     print(resultSelisih);
@@ -245,35 +229,68 @@ class _RamayanaRiwayatIDCashState extends State<RamayanaRiwayatIDCash> {
                     // } 
                   }
                   print(kondisiSelisih());
-                  
 
-                return
-                  Container(
-                    padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
+                kondisiBulan() {
+                  var bulan = e.month;
+                  if(e.month == '1') {
+                    return 'Januari';
+                  } else if (e.month == '2'){
+                    return 'Februari';
+                  } else if (e.month == '3') {
+                    return 'Maret';
+                  } else if (e.month == '4') {
+                    return 'April';
+                  }  else if (e.month == '5') {
+                    return 'Mei';
+                  } else if (e.month == '6') {
+                    return 'Juni';
+                  } else if (e.month == '7') {
+                    return 'Juli';
+                  } else if (e.month == '8') {
+                    return 'Agustus';
+                  } else if (e.month == '9') {
+                    return 'September';
+                  } else if (e.month == '10') {
+                    return 'Oktober';
+                  } else if (e.month == '11') {
+                    return 'November';
+                  } else if (e.month == '12') {
+                    return 'Desember';
+                  } else {
+                   return e.month;
+                  }
+                }
+                  
+               return
+                 
+                     Container(
+                        padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
                         height: 90,
-                    child: MaterialButton(
-                          onPressed: () {
-                           ApprovalIdcash.approvalidcash.add(e.tahun);
-                           print(ApprovalIdcash.approvalidcash);
-                            Navigator.push(context, MaterialPageRoute(builder: (context){
-                              return RamayanaRiwayatIDCash2();
-                            }));
-                          },
-                                         color: Color.fromARGB(255, 234, 234, 234),
-                                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                                           ),
-                                          child: ListTile(
-                                           leading: CircleAvatar(
-                          backgroundColor: Color.fromARGB(255, 255, 17, 17),
-                          child: Icon(Icons.attach_money_outlined, color: Colors.white, size: 25,),
-                                          ),
-                                          title: Text('${e.tahun}', style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),),
-                                          trailing: Text('Rp. ${kondisiSelisih()}',  style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),),
-                                          ),
+                       child: MaterialButton(
+                        onPressed: () {
+                         ApprovalIdcash.approvalidcash.add(e.month);
+                         print(ApprovalIdcash.approvalidcash);
+                          Navigator.push(context, MaterialPageRoute(builder: (context){
+                            return RamayanaRiwayatIDCashBulan();
+                          }));
+                        },
+                                       color: Color.fromARGB(255, 234, 234, 234),
+                                       shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                                         ),
+                                        child: ListTile(
+                                         leading: CircleAvatar(
+                        backgroundColor: Color.fromARGB(255, 255, 17, 17),
+                        child: Icon(Icons.attach_money_outlined, color: Colors.white, size: 25,),
                                         ),
-                  );
-                                 }).toList(),
+                                        title: Text('${kondisiBulan()}', style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),),
+                                        trailing: Text('Rp.${kondisiSelisih()}',  style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),),
+                                        ),
+                                      ),
+                     );
+              
+                  },).toList(),
+                
               ), 
             )
              

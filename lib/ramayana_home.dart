@@ -1,21 +1,28 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter_udid/flutter_udid.dart';
+import 'package:intl/intl.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:myactivity_project/datetime.dart';
-import 'package:myactivity_project/example.dart';
+import 'package:myactivity_project/models/model_approval_return.dart';
+import 'package:myactivity_project/models/model_tabel_approve.dart';
+import 'package:myactivity_project/ramayana_approval.dart';
+import 'package:myactivity_project/ramayana_approval_submenu.dart';
 import 'package:myactivity_project/ramayana_comcheck_cek.dart';
 import 'package:myactivity_project/ramayana_device_info.dart';
+import 'package:myactivity_project/ramayana_id_cash_riwayat.dart';
 import 'package:myactivity_project/ramayana_idcash.dart';
+import 'package:myactivity_project/ramayana_splashscreen.dart';
+import 'package:myactivity_project/service/API_service/LogAPI_service.dart';
 import 'package:myactivity_project/service/service_api/auth.dart';
 import 'package:path/path.dart' as Path;
 import 'package:relative_scale/relative_scale.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-import 'package:myactivity_project/ramayana_activity.dart';
-import 'package:myactivity_project/ramayana_history.dart';
 import 'package:myactivity_project/ramayana_login.dart';
 import 'package:myactivity_project/ramayana_profile.dart';
 import 'package:myactivity_project/ramayana_void.dart';
@@ -31,7 +38,6 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-
 class Ramayana extends StatefulWidget {
   
   const Ramayana({super.key});
@@ -41,32 +47,131 @@ class Ramayana extends StatefulWidget {
 }
 
 class _RamayanaState extends State<Ramayana> {
+DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+Timer? timer;
+  List akses = ["${userData.getUserAkses()}"];
+  String? _timeString;
+  String _udid = 'Unknown';
+    var dio = Dio();
+     bool _enabled = true;
+  int _status = 0;
+  List<DateTime> _events = [];
 
-  
+   Future<void> dapetinData() async {
+  UserData userData = UserData();
+    await userData.getPref();
+    String userId = userData.getUsernameID();
+    print('grgr 123');
+    print(userId);
+  }   
 
   static UserData userData = UserData();
   @override
    void initState() {
     super.initState();
-    dapetinData();
+     initPlatformState();
+     dapetinData();
+     
+     UserData userData = UserData();
+     print(userData.getUserAkses());
+
+     print('tes 555'); 
+
+  //    Map valueMap = json.decode(userData.getUserAkses());
+  //  print(valueMap);
+  
+    print('uutt66');
+  
+
+// Map<String, List<String>> myMap = {
+//   'void': ['void'],
+//   'approval': ['checkedapproval', 'cilukba', 'checkedhistory'],
+//   'idcash': ['checkedkartu'],
+// };
+
+
+
+// Example usage
+// void main() {
+//   List<String> keys = getKeys(myMap);
+//   print(keys); 
+//    print('damn 7777'); 
+// }
+
+    //  Map<String, List<String>> myMap =  userData.getUserAkses();
+
+// List<String> keys = userData.getAdminStatus().keys.toList();
+
+// print(keys);
    }
-
  
+//adel disini map yang buat langung narik dari api mana yaa?
 
-DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
- Future<void> dapetinData() async {
-  UserData userData = UserData();
-  await userData.getPref();
-  String username = userData.getUsernameID();
+//soal nya ini dari awal udah string gabisa
+
+
+///////sebentar del
+/////okay pak
+
+
+
+    List<String> split = userData.getUserAkses().split(",");  
+
+//     List<String> getKeys(Map<String, List<String>> map) {
+//   return map.keys.toList(); 
+// }
+
+// Map<String, List<String>> myMap = {
+//   'void': ['void'],
+//   'approval': ['checkedapproval', 'cilukba', 'checkedhistory'],
+//   'idcash': ['checkedkartu'],
+// };
+
+// List<String> getKeys(Map<String, List<String>> map) {
+//   return map.keys.toList();
+// }
+
+
+  Future<void> initPlatformState() async {
+    String udid;
+    try {
+      udid = await FlutterUdid.consistentUdid;
+    } on PlatformException {
+      udid = 'Failed to get UDID.';
+    }
+
+    if (!mounted) return;
+
+    setState(() {
+      _udid = udid;
+    });
   }
+
+  kondisiJam() async {
+    const dateTimeString = '2023-02-16 16:41:30.000';
+    final dateTime = DateTime.parse(dateTimeString);
+    final format = DateFormat('HH:mm:ss');
+    final clockString = format.format(dateTime);
+    if(_timeString == clockString) {
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      pref.remove('username');
+     
+    }
+  }
+
+
   
   logoutPressed() async {
     SharedPreferences pref =await SharedPreferences.getInstance();
       pref.remove('username');
+       pref.remove('waktuLogin');
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (_){
         return RamayanaLogin();
        }));
   }
+
+  
+  
 
  void sweatAlert(BuildContext context) {
 
@@ -89,7 +194,26 @@ DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
 
       DialogButton(
       color: Color.fromARGB(255, 255, 17, 17),
-      onPressed: () { 
+      onPressed: () async { 
+         AndroidDeviceInfo info = await deviceInfo.androidInfo;
+                                   var formData = FormData.fromMap({
+                              'progname': 'RALS_TOOLS ',
+                              'versi': '2.12 v.2',
+                              'date_run': '${DateTime.now()}',
+                              'info1': 'Logout Aplikasi RALS',
+                              ' info2': '${_udid} ',
+                              'userid': '${userData.getUsernameID()}',
+                              ' toko': '${userData.getUserToko()}',
+                              ' devicename': '${info.device}',
+                              'TOKEN': 'R4M4Y4N4'
+                            });
+                            var prod = 'https://';
+                            var dev = 'https://dev-';
+                            var tipeurl = '${prod}';
+                            var response = await dio.post(
+                                '${tipeurl}android-api.ramayana.co.id:8305/v1/activity/createmylog',
+                                data: formData);   
+                                print('berhasil $_udid');    
         logoutPressed();
          Navigator.pop(context);
       },
@@ -106,6 +230,14 @@ DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
   @override
   Widget build(BuildContext context) {
     return RelativeBuilder(builder: (context, height, width, sy, sx) {
+      //siniiiiiii 
+      Map<String, List<String>> myMap = 
+      {'void': ['void'],'approval': ['checkedapproval', 'cilukba', 'checkedhistory'],'idcash': ['checkedkartu'],}; 
+List<String> getKeys(Map<String, List<String>> map) {
+  return map.keys.toList();
+}
+
+      
       return Scaffold(
           backgroundColor: Theme.of(context).canvasColor,
           extendBody: true,
@@ -169,227 +301,125 @@ DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
             RoundedRectangleBorder(), StadiumBorder(side: BorderSide())),    
         expandedBackColor: Color.fromARGB(255, 255, 245, 245),
         expandedBody: 
-            ListView(
-              children: [
+        ListView(
+        children: [
+          
+          Container(
+            margin: EdgeInsets.fromLTRB(50, 50, 50, 30),
+            child: Wrap(
+           spacing: 10.0, // spacing between adjacent children
+            runSpacing: 7.0, // spacing between rows of children
+            alignment: WrapAlignment.spaceAround, // horizontal alignment
+            runAlignment: WrapAlignment.spaceEvenly, 
+          // sadadsadasdas ngelek 
+          //kalo sebelumnya saya kasi sini pak
+             children: getKeys(myMap).map((key) {
+              //sinii
+                print('hihi 555');
+                var namaAkses = key;
+          
+                      getNameLog() {
+                        var namaAkses = key;
+                        if (namaAkses == 'checkedkartu') {
+                          return 'ID CASH';
+                        } else if (namaAkses == 'checkedapproval') {
+                          return 'Approval Return';
+                        } else if (namaAkses == 'checkedvoidreturn') {
+                          return 'VOID';
+                        } else 'yuhu';
+                        return namaAkses;
+                      }
+          
+                       getIcon() {
+                        var namaAkses = 'oee';
+                        if (namaAkses == 'checkedkartu') {
+                          return  
+                          Icon(Icons.credit_score_rounded,
+                            size: 35,
+                            color: Colors.white,
+                            );
+                        } else if (namaAkses == 'checkedapproval') {
+                          return 
+                          Icon(Icons.edit_document,
+                            size: 35,
+                            color: Colors.white,
+                            );
+                        } else if (namaAkses == 'checkedvoidreturn') {
+                          return 
+                           Icon(Icons.document_scanner_rounded,
+                            size: 35,
+                            color: Colors.white,
+                            );
+                        } else return 
+                         Icon(Icons.menu,
+                            size: 35,
+                            color: Colors.white,
+                            );
+                      }
+          
+                return
+              Column(
+                children: [
+                  MaterialButton(
+                                        minWidth:  MediaQuery.of(context).size.width/6,
+                                        height:  MediaQuery.of(context).size.height/13,
+                                        shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(50)
+                                        ),
+                                        color: Color.fromARGB(255, 255, 17, 17),
+                                        onPressed: ()async {
+                                           AndroidDeviceInfo info = await deviceInfo.androidInfo;
+                                           var formData = FormData.fromMap({
+                                      'progname': 'RALS_TOOLS ',
+                                      'versi': '2.12 v.2',
+                                      'date_run': '${DateTime.now()}',
+                                      'info1': '${getNameLog()}',
+                                      ' info2': '${_udid} ',
+                                      'userid': '${userData.getUsernameID()}',
+                                      ' toko': '${userData.getUserToko()}',
+                                      ' devicename': '${info.device}',
+                                      'TOKEN': 'R4M4Y4N4'
+                                    });
+                                    var prod = 'https://';
+                                    var dev = 'https://dev-';
+                                    var tipeurl = '${prod}';
+                                    var response = await dio.post(
+                                        '${tipeurl}android-api.ramayana.co.id:8305/v1/activity/createmylog',
+                                        data: formData);   
+                                        print('berhasil $_udid');   
+                                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (_){
+                                             var namaAkses = 'oee';
+                                          if (namaAkses == 'checkedkartu') {
+                                            return RamayanaIDCash();
+                                          } else if (namaAkses == 'checkedapproval') {
+                                            return RamayanaApprovalSubmenu();
+                                           } else if (namaAkses == 'checkedvoidreturn') {
+                                             return Blank();
+                                          } else return Ramayana();
+                                            }));
+                                        },
+                                        child:  
+                                       getIcon()
+                                        ),
+               
                 
-                  Container(
-                    margin: EdgeInsets.fromLTRB(10, 80, 10, 0),
-                    height: 200,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      boxShadow: [BoxShadow( 
-                      blurRadius: 5
-                  )]
-                    ),
-                    child: 
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                  
-                         Text('My Activity Fitur',
-                          style: TextStyle(color: Color.fromARGB(255, 255, 17, 17), fontWeight: FontWeight.bold, fontSize: 25, fontStyle: FontStyle.italic),
-                          ),
-
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            
-                          Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                                MaterialButton(
-                                minWidth:  MediaQuery.of(context).size.width/6,
-                                height:  MediaQuery.of(context).size.height/13,
-                                shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50)
-                                ),
-                                color: Color.fromARGB(255, 255, 17, 17),
-                                onPressed: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context){
-                                    return RamayanaIDCash();
-                                  }));
-                                },
-                                child:  
-                                Icon(Icons.credit_score_rounded,
-                                size: 35,
-                                color: Colors.white,
-                                ),
-                                ),
-
-                                SizedBox(
-                                height: 10,
-                                ),
-
-                                Text('ID Cash',
-                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                                )
-                          ],
-                          ),
-
-                          Column(
-                          children: [
-                                MaterialButton(
-                                minWidth:  MediaQuery.of(context).size.width/6,
-                                height:  MediaQuery.of(context).size.height/13,
-                                shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50)
-                                ),
-                                color: Color.fromARGB(255, 255, 17, 17),
-                                onPressed: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context){
-                                    return RamayanaCompetitorCek();
-                                  }));
-                                }, 
-                                child:  Icon(Icons.edit_document,
-                                size: 35,
-                                color: Colors.white,
-                                ),
-                                ),
-
-                                SizedBox(
-                                height: 10,
-                                ),
-
-                                Text('Competitor Checking',
-                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
-                          ],
-                          ),
-
-                          Column(
-                          children: [
-                                MaterialButton(
-                                minWidth:  MediaQuery.of(context).size.width/6,
-                                height:  MediaQuery.of(context).size.height/13,
-                                shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50)
-                                ),
-                                color: Color.fromARGB(255, 255, 17, 17),
-                                onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context){
-                                  return Blank();
-                                }));
-                              }, 
-                                child: 
-                                Icon(Icons.document_scanner_rounded,
-                                size: 35,
-                                color: Colors.white,
-                                ),
-                                ),
-
-                                SizedBox(
-                                height: 10,
-                                ),
-
-                                Text('Void',
-                                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
-                         ],
-                         ) 
-                        ],
-                        ),
-
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        //   children: <Widget>[
-                            
-                          // Column(
-                          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          // crossAxisAlignment: CrossAxisAlignment.center,
-                          // children: [
-                          //       MaterialButton(
-                          //       minWidth:  MediaQuery.of(context).size.width/6,
-                          //       height:  MediaQuery.of(context).size.height/13,
-                          //       shape: RoundedRectangleBorder(
-                          //       borderRadius: BorderRadius.circular(50)
-                          //       ),
-                          //       color: Colors.white,
-                          //       onPressed: () {},
-                          //       child:  
-                          //       Icon(IconlyBold.wallet,
-                          //       size: 30,
-                          //       color: Colors.white,
-                          //       ),
-                          //       ),
-
-                          //       SizedBox(
-                          //       height: 10,
-                          //       ),
-
-                          //       Text('Menu1',
-                          //       style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                          //       )
-                          // ],
-                          // ),
-
-                          // Column(
-                          // children: [
-                          //       MaterialButton(
-                          //       minWidth:  MediaQuery.of(context).size.width/6,
-                          //       height:  MediaQuery.of(context).size.height/13,
-                          //       shape: RoundedRectangleBorder(
-                          //       borderRadius: BorderRadius.circular(50)
-                          //       ),
-                          //       color: Color.fromARGB(255, 255, 17, 17),
-                          //       onPressed: () {}, 
-                          //       child:  Icon(IconlyBold.work,
-                          //       size: 30,
-                          //       color: Colors.white,
-                          //       ),
-                          //       ),
-
-                          //       SizedBox(
-                          //       height: 10,
-                          //       ),
-
-                          //       Text('Menu2',
-                          //       style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
-                          // ],
-                          // ),
-                         
-                        //   Column(
-                        //   children: [
-                        //         MaterialButton(
-                        //         minWidth:  MediaQuery.of(context).size.width/6,
-                        //         height:  MediaQuery.of(context).size.height/13,
-                        //         shape: RoundedRectangleBorder(
-                        //         borderRadius: BorderRadius.circular(50)
-                        //         ),
-                        //         color: Color.fromARGB(255, 255, 17, 17),
-                        //         onPressed: () async {
-                        //           AndroidDeviceInfo info = await deviceInfo.androidInfo;
-                        //           print(info.version.release);
-                        //           print(info.device);
-                        //           print('yess');
-                        //         Navigator.push(context, MaterialPageRoute(builder: (context){
-                        //           return MyApp();
-                        //         }));
-                        //       }, 
-                        //         child: 
-                        //         FaIcon(FontAwesomeIcons.circleInfo,
-                        //        color: Colors.white,
-                        //        size: 30,
-                        //        )
-                        //         ),
-
-                        //         SizedBox(
-                        //         height: 10,
-                        //         ),
-
-                        //         Text('Device Info',
-                        //         style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),)
-                        //  ],
-                        //  ) 
-                        // ],
-                        // ),
-
-                       
-                      ],
-                    ),
-                  ),
-              ],
+                                    SizedBox(
+                                    height: 10,
+                                    ),
+                
+                                    Text('${getNameLog()}',
+                                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                    )
+                                     ],
+              );
+              }).toList(), 
+            
             ),
+          )
+        ],       
+ 
+ 
+     ),
       ),
 
       body: 
@@ -397,8 +427,7 @@ DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
         children: [
           Stack(
            fit: StackFit.loose,
-           children: <Widget>[
-
+           children: <Widget>[ 
             Container(
               margin: EdgeInsets.only(top: 0),
               height: 180,
@@ -427,8 +456,12 @@ DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
                     ),
                      Row(
                        children: [
-                         IconButton(onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context){
+                         IconButton(onPressed: () async {
+                          setState(() {
+                           dapetinData();
+                          });
+                          // SystemNavigator.pop();
+                         Navigator.push(context, MaterialPageRoute(builder: (context){
                           return Profilee();
                           }
                           ));
@@ -502,7 +535,9 @@ DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
                     Image.asset(
                        'assets/rama(C).png',
                         width: 180,
-                       )
+                       ),
+                       
+                      
                       ],
                     ),   
                     ),
@@ -513,4 +548,19 @@ DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
               );
             });
           }
-        }
+      void _getTime() {
+    final DateTime now = DateTime.now();
+    final String formattedDateTime = _formatDateTime(now);
+
+  setState(() {
+    _timeString = formattedDateTime;
+  });
+    
+      }
+
+  String _formatDateTime(DateTime dateTime) {
+    return DateFormat('HH:mm:ss').format(dateTime);
+  }
+ 
+}
+        

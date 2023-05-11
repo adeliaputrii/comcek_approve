@@ -12,13 +12,13 @@ import 'package:motion_toast/resources/arrays.dart';
 import 'package:myactivity_project/ramayana_device_info.dart';
 import 'package:myactivity_project/ramayana_home.dart';
 import 'package:myactivity_project/ramayana_profile.dart';
-import 'package:myactivity_project/ramayana_signup.dart';
 import 'package:dio/dio.dart';
 import 'package:myactivity_project/ramayana_void.dart';
 import 'package:myactivity_project/service/API_service/LogAPI_service.dart';
 import 'package:myactivity_project/service/SP_service/SP_service.dart';
 import 'package:myactivity_project/service/API_service/API_service.dart';
 import 'dart:io';
+import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:myactivity_project/service/service_api/auth.dart';
 import 'package:platform_device_id/platform_device_id.dart';
@@ -48,12 +48,18 @@ class _RamayanaLogin extends State<RamayanaLogin> {
   DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
 
   String _udid = 'Unknown';
+  bool _passwordVisible = false;
+  Timer? timer;
 
    @override
   void initState() {
     super.initState();
     initPlatformState();
+     _passwordVisible = false;
   }
+
+
+
 
    Future<void> initPlatformState() async {
     String udid;
@@ -70,9 +76,17 @@ class _RamayanaLogin extends State<RamayanaLogin> {
     });
   }
    
+  logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('username');
+    prefs.remove('waktuLogin');
+    print('LOGOUT');
+     Navigator.pushReplacement(context, MaterialPageRoute(builder: (_){
+        return RamayanaLogin();
+       }));
+  }
   
-  
-  String _user_name = '';
+  String? _userId;
   String _password = '';
 
   UserData userData = UserData();
@@ -84,6 +98,27 @@ class _RamayanaLogin extends State<RamayanaLogin> {
       primaryColor: Colors.red,
       title: const Text(
         'Username/Password not found!',
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+      ),
+      width: 350,
+      backgroundType: BackgroundType.lighter,
+      height: 100,
+      description: const Text(
+        'Please Check Again',
+        style: TextStyle(fontSize: 15),
+      ),
+      //description: "Center displayed motion toast",
+      position: MotionToastPosition.center,
+    ).show(context);
+  }
+
+  void _displayCenterMotionToastImei() async {
+    MotionToast(
+      toastDuration: Duration(seconds: 4),
+      icon: Icons.error,
+      primaryColor: Colors.red,
+      title: const Text(
+        'ID Sudah Digunakan di Perangkat Lain',
         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
       ),
       width: 350,
@@ -118,20 +153,54 @@ class _RamayanaLogin extends State<RamayanaLogin> {
       position: MotionToastPosition.top,
     ).show(context);
   }
-  
+
+  DateTime getValidUntilDate() {
+    DateTime limitTime = DateTime(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day, 15, 14);
+    return limitTime;
+    if (DateTime.now().isAfter(limitTime)) {
+      return limitTime.add(const Duration(days: 1));
+    }
+    return limitTime;
+  }
+ 
+
+ String formattedDate =  DateFormat('yyyy-MM-dd').format(DateTime.now());
+ 
   loginPressed() async {
     if (username.text.isNotEmpty && pass.text.isNotEmpty) {
+      SharedPreferences pref = await SharedPreferences.getInstance();
       AndroidDeviceInfo info = await deviceInfo.androidInfo;
       
       http.Response response =
       //  await AuthServices.login(username.text, pass.text);
           await AuthServicesLog.login(
-            username.text, pass.text, '0', '${info.version.release}', '${DateTime.now()}', '${_udid} ','info2', '${username.text}' ,'toko' ,'${info.device}');
+            username.text, pass.text, 'RALS-TOOLS', '2.12 v.2', '${DateTime.now()}', 'Login Aplikasi RALS','${_udid}', '${username.text}' ,'toko' ,'${info.device}', '7a706e9f589949b28c6dd32f0b9e39c6cda627f1e104d1b47a781995ad5ba437');
       Map responseMap = jsonDecode(response.body);
       if (responseMap['userpass'] == "0") {
         await userData.setUser(data: responseMap);
-        SharedPreferences pref = await SharedPreferences.getInstance();
         pref.setString("username", "${userData.getUsernameID()}");
+           pref.setString("waktuLogin", "${formattedDate}");
+           var formData = FormData.fromMap({
+                              'progname': 'RALS_TOOLS ',
+                              'versi': '2.12 v.2',
+                              'date_run': '${DateTime.now()}',
+                              'info1': 'Login Aplikasi RALS',
+                              ' info2': '${_udid} ',
+                              'userid': '${userData.getUsernameID()}',
+                              ' toko': '${userData.getUserToko()}',
+                              ' devicename': '${info.device}',
+                              'TOKEN': 'R4M4Y4N4'
+                            });
+                            var prod = 'https://';
+                            var dev = 'https://dev-';
+                            var tipeurl = '${prod}';
+                            var response = await dio.post(
+                                '${tipeurl}android-api.ramayana.co.id:8305/v1/activity/createmylog',
+                                data: formData);   
+                                print('berhasil $_udid');  
+        pref.setString("session_valid_until",
+            (getValidUntilDate()).toString());
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
@@ -391,8 +460,10 @@ class _RamayanaLogin extends State<RamayanaLogin> {
           actionsPadding: EdgeInsets.only(bottom: 30),
         );
         showDialog(context: context, builder: (context) => popup);
-      } else {
+      } else if (responseMap['status'] == 201) {
         _displayCenterMotionToast();
+      } else {
+         _displayCenterMotionToastImei();
       }
     }
   }
@@ -492,7 +563,7 @@ class _RamayanaLogin extends State<RamayanaLogin> {
                                   return "Please Enter";
                                 }
                               },
-                              obscureText: true,
+                              obscureText: _passwordVisible ? false : true,
                               keyboardType: TextInputType.multiline,
                               decoration: InputDecoration(
                                   border: OutlineInputBorder(
@@ -514,6 +585,22 @@ class _RamayanaLogin extends State<RamayanaLogin> {
                                     Icons.lock,
                                     color: Color.fromARGB(255, 255, 17, 17),
                                   ),
+                                  suffixIcon: IconButton(
+                                  icon: Icon(
+                                    // Based on passwordVisible state choose the icon
+                                    _passwordVisible
+                                    ? Icons.visibility 
+                                    : Icons.visibility_off,
+                                    color: Color.fromARGB(255, 255, 17, 17),
+                                    ),
+                                  onPressed: () {
+                                    // Update the state i.e. toogle the state of passwordVisible variable
+                                    setState(() {
+                                        _passwordVisible = !_passwordVisible;
+                                    });
+                                  },
+                                  
+                                ),
                                   hintText: 'Password',
                                   hintStyle: TextStyle(
                                       color: Colors.black, fontSize: 20),
@@ -536,6 +623,7 @@ class _RamayanaLogin extends State<RamayanaLogin> {
                       fit: BoxFit.fill,
                       child: Row(
                         children: [
+                          
                           MaterialButton(
                               padding: EdgeInsets.symmetric(horizontal: 50),
                               height: 40,
@@ -550,27 +638,7 @@ class _RamayanaLogin extends State<RamayanaLogin> {
                               color: Colors.red,
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
-                                  AndroidDeviceInfo info = await deviceInfo.androidInfo;
-                                  LogService logService = LogService();
-                                 
-                                    DateTime dt = DateTime.parse('2023-02-16 03:00:00.000');
-                                  String time = DateFormat('hh:mm').format(dt);
-                                    print(time);
-                                  // await logService.LogActivity(
-                                  //   id_log: '1',
-                                  //   user_name: username.text,
-                                  //   password: pass.text,
-                                  //   progname: '081',
-                                  //   versi: '${info.version.release}',
-                                  //   date_run: 'mobile2',
-                                  //   info1: 'kosong',
-                                  //   info2: 'kosong',
-                                  //   userid: '${userData.getFullname()}',
-                                  //   toko: 'mobile7',
-                                  //   devicename: '${info.device}',
-
-                                  // );
-                                  print('Berhasil, username :${username.text} password :${pass.text}, versi :${info.version.release} device :${info.device} imei : ${info.id}');
+                                  
                                   await loginPressed();
                                   print('huhu');
 
@@ -586,7 +654,7 @@ class _RamayanaLogin extends State<RamayanaLogin> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          'Version 2.5 Copyright EDP',
+                          'Version 2.12 Copyright EDP',
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 17,

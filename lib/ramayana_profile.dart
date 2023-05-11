@@ -25,11 +25,7 @@ class _ProfileeState extends State<Profilee> {
  
   static UserData userData = UserData();
 
-  void dapetinData() async {
-  UserData userData = UserData();
-  await userData.getPref();
-  String username = userData.getUsernameID();
-  }
+   
 
   String _fullname = '';
   String _scanBarcode = '';
@@ -37,12 +33,23 @@ class _ProfileeState extends State<Profilee> {
   String _divisi = '';
 
   bool isOn = false;
+  bool loading = true;
 
-  @override
+    @override
   void initState() {
     super.initState();
-    UserData userData = UserData();
-  }      
+   
+  }
+
+   Future<void> dapetinData() async {
+    setState(() => loading = true);
+  UserData userData = UserData();
+    await userData.getPref();
+    String userId = userData.getUsernameID();
+    print('grgr 123');
+    print(userId);
+  }   
+
   
   Widget myWidget = 
   Center(

@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:myactivity_project/main.dart';
+import 'package:myactivity_project/ramayana_device_info.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {

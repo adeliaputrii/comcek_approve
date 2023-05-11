@@ -1,9 +1,19 @@
 import 'dart:async';
+import 'dart:convert';
+import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_udid/flutter_udid.dart';
+import 'package:http/http.dart' as http;
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:motion_toast/motion_toast.dart';
+import 'package:motion_toast/resources/arrays.dart';
 import 'package:myactivity_project/keyboard.dart';
 import 'package:myactivity_project/ramayana_idcash.dart';
 import 'package:myactivity_project/ramayana_idcashbarcode.dart';
+import 'package:myactivity_project/service/API_service/LogAPI_service.dart';
+import 'package:myactivity_project/service/SP_service/SP_service.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 
@@ -23,14 +33,19 @@ class RamayanaPin extends StatefulWidget {
 }
 
 class _RamayanaPin extends State<RamayanaPin> {
-  TextEditingController textEditingController = TextEditingController();
+  TextEditingController password = TextEditingController();
+  UserData userData = UserData();
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    String _udid = 'Unknown';
+    Dio dio = Dio();
+   
   // ..text = "123456";
-  String text = '';
-   _onKeyboardTap(String value) {
-    setState(() {
-      text = text + value;
-    });
-  }
+  
+  //  _onKeyboardTap(String value) {
+  //   setState(() {
+  //     text = text + value;
+  //   });
+  // }
   // ignore: close_sinks
   StreamController<ErrorAnimationType>? errorController;
 
@@ -40,9 +55,53 @@ class _RamayanaPin extends State<RamayanaPin> {
 
   @override
   void initState() {
+    initPlatformState();
     errorController = StreamController<ErrorAnimationType>();
     super.initState();
   }
+   Future<void> initPlatformState() async {
+    String udid;
+    try {
+      udid = await FlutterUdid.consistentUdid;
+    } on PlatformException {
+      udid = 'Failed to get UDID.';
+    }
+
+    if (!mounted) return;
+
+    setState(() {
+      _udid = udid;
+    });
+  }
+
+loginPressed() async {
+    if (password.text.isNotEmpty) {
+      AndroidDeviceInfo info = await deviceInfo.androidInfo;
+      
+      http.Response response =
+          await AuthServicesLog.login(
+            '${userData.getUsernameID()}', password.text, 'RALS-TOOLS', '2.12 v.1', '${DateTime.now()}', 'Enter PIN ID Cash','${_udid}', '${userData.getUsernameID()}' ,'${userData.getUserToko()}' ,'${info.device}', '7a706e9f589949b28c6dd32f0b9e39c6cda627f1e104d1b47a781995ad5ba437');
+      print('username = ${userData.getUsernameID()}');
+      Map responseMap = jsonDecode(response.body);
+      if (responseMap['userpass'] == "0") {
+        await userData.setUser(data: responseMap);
+        snackBar("Success!!!");
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                 RamayanaBarcode(),
+            ),
+            (Route<dynamic> route) => false);
+        
+      } else {
+        errorController!.add(ErrorAnimationType
+                              .shake); // Triggering error shake animation
+                          setState(() => hasError = true);
+      }
+    }
+  }
+
 
   @override
   void dispose() {
@@ -120,7 +179,7 @@ class _RamayanaPin extends State<RamayanaPin> {
                       //   size: 24,
                       // ),
                       blinkWhenObscuring: true,
-                      animationType: AnimationType.fade,
+                      // animationType: AnimationType.fade,
                       validator: (v) {
                         if (v!.length < 3) {
                           return "Please Enter";
@@ -145,7 +204,7 @@ class _RamayanaPin extends State<RamayanaPin> {
                       animationDuration: const Duration(milliseconds: 300),
                       enableActiveFill: true,
                       errorAnimationController: errorController,
-                      controller: textEditingController,
+                      controller: password,
                       keyboardType: TextInputType.number,
                       boxShadows: const [
                         BoxShadow(
@@ -180,17 +239,21 @@ class _RamayanaPin extends State<RamayanaPin> {
                              buttonSize: 75,
                              buttonColor: Color.fromARGB(255, 228, 228, 228),
                              iconColor: Color.fromARGB(255, 255, 17, 17),
-                             controller: textEditingController,
+                             controller: password,
                              delete: () {
-                textEditingController.clear();
+                password.clear();
                 // textEditingController.text = textEditingController.text
                 //     .substring(0, textEditingController.text.length - 1);
                              },
                              // do something with the input numbers
-                             onSubmit: () {
-               formKey.currentState!.validate();
+                             onSubmit: () async {
+                              await loginPressed();
+                               
+                              
+                                   
+               formKey.currentState?.validate();
                         // conditions for validating
-                        if (currentText.length != 6 || currentText != "123456") {
+                        if (currentText.length != 6) {
                           errorController!.add(ErrorAnimationType
                               .shake); // Triggering error shake animation
                           setState(() => hasError = true);
@@ -198,8 +261,8 @@ class _RamayanaPin extends State<RamayanaPin> {
                           setState(
                             () {
                               hasError = false;
-                              snackBar("Success!!!");
-                              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => RamayanaBarcode(),), (Route<dynamic> route) => false);
+                              // snackBar("Success!!!");
+                              // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => RamayanaBarcode(),), (Route<dynamic> route) => false);
                             },
                           );
                         }
