@@ -76,6 +76,7 @@ Timer? timer;
      print(userData.getUserAkses());
 
      print('tes 555'); 
+     
 
   //    Map valueMap = json.decode(userData.getUserAkses());
   //  print(valueMap);
@@ -316,6 +317,7 @@ List<String> getKeys(Map<String, List<String>> map) {
              children: getKeys(myMap).map((key) {
               //sinii
                 print('hihi 555');
+                print(key);
                 var namaAkses = key;
           
                       getNameLog() {
