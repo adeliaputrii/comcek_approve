@@ -9,6 +9,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myactivity_project/keyboard.dart';
 import 'package:myactivity_project/models/model_idacash_cust.dart';
 import 'package:myactivity_project/models/model_idcash.dart';
+import 'package:myactivity_project/models/models_approval_return_list.dart';
 import 'package:myactivity_project/ramayana_device_info.dart';
 import 'package:myactivity_project/ramayana_home.dart';
 import 'package:myactivity_project/ramayana_id_cash_riwayat.dart';
@@ -83,6 +84,9 @@ class _RamayanaIDCashState extends State<RamayanaIDCash> {
  
   @override
   Widget build(BuildContext context) {
+    String string = ApprovalReturnMenu.idcashmenu.toString();
+    print('string ${string}');
+    List splitted = string.split(",");
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -201,41 +205,66 @@ class _RamayanaIDCashState extends State<RamayanaIDCash> {
              
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
+                children: splitted.map((map) {
+                    getNameMenu() {
+                      var menu = '${map}';
+                      print(map);
+                      if (menu == "[ nokartu"){
+                        return 'No.Kartu ID CASH';
+                      }  else if (menu == "[ nokartu]]") {
+                        return 'No.Kartu ID CASH';
+                      } else if (menu == " transaksi]") {
+                        return 'Riwayat Transaksi';
+                      } else if (menu == " transaksi]]") {
+                        return 'Riwayat Transaksi';
+                      } else if (menu == "[ transaksi]]") {
+                        return 'Riwayat Transaksi';
+                      }  else {
+                        return map;
+                      }
+                    }
+
+                    getIconMenu() {
+                      var menu = '${map}';
+                      if (menu == "[ nokartu"){
+                        return Icon(Icons.payment_outlined,
+                            size: 35,
+                            color: Color.fromARGB(255, 255, 17, 17),
+                            );
+                      } else if (menu == "[ nokartu]]") {
+                      return Icon(Icons.payment_outlined,
+                             size: 35,
+                            color: Color.fromARGB(255, 255, 17, 17),
+                            );
+                      } else if (menu == " transaksi]") {
+                      return Icon(Icons.bar_chart,
+                             size: 35,
+                            color: Color.fromARGB(255, 255, 17, 17),
+                            );
+                      } else if (menu == " transaksi]]") {
+                      return Icon(Icons.bar_chart,
+                             size: 35,
+                            color: Color.fromARGB(255, 255, 17, 17),
+                            );
+                      } else if (menu == "[ transaksi]]") {
+                      return Icon(Icons.bar_chart,
+                             size: 35,
+                            color: Color.fromARGB(255, 255, 17, 17),
+                            );
+                      } else {
+                         Icon(Icons.menu,
+                            size: 35,
+                            color: Colors.white,
+                            );
+                      }
+                    }
+                    return
                   Column(
                   
-                    children: [
-                      MaterialButton(
-                                minWidth:  MediaQuery.of(context).size.width/7,
-                                height:  MediaQuery.of(context).size.height/15,
-                                shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50)
-                                ),
-                                color: Colors.white,
-                                onPressed: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context){
-                                    return RamayanaPin();
-                                  }));
-                                },
-                               child:  Icon(Icons.payment_outlined,
-                                size: 35,
-                                color: Colors.red,
-                                ),
-                                
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                        Text('No. Kartu ID CASH', style: TextStyle(color: Colors.white, fontSize: 16, fontStyle: FontStyle.italic, fontWeight: FontWeight.w500),),
-                    ],
-                  ),
-                    Column(
-                      children: [
-                        Column(
-                  
-                        children: ApprovalIdcashCustomer.approvalidcashcust.map((e) {
+                    children: ApprovalIdcashCustomer.approvalidcashcust.map((e) {
                           return
-                      
+                      Column(
+                        children: [
                           MaterialButton(
                                     minWidth:  MediaQuery.of(context).size.width/7,
                                     height:  MediaQuery.of(context).size.height/15,
@@ -244,28 +273,43 @@ class _RamayanaIDCashState extends State<RamayanaIDCash> {
                                     ),
                                     color: Colors.white,
                                     onPressed: () {
-                                      ApprovalIdcash.approvalidcash.add(e.nokartu);
-                                      print(ApprovalIdcash.approvalidcash);
                                       Navigator.push(context, MaterialPageRoute(builder: (context){
-                                        return RamayanaRiwayatIDCash();
-                                      }));
+                                         var namaAkses = '${map}';
+                                         if (namaAkses == "[ nokartu") {
+                                          return RamayanaPin();
+                                         } else if (namaAkses == '[ nokartu]]') {
+                                           return RamayanaPin();
+                                         } else if (namaAkses == ' transaksi]') {
+                                           ApprovalIdcash.approvalidcash.add(e.nokartu);
+                                           print(ApprovalIdcash.approvalidcash);
+                                          return RamayanaRiwayatIDCash();
+                                         } else if (namaAkses == ' transaksi]]') {
+                                           ApprovalIdcash.approvalidcash.add(e.nokartu);
+                                           print(ApprovalIdcash.approvalidcash);
+                                          return RamayanaRiwayatIDCash();
+                                         } else if (namaAkses == '[ transaksi]]') {
+                                           ApprovalIdcash.approvalidcash.add(e.nokartu);
+                                           print(ApprovalIdcash.approvalidcash);
+                                          return RamayanaRiwayatIDCash();
+                                         } else {
+                                         return RamayanaIDCash();
+                                         }
+                                        
+                                    }));
                                     },
-                                    child:  Icon(Icons.bar_chart,
-                                    size: 35,
-                                    color: Colors.red,
-                                    ) );
+                                   child:  getIconMenu()
                                     
-                                    
-                                      },).toList(),
-                        ),
-                                    SizedBox(
-                                      height: 10,
                                     ),
-                            Text('Riwayat Transaksi', style: TextStyle(color: Colors.white, fontSize: 16, fontStyle: FontStyle.italic, fontWeight: FontWeight.w500),)
+                                     SizedBox(
+                                  height: 10,
+                                ),
+                        Text('${getNameMenu()}', style: TextStyle(color: Colors.white, fontSize: 16, fontStyle: FontStyle.italic, fontWeight: FontWeight.w500),),
                         ],
-                  
-                    ),
-                ],
+                      );
+                               
+                    },).toList(),
+                  );
+                  }).toList()
               )
             ],
           ),

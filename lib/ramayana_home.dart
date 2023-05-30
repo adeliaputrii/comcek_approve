@@ -10,7 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myactivity_project/models/model_approval_return.dart';
+import 'package:myactivity_project/models/model_idcash.dart';
 import 'package:myactivity_project/models/model_tabel_approve.dart';
+import 'package:myactivity_project/models/models_approval_return_list.dart';
 import 'package:myactivity_project/ramayana_approval.dart';
 import 'package:myactivity_project/ramayana_approval_submenu.dart';
 import 'package:myactivity_project/ramayana_comcheck_cek.dart';
@@ -70,68 +72,17 @@ Timer? timer;
    void initState() {
     super.initState();
      initPlatformState();
+     ApprovalReturnMenu.approvalmenu.clear();
+     ApprovalReturnMenu.idcashmenu.clear();
+     ApprovalIdcash.approvalidcash.clear();
      dapetinData();
-     
      UserData userData = UserData();
-     print(userData.getUserAkses());
-
+    //  print(userData.getUserAkses());
      print('tes 555'); 
-     
+     print('uutt66');
 
-  //    Map valueMap = json.decode(userData.getUserAkses());
-  //  print(valueMap);
-  
-    print('uutt66');
-  
-
-// Map<String, List<String>> myMap = {
-//   'void': ['void'],
-//   'approval': ['checkedapproval', 'cilukba', 'checkedhistory'],
-//   'idcash': ['checkedkartu'],
-// };
-
-
-
-// Example usage
-// void main() {
-//   List<String> keys = getKeys(myMap);
-//   print(keys); 
-//    print('damn 7777'); 
-// }
-
-    //  Map<String, List<String>> myMap =  userData.getUserAkses();
-
-// List<String> keys = userData.getAdminStatus().keys.toList();
-
-// print(keys);
    }
- 
-//adel disini map yang buat langung narik dari api mana yaa?
-
-//soal nya ini dari awal udah string gabisa
-
-
-///////sebentar del
-/////okay pak
-
-
-
-    List<String> split = userData.getUserAkses().split(",");  
-
-//     List<String> getKeys(Map<String, List<String>> map) {
-//   return map.keys.toList(); 
-// }
-
-// Map<String, List<String>> myMap = {
-//   'void': ['void'],
-//   'approval': ['checkedapproval', 'cilukba', 'checkedhistory'],
-//   'idcash': ['checkedkartu'],
-// };
-
-// List<String> getKeys(Map<String, List<String>> map) {
-//   return map.keys.toList();
-// }
-
+    // List<String> split = userData.getUserAkses();  
 
   Future<void> initPlatformState() async {
     String udid;
@@ -231,13 +182,69 @@ Timer? timer;
   @override
   Widget build(BuildContext context) {
     return RelativeBuilder(builder: (context, height, width, sy, sx) {
-      //siniiiiiii 
+      
+
+
+  
+  String _convertToJsonStringQuotes() {
+    /// remove space
+    String jsonString = userData.getUserAkses();
+
+    /// add quotes to json string
+    jsonString = jsonString.replaceAll('{', '');
+    jsonString = jsonString.replaceAll('[', '');
+    // jsonString = jsonString.replaceAll('],', '], "');
+    jsonString = jsonString.replaceAll('}', '');
+
+    // /// remove quotes on object json string
+    // jsonString = jsonString.replaceAll('"{"', '{"');
+    // jsonString = jsonString.replaceAll('"}"', '"}');
+
+    // /// remove quotes on array json string
+    // jsonString = jsonString.replaceAll('"[{', '[{');
+    // jsonString = jsonString.replaceAll('}]"', '}]');
+  print("Test 1: $jsonString");
+    return jsonString;
+  }
+  print(_convertToJsonStringQuotes());
+
+  List<dynamic> split = _convertToJsonStringQuotes().split("],");
+  print(split);
+  print(split.length);
+
+  String value = "${userData.getUserAkses()}";
+  
+  
+  
+
+
+  // for (var item in importedData1) {
+  //   map1[item[0]] = item[1];
+  //   print(map1);
+  // }
+  
+  // final Map<dynamic, dynamic> result = json.decode(jsonString);
+  // print('Test 2: $result');
+
+  
+      
+      // Map<String,String> mapData = Map();
+      // dataSp.forEach((element) => mapData[element.split(':')[0]] = element.split(':')[1]);
+
       Map<String, List<String>> myMap = 
       {'void': ['void'],'approval': ['checkedapproval', 'cilukba', 'checkedhistory'],'idcash': ['checkedkartu'],}; 
-List<String> getKeys(Map<String, List<String>> map) {
+List<dynamic> getKeys(Map<String, List<String>> map) {
   return map.keys.toList();
 }
 
+
+
+
+/*
+{approval: [return, history], idcash: [nokartu, transaksi], void: [void]}
+change to
+  {'approval': ['return', 'history'], 'idcash': ['nokartu', 'transaksi'], 'void': ['void']}
+*/
       
       return Scaffold(
           backgroundColor: Theme.of(context).canvasColor,
@@ -304,9 +311,12 @@ List<String> getKeys(Map<String, List<String>> map) {
         expandedBody: 
         ListView(
         children: [
-          
           Container(
-            margin: EdgeInsets.fromLTRB(50, 50, 50, 30),
+            margin: EdgeInsets.fromLTRB(50, 50, 50, 0),
+            child: Center(child: Text('My Activity Fitur', style: TextStyle(fontSize: 25, color:Color.fromARGB(255, 255, 17, 17), fontWeight: FontWeight.bold),)),
+          ),
+          Container(
+            margin: EdgeInsets.fromLTRB(50, 40, 50, 30),
             child: Wrap(
            spacing: 10.0, // spacing between adjacent children
             runSpacing: 7.0, // spacing between rows of children
@@ -314,44 +324,73 @@ List<String> getKeys(Map<String, List<String>> map) {
             runAlignment: WrapAlignment.spaceEvenly, 
           // sadadsadasdas ngelek 
           //kalo sebelumnya saya kasi sini pak
-             children: getKeys(myMap).map((key) {
+             children: split.map((e) {
               //sinii
                 print('hihi 555');
-                print(key);
-                var namaAkses = key;
+                var namaAkses = e;
           
                       getNameLog() {
-                        var namaAkses = key;
-                        if (namaAkses == 'checkedkartu') {
+                        var namaAkses = '${e}';
+                        List menu1 = namaAkses.split(':');
+                        print('menu0 = ${menu1[0]}');
+                        if (menu1[0] == ' idcash') {
                           return 'ID CASH';
-                        } else if (namaAkses == 'checkedapproval') {
+                        } else if (menu1[0] == 'idcash') {
+                          return 'IDCASH';
+                        } else if (menu1[0] == 'approval') {
                           return 'Approval Return';
-                        } else if (namaAkses == 'checkedvoidreturn') {
+                        } else if (menu1[0] == ' approval') {
+                          return 'Approval Return';
+                        } else if (menu1[0] == 'void') {
                           return 'VOID';
-                        } else 'yuhu';
+                        }  else if (menu1[0] == ' void') {
+                          return 'VOID';
+                        }else 'yuhu';
                         return namaAkses;
                       }
           
                        getIcon() {
-                        var namaAkses = 'oee';
-                        if (namaAkses == 'checkedkartu') {
+                         var namaAkses = '${e}';
+                        List menu1 = namaAkses.split(':');
+                        print(menu1);
+                        if (menu1[0] == ' idcash') {
                           return  
                           Icon(Icons.credit_score_rounded,
                             size: 35,
                             color: Colors.white,
                             );
-                        } else if (namaAkses == 'checkedapproval') {
+                        } else if (menu1[0] == 'idcash') {
+                          return 
+                          Icon(Icons.credit_score_rounded,
+                            size: 35,
+                            color: Colors.white,
+                            );
+                        } else if (menu1[0] == 'approval') {
                           return 
                           Icon(Icons.edit_document,
                             size: 35,
                             color: Colors.white,
                             );
-                        } else if (namaAkses == 'checkedvoidreturn') {
+                        }  else if (menu1[0] == ' approval') {
+                          return 
+                          Icon(Icons.edit_document,
+                            size: 35,
+                            color: Colors.white,
+                            );
+                        }else if (menu1[0] == ' void') {
                           return 
                            Icon(Icons.document_scanner_rounded,
                             size: 35,
                             color: Colors.white,
                             );
+                        
+                        }else if (menu1[0] == 'void') {
+                          return 
+                           Icon(Icons.document_scanner_rounded,
+                            size: 35,
+                            color: Colors.white,
+                            );
+                        
                         } else return 
                          Icon(Icons.menu,
                             size: 35,
@@ -390,12 +429,43 @@ List<String> getKeys(Map<String, List<String>> map) {
                                         data: formData);   
                                         print('berhasil $_udid');   
                                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_){
-                                             var namaAkses = 'oee';
-                                          if (namaAkses == 'checkedkartu') {
+                                            var namaAkses = '${e}';
+                                            List menu1 = namaAkses.split(':');
+                                          if (menu1[0] == ' idcash') {
+                                              ApprovalReturnMenu.idcashmenu.add(menu1[1]);
+                                              print(ApprovalReturnMenu.idcashmenu);
+                                              if (ApprovalReturnMenu.idcashmenu.isNotEmpty) {
+                                                ApprovalReturnMenu.idcashmenu.removeWhere((element) => element == menu1[1]);
+                                                ApprovalReturnMenu.idcashmenu.add(menu1[1]);
+                                              }
                                             return RamayanaIDCash();
-                                          } else if (namaAkses == 'checkedapproval') {
+                                          } else  if (menu1[0] == 'idcash') {
+                                              ApprovalReturnMenu.idcashmenu.add(menu1[1]);
+                                              print(ApprovalReturnMenu.idcashmenu);
+                                               if (ApprovalReturnMenu.idcashmenu.isNotEmpty) {
+                                                ApprovalReturnMenu.idcashmenu.removeWhere((element) => element == menu1[1]);
+                                                ApprovalReturnMenu.idcashmenu.add(menu1[1]);
+                                              }
+                                            return RamayanaIDCash();
+                                          } else if (menu1[0] == 'approval') {
+                                            ApprovalReturnMenu.approvalmenu.add(menu1[1]);
+                                              print(ApprovalReturnMenu.approvalmenu);
+                                               if (ApprovalReturnMenu.approvalmenu.isNotEmpty) {
+                                                ApprovalReturnMenu.approvalmenu.removeWhere((element) => element == menu1[1]);
+                                                ApprovalReturnMenu.approvalmenu.add(menu1[1]);
+                                              }
                                             return RamayanaApprovalSubmenu();
-                                           } else if (namaAkses == 'checkedvoidreturn') {
+                                           } else if (menu1[0] == ' approval') {
+                                            ApprovalReturnMenu.approvalmenu.add(menu1[1]);
+                                              print(ApprovalReturnMenu.approvalmenu);
+                                               if (ApprovalReturnMenu.approvalmenu.isNotEmpty) {
+                                                ApprovalReturnMenu.approvalmenu.removeWhere((element) => element == menu1[1]);
+                                                ApprovalReturnMenu.approvalmenu.add(menu1[1]);
+                                              }
+                                            return RamayanaApprovalSubmenu();
+                                           } else if (menu1[0] == ' void') {
+                                             return Blank();
+                                          } else if (menu1[0] == 'void') {
                                              return Blank();
                                           } else return Ramayana();
                                             }));

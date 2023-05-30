@@ -175,7 +175,7 @@ class _RamayanaLogin extends State<RamayanaLogin> {
       http.Response response =
       //  await AuthServices.login(username.text, pass.text);
           await AuthServicesLog.login(
-            username.text, pass.text, 'RALS-TOOLS', '2.12 v.2', '${DateTime.now()}', 'Login Aplikasi RALS','${_udid}', '${username.text}' ,'toko' ,'${info.device}', '7a706e9f589949b28c6dd32f0b9e39c6cda627f1e104d1b47a781995ad5ba437');
+            username.text, pass.text, 'RALS-TOOLS', '2.12 v.2', '${DateTime.now()}', 'Login Aplikasi RALS','${_udid}', '${username.text}' ,'toko' ,'${info.device}', '${_udid}');
       Map responseMap = jsonDecode(response.body);
       if (responseMap['userpass'] == "0") {
         await userData.setUser(data: responseMap);

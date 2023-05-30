@@ -104,7 +104,7 @@ class _RamayanaBarcodeState extends State<RamayanaBarcode> {
                   Column(
                     children:  ApprovalIdcashCustomer.approvalidcashcust.map((e) {
                       kondisiSelisih() {
-                    var ex = '${e.saldo}';
+                    var ex = '${e.saldo_pemakaian}';
                     List<String> resultSelisih = ex.split('');
                     print(resultSelisih);
                     if(resultSelisih.length <= 4 && resultSelisih.length > 2) {

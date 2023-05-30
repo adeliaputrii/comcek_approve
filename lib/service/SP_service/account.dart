@@ -145,10 +145,7 @@ class UserData {
     pref.setString(UserData.user_token_str, data['access_token'].toString());
     pref.setString(UserData.user_toko_str, data['data']['toko'].toString());
     pref.setString(UserData.user_toko_str, data['data']['toko'].toString());
-    pref.setString(UserData.user_akses_str, data['data']['akses_menu']);
-
-
-    
+    pref.setString(UserData.user_akses_str, data['data']['akses_menu'].toString());
     // if (data['akses'] == 'adm') {
     //   pref.setBool(UserData.isAdmin_str, true);
     // } else {
@@ -174,9 +171,7 @@ class UserData {
     _userAdress = pref.getString(user_address_str).toString();  
     _userToken = pref.getString(user_token_str).toString();  
     _userToko = pref.getString(user_toko_str).toString(); 
-    _userAkses = pref.getString(user_akses_str).toString();; 
-    print(_userAkses);
-    print('wkwk 1212112');
+    _userAkses = pref.getString(user_akses_str).toString(); 
     if (pref.getBool(logstatus) == null || pref.getBool(logstatus) == false) {
       _statuslog = false;
     } else {

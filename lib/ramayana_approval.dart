@@ -73,13 +73,12 @@ class _RamayanaApprovalReturnState extends State<RamayanaApprovalReturn> {
       print(data);
       int count = data['data'].length;
       final Map<String, ApprovalReturnModel> profileMap = new Map();
-      Map map = {};
       for (int i = 0; i < count; i++) {
         ApprovalReturnModel.approvalreturn.add(ApprovalReturnModel.fromjson(data['data'][i]));
        
 
       } 
-     ApprovalReturnModel.approvalreturn.forEach((element) {
+        ApprovalReturnModel.approvalreturn.forEach((element) {
         profileMap[element.no_trx] = element;
         ApprovalReturnModel.approvalreturn = profileMap.values.toList();
         print(ApprovalReturnModel.approvalreturn);
