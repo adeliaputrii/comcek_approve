@@ -4,10 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_udid/flutter_udid.dart';
-import 'dart:convert';
+import 'dart:convert'; 
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:launch_review/launch_review.dart';
 import 'package:motion_toast/resources/arrays.dart';
 import 'package:myactivity_project/ramayana_device_info.dart';
 import 'package:myactivity_project/ramayana_home.dart';
@@ -22,10 +23,13 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:myactivity_project/service/service_api/auth.dart';
 import 'package:platform_device_id/platform_device_id.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:motion_toast/motion_toast.dart';
+import 'package:myactivity_project/settingsralstools.dart';
+
 
 class RamayanaLogin extends StatefulWidget {
   const RamayanaLogin({super.key});
@@ -50,9 +54,15 @@ class _RamayanaLogin extends State<RamayanaLogin> {
   String _udid = 'Unknown';
   bool _passwordVisible = false;
   Timer? timer;
-
    @override
   void initState() {
+    print(versi);
+    print('wakwaw 123');
+    //disini nanti taro api untuk cek versi
+    //baik pak
+    ///////////////////////////adel versi nya dimana nya
+    ///coba ditaro dulu ya taro fungsi api nya disini nanti tinggal link api nya saya kirim
+    ///mksdnya fungsi yang mana pak?
     super.initState();
     initPlatformState();
      _passwordVisible = false;
@@ -117,16 +127,16 @@ class _RamayanaLogin extends State<RamayanaLogin> {
       toastDuration: Duration(seconds: 4),
       icon: Icons.error,
       primaryColor: Colors.red,
-      title: const Text(
-        'ID Sudah Digunakan di Perangkat Lain',
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
-      ),
+      // title: const Text(
+      //   'ID Sudah Digunakan di Perangkat Lain',
+      //   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+      // ),
       width: 350,
       backgroundType: BackgroundType.lighter,
       height: 100,
       description: const Text(
-        'Please Check Again',
-        style: TextStyle(fontSize: 15),
+       'Anda tidak memiliki akses',
+        style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
       ),
       //description: "Center displayed motion toast",
       position: MotionToastPosition.center,
@@ -154,20 +164,70 @@ class _RamayanaLogin extends State<RamayanaLogin> {
     ).show(context);
   }
 
-  DateTime getValidUntilDate() {
-    DateTime limitTime = DateTime(
-        DateTime.now().year, DateTime.now().month, DateTime.now().day, 15, 14);
-    return limitTime;
-    if (DateTime.now().isAfter(limitTime)) {
-      return limitTime.add(const Duration(days: 1));
-    }
-    return limitTime;
-  }
+void updateAplikasi(BuildContext context) {
+
+  Alert(
+    context: context,
+    type: AlertType.warning,
+    title: "Update Aplikasi",
+    desc: "Anda Perlu Memperbarui Aplikasi",
+    buttons: [
+      DialogButton(
+        color: Color.fromARGB(255, 255, 17, 17),
+        onPressed: () { 
+          Navigator.pop(context);
+         },
+        child: 
+         Text( "Tidak",
+              style: TextStyle(color: Colors.white, fontSize: 14),
+             ),
+            ),
+
+      DialogButton(
+      color: Colors.green,
+      onPressed: () async { 
+        //  AndroidDeviceInfo info = await deviceInfo.androidInfo;
+        //                            var formData = FormData.fromMap({
+        //                       'progname': 'RALS_TOOLS ',
+        //                       'versi': '2.12 v.2',
+        //                       'date_run': '${DateTime.now()}',
+        //                       'info1': 'U',
+        //                       ' info2': '${_udid} ',
+        //                       'userid': '${userData.getUsernameID()}',
+        //                       ' toko': '${userData.getUserToko()}',
+        //                       ' devicename': '${info.device}',
+        //                       'TOKEN': 'R4M4Y4N4'
+        //                     });
+        //                     var prod = 'https://';
+        //                     
+        //                     var tipeurl = '${prod}';
+        //                     var response = await dio.post(
+        //                         '${tipeurl}v1/activity/tbl_my_log',
+        //                         data: formData);   
+        //                         print('berhasil $_udid');    
+         LaunchReview.launch(
+              androidAppId: "com.rals.myactivity_project"
+            );
+         Navigator.pop(context);
+      },
+        child: 
+         Text( "Ya, Perbarui Aplikasi",
+          style: TextStyle(color: Colors.white, fontSize: 14),
+          ),
+        ),
+       ],
+    ).show();
+  return;
+}
  
 
  String formattedDate =  DateFormat('yyyy-MM-dd').format(DateTime.now());
  
   loginPressed() async {
+    print(versi);
+    print('daaaaaaamn 23111');
+    print(tipeurl);
+    try {
     if (username.text.isNotEmpty && pass.text.isNotEmpty) {
       SharedPreferences pref = await SharedPreferences.getInstance();
       AndroidDeviceInfo info = await deviceInfo.androidInfo;
@@ -175,32 +235,30 @@ class _RamayanaLogin extends State<RamayanaLogin> {
       http.Response response =
       //  await AuthServices.login(username.text, pass.text);
           await AuthServicesLog.login(
-            username.text, pass.text, 'RALS-TOOLS', '2.12 v.2', '${DateTime.now()}', 'Login Aplikasi RALS','${_udid}', '${username.text}' ,'toko' ,'${info.device}', '${_udid}');
+            //' ini versi yang sama kaya diataskan ya del?
+            username.text, pass.text, 'RALS-TOOLS', '${versi}', '${DateTime.now()}', 'Login Aplikasi RALS','${_udid}', '${username.text}' ,'toko' ,'${info.device}', '7a706e9f589949b28c6dd32f0b9e39c6cda627f1e104d1b47a781995ad5ba437yuhu');
       Map responseMap = jsonDecode(response.body);
       if (responseMap['userpass'] == "0") {
         await userData.setUser(data: responseMap);
         pref.setString("username", "${userData.getUsernameID()}");
            pref.setString("waktuLogin", "${formattedDate}");
-           var formData = FormData.fromMap({
-                              'progname': 'RALS_TOOLS ',
-                              'versi': '2.12 v.2',
-                              'date_run': '${DateTime.now()}',
-                              'info1': 'Login Aplikasi RALS',
-                              ' info2': '${_udid} ',
-                              'userid': '${userData.getUsernameID()}',
-                              ' toko': '${userData.getUserToko()}',
-                              ' devicename': '${info.device}',
-                              'TOKEN': 'R4M4Y4N4'
-                            });
-                            var prod = 'https://';
-                            var dev = 'https://dev-';
-                            var tipeurl = '${prod}';
-                            var response = await dio.post(
-                                '${tipeurl}android-api.ramayana.co.id:8305/v1/activity/createmylog',
-                                data: formData);   
-                                print('berhasil $_udid');  
-        pref.setString("session_valid_until",
-            (getValidUntilDate()).toString());
+          //  var formData = FormData.fromMap({
+          //                     'progname': 'RALS_TOOLS ',
+          //                     'versi': '${versi}',
+          //                     'date_run': '${DateTime.now()}',
+          //                     'info1': 'Login Aplikasi RALS',
+          //                     ' info2': '${_udid} ',
+          //                     'userid': '${userData.getUsernameID()}',
+          //                     ' toko': '${userData.getUserToko()}',
+          //                     ' devicename': '${info.device}',
+          //                     'TOKEN': 'R4M4Y4N4'
+          //                   }); 
+
+          //                   var response = await dio.post(
+          //                       '${tipeurl}v1/activity/tbl_my_log',
+          //                       data: formData);   
+          //                       print('berhasil $_udid');  
+       
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
@@ -208,7 +266,11 @@ class _RamayanaLogin extends State<RamayanaLogin> {
                   DefaultBottomBarController(child: Ramayana()),
             ),
             (Route<dynamic> route) => false);
-      } else if (responseMap['userpass'] == "1") {
+      }
+      else if (responseMap['status'] == 909) {
+        updateAplikasi(context);
+      }
+      else if (responseMap['userpass'] == "1") {
         AlertDialog popup = AlertDialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
@@ -415,11 +477,11 @@ class _RamayanaLogin extends State<RamayanaLogin> {
                               'user_name': username.text,
                               'password': password.text,
                             });
-                            var prod = 'https://';
-                            var dev = 'https://dev-';
-                            var tipeurl = '${prod}';
+                            // var prod = 'https://';
+                            // 
+                            // var tipeurl = '${prod}';
                             var response = await dio.post(
-                                '${tipeurl}android-api.ramayana.co.id:8304/api/v1/auth/reset.password',
+                                '${tipeurl}api/v1/auth/reset.password',
                                 data: formData);
 
                             print(
@@ -462,9 +524,12 @@ class _RamayanaLogin extends State<RamayanaLogin> {
         showDialog(context: context, builder: (context) => popup);
       } else if (responseMap['status'] == 201) {
         _displayCenterMotionToast();
-      } else {
-         _displayCenterMotionToastImei();
       }
+    
+    }
+    } on Exception {
+      return  _displayCenterMotionToastImei();
+      //ini buka nya dimana ya del
     }
   }
 
@@ -654,7 +719,8 @@ class _RamayanaLogin extends State<RamayanaLogin> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          'Version 2.12 Copyright EDP',
+                          'Version ${versi} Copyright EDP',
+                          // ini pak?
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 17,

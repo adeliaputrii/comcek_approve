@@ -15,6 +15,7 @@ import 'package:myactivity_project/ramayana_idcashbarcode.dart';
 import 'package:myactivity_project/service/API_service/LogAPI_service.dart';
 import 'package:myactivity_project/service/SP_service/SP_service.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:screen_brightness/screen_brightness.dart';
 
 
 class RamayanaPin extends StatefulWidget {
@@ -39,14 +40,16 @@ class _RamayanaPin extends State<RamayanaPin> {
     String _udid = 'Unknown';
     Dio dio = Dio();
    
-  // ..text = "123456";
-  
-  //  _onKeyboardTap(String value) {
-  //   setState(() {
-  //     text = text + value;
-  //   });
-  // }
-  // ignore: close_sinks
+      @override
+  void didPushNext() {
+    ScreenBrightness().resetScreenBrightness();
+  }
+
+  @override
+  void didPop() {
+    ScreenBrightness().resetScreenBrightness();
+  }
+
   StreamController<ErrorAnimationType>? errorController;
 
   bool hasError = false;
@@ -56,6 +59,8 @@ class _RamayanaPin extends State<RamayanaPin> {
   @override
   void initState() {
     initPlatformState();
+    didPop();
+    didPushNext();
     errorController = StreamController<ErrorAnimationType>();
     super.initState();
   }

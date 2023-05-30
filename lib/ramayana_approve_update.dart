@@ -12,6 +12,7 @@ import 'package:myactivity_project/service/API_service/API_service.dart';
 import 'package:myactivity_project/service/SP_service/SP_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
+import 'package:myactivity_project/settingsralstools.dart';
 
 class RamayanaHistory12 extends StatefulWidget {
   const RamayanaHistory12({super.key});
@@ -45,13 +46,12 @@ class _RamayanaHistory12State extends State<RamayanaHistory12> {
     required String m1
   }) async {
   
-    var prod = 'https://';
-    var dev = 'https://dev-';
-    var tipeurl = '${dev}';
+    
+     
     ApproveModel1.approvelist1.clear();
     final responseku = await http.post(
-      Uri.parse('${tipeurl}android-api.ramayana.co.id:8305/v1/activity/tbl_commcheck'),
-      // Uri.parse('https://android-api.ramayana.co.id:8304/v1/activity/tbl_commcheck'),
+      Uri.parse('${tipeurl}v1/activity/tbl_commcheck'),
+      // Uri.parse('https://v1/activity/tbl_commcheck'),
         body: {
           'm1' : m1
         });

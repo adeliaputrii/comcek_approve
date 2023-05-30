@@ -16,7 +16,8 @@ import 'package:relative_scale/relative_scale.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:tbib_splash_screen/splash_screen_view.dart';
 import 'package:form_field_validator/form_field_validator.dart';  
-
+import 'package:screen_brightness/screen_brightness.dart';
+import 'package:myactivity_project/settingsralstools.dart';
 
 class Blank extends StatefulWidget {
     static const routeName = '/blank';
@@ -96,11 +97,36 @@ Future<void> initPlatformState() async {
     });
   }
 
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   MyApp.routeObserver.subscribe(this, ModalRoute.of(context)!);
+  // }
+
+  // @override
+  // void dispose() {
+  //   MyApp.routeObserver.unsubscribe(this);
+  //   super.dispose();
+  // }
+
+  @override
+  void didPush() {
+    super.didPush();
+    ScreenBrightness().setScreenBrightness(1.0);
+  }
+
+  @override
+  void didPopNext() {
+    super.didPopNext();
+    ScreenBrightness().setScreenBrightness(1.0);
+  }
+
   Future<String> _getLogikaVoid() async {
     // user id
     UserData userData = UserData();
     await userData.getPref();
     String userId = userData.getUsernameID();
+    // String userId = '460545';
     String? randomAngka = myController.text;
     print('grgr 123');
     print(userId);
@@ -291,7 +317,8 @@ String stepThree({required String angkaPertama, required String angkaKedua}) {
                             'GENERATE', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20, color: Colors.white),
                              ),
                             onPressed: () async {
-                          
+                          didPush();
+                          didPopNext();
                               AndroidDeviceInfo info = await deviceInfo.androidInfo;
                         var formData = FormData.fromMap({
                               'progname': 'RALS_TOOLS ',
@@ -304,11 +331,10 @@ String stepThree({required String angkaPertama, required String angkaKedua}) {
                               ' devicename': '${info.device}',
                               'TOKEN': 'R4M4Y4N4'
                             });
-                            var prod = 'https://';
-                            var dev = 'https://dev-';
-                            var tipeurl = '${prod}';
+                            
+                             
                             var response = await dio.post(
-                                '${tipeurl}android-api.ramayana.co.id:8305/v1/activity/createmylog',
+                                '${tipeurl}v1/activity/tbl_my_log',
                                 data: formData);   
                                 
                                 print('berhasil $_udid');    

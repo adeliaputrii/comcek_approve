@@ -11,6 +11,8 @@ import 'package:myactivity_project/ramayana_idcash.dart';
 import 'package:myactivity_project/ramayana_idcash_riawayatTahun.dart';
 import 'package:myactivity_project/ramayana_idcash_riwayatBulan.dart';
 import 'package:myactivity_project/service/SP_service/SP_service.dart';
+import 'package:screen_brightness/screen_brightness.dart';
+import 'package:myactivity_project/settingsralstools.dart';
 
 class RamayanaRiwayatIDCash extends StatefulWidget {
   const RamayanaRiwayatIDCash({super.key});
@@ -28,13 +30,12 @@ class _RamayanaRiwayatIDCashState extends State<RamayanaRiwayatIDCash> {
      fetchDataTahun({
     required String nokartu, 
    }) async {
-    var prod = 'https://';
-    var dev = 'https://dev-';
-    var tipeurl = '${dev}';
+    
+     
     final Map<String, ApprovalIdcashCustomerTahun> profileMap = new Map();
      ApprovalIdcashCustomerTahun. approvalidcashtahun.clear();
     final responseku = await http.post(
-      Uri.parse('${tipeurl}android-api.ramayana.co.id:8305/v1/membercards/tbl_trxsaldokaryawanYY'),
+      Uri.parse('${tipeurl}v1/membercards/tbl_trxsaldokaryawanYY'),
       body: {
         'nokartu' : '${ApprovalIdcash.approvalidcash[0]}'
         // 'nokartu' : '1100180309385576'
@@ -105,11 +106,21 @@ class _RamayanaRiwayatIDCashState extends State<RamayanaRiwayatIDCash> {
 
   }
 
+    @override
+  void didPushNext() {
+    ScreenBrightness().resetScreenBrightness();
+  }
 
+  @override
+  void didPop() {
+    ScreenBrightness().resetScreenBrightness();
+  }
  
    @override
    void initState() {
     super.initState();
+    didPop();
+    didPushNext();
     fetchDataTahun(nokartu: '${ApprovalIdcash.approvalidcash[0]}');
     // fetchDataTahun(nokartu: '1100180309385576');
    }

@@ -8,6 +8,7 @@ import 'package:myactivity_project/models/model_idacash_cust.dart';
 import 'package:myactivity_project/ramayana_idcash.dart';
 import 'package:myactivity_project/service/SP_service/SP_service.dart';
 import 'package:pretty_qr_code/pretty_qr_code.dart';
+import 'package:myactivity_project/settingsralstools.dart';
 
 class RamayanaBarcode extends StatefulWidget {
   const RamayanaBarcode({super.key});
@@ -62,11 +63,10 @@ class _RamayanaBarcodeState extends State<RamayanaBarcode> {
                               ' devicename': '${info.device}',
                               'TOKEN': 'R4M4Y4N4'
                             });
-                            var prod = 'https://';
-                            var dev = 'https://dev-';
-                            var tipeurl = '${prod}';
+                            
+                             
                             var response = await dio.post(
-                                '${tipeurl}android-api.ramayana.co.id:8305/v1/activity/createmylog',
+                                '${tipeurl}v1/activity/createmylog',
                                 data: formData); 
             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
               return RamayanaIDCash();
@@ -319,11 +319,9 @@ class _RamayanaBarcodeState extends State<RamayanaBarcode> {
                               ' devicename': '${info.device}',
                               'TOKEN': 'R4M4Y4N4'
                             });
-                            var prod = 'https://';
-                            var dev = 'https://dev-';
-                            var tipeurl = '${prod}';
+                             
                             var response = await dio.post(
-                                '${tipeurl}android-api.ramayana.co.id:8305/v1/activity/createmylog',
+                                '${tipeurl}v1/activity/createmylog',
                                 data: formData); 
                     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
                 return RamayanaIDCash();

@@ -16,7 +16,7 @@ import 'package:myactivity_project/ramayana_comcheck_cek.dart';
 import 'package:myactivity_project/ramayana_home.dart';
 import 'package:myactivity_project/service/API_service/API_service.dart';
 import 'package:myactivity_project/service/SP_service/SP_service.dart';
-
+import 'package:myactivity_project/settingsralstools.dart';
 class RamayanaApprovalReturn extends StatefulWidget {
   const RamayanaApprovalReturn({super.key});
 
@@ -50,12 +50,11 @@ class _RamayanaApprovalReturnState extends State<RamayanaApprovalReturn> {
   print(tipe);
     print(tanggal);
   print('tipe123');
-    var prod = 'https://';
-    var dev = 'https://dev-';
-    var tipeurl = '${dev}';
+    
+     
     ApprovalReturnModel.approvalreturn.clear();
     final responseku = await http.post(
-      Uri.parse('${tipeurl}android-api.ramayana.co.id:8305/v1/returnvoid/tbl_my_transaksi_rtn'),
+      Uri.parse('${tipeurl}v1/returnvoid/tbl_my_transaksi_rtn'),
       body: {
         
           'tanggal' : tanggal,
@@ -740,11 +739,9 @@ Future<void> initPlatformState() async {
                               ' devicename': '${info.device}',
                               'TOKEN': 'R4M4Y4N4'
                             });
-                            var prod = 'https://';
-                            var dev = 'https://dev-';
-                            var tipeurl = '${prod}';
+                             
                             var response = await dio.post(
-                                '${tipeurl}android-api.ramayana.co.id:8305/v1/activity/createmylog',
+                                '${tipeurl}v1/activity/createmylog',
                                 data: formData);   
                                 print('berhasil $_udid');        
  

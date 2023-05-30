@@ -88,11 +88,11 @@
   //                                   ' devicename': '${info.device}',
   //                                   'TOKEN': 'R4M4Y4N4'
   //                                 });
-  //                                 var prod = 'https://';
-  //                                 var dev = 'https://dev-';
+  //                                 
+  //                                 
   //                                 var tipeurl = '${prod}';
   //                                 var response = await dio.post(
-  //                                     '${tipeurl}android-api.ramayana.co.id:8305/v1/activity/createmylog',
+  //                                     '${tipeurl}v1/activity/createmylog',
   //                                     data: formData);   
   //                                     print('berhasil $_udid');   
   //                                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_){
@@ -198,11 +198,11 @@
   //                                   ' devicename': '${info.device}',
   //                                   'TOKEN': 'R4M4Y4N4'
   //                                 });
-  //                                 var prod = 'https://';
-  //                                 var dev = 'https://dev-';
+  //                                 
+  //                                 
   //                                 var tipeurl = '${prod}';
   //                                 var response = await dio.post(
-  //                                     '${tipeurl}android-api.ramayana.co.id:8305/v1/activity/createmylog',
+  //                                     '${tipeurl}v1/activity/createmylog',
   //                                     data: formData);   
   //                                     print('berhasil $_udid');   
   //                                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_){

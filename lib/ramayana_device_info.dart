@@ -7,7 +7,6 @@
 import 'dart:async';
 import 'dart:developer' as developer;
 import 'dart:io';
-
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:expandable_bottom_bar/expandable_bottom_bar.dart';
 import 'package:flutter/foundation.dart';

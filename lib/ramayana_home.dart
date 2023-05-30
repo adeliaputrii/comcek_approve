@@ -15,6 +15,7 @@ import 'package:myactivity_project/models/model_tabel_approve.dart';
 import 'package:myactivity_project/models/models_approval_return_list.dart';
 import 'package:myactivity_project/ramayana_approval.dart';
 import 'package:myactivity_project/ramayana_approval_submenu.dart';
+import 'package:myactivity_project/ramayana_cekharga.dart';
 import 'package:myactivity_project/ramayana_comcheck_cek.dart';
 import 'package:myactivity_project/ramayana_device_info.dart';
 import 'package:myactivity_project/ramayana_id_cash_riwayat.dart';
@@ -39,6 +40,9 @@ import 'package:barcode_flutter/barcode_flutter.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:screen_brightness/screen_brightness.dart';
+import 'package:launch_review/launch_review.dart';
+import 'package:myactivity_project/settingsralstools.dart';
 
 class Ramayana extends StatefulWidget {
   
@@ -67,11 +71,23 @@ Timer? timer;
     print(userId);
   }   
 
+  @override
+  void didPushNext() {
+    ScreenBrightness().resetScreenBrightness();
+  }
+
+  @override
+  void didPop() {
+    ScreenBrightness().resetScreenBrightness();
+  }
+
   static UserData userData = UserData();
   @override
    void initState() {
     super.initState();
      initPlatformState();
+     didPop();
+     didPushNext();
      ApprovalReturnMenu.approvalmenu.clear();
      ApprovalReturnMenu.idcashmenu.clear();
      ApprovalIdcash.approvalidcash.clear();
@@ -147,25 +163,25 @@ Timer? timer;
       DialogButton(
       color: Color.fromARGB(255, 255, 17, 17),
       onPressed: () async { 
-         AndroidDeviceInfo info = await deviceInfo.androidInfo;
-                                   var formData = FormData.fromMap({
-                              'progname': 'RALS_TOOLS ',
-                              'versi': '2.12 v.2',
-                              'date_run': '${DateTime.now()}',
-                              'info1': 'Logout Aplikasi RALS',
-                              ' info2': '${_udid} ',
-                              'userid': '${userData.getUsernameID()}',
-                              ' toko': '${userData.getUserToko()}',
-                              ' devicename': '${info.device}',
-                              'TOKEN': 'R4M4Y4N4'
-                            });
-                            var prod = 'https://';
-                            var dev = 'https://dev-';
-                            var tipeurl = '${prod}';
-                            var response = await dio.post(
-                                '${tipeurl}android-api.ramayana.co.id:8305/v1/activity/createmylog',
-                                data: formData);   
-                                print('berhasil $_udid');    
+        //  AndroidDeviceInfo info = await deviceInfo.androidInfo;
+        //                            var formData = FormData.fromMap({
+        //                       'progname': 'RALS_TOOLS ',
+        //                       'versi': '2.12 v.2',
+        //                       'date_run': '${DateTime.now()}',
+        //                       'info1': 'Logout Aplikasi RALS',
+        //                       ' info2': '${_udid} ',
+        //                       'userid': '${userData.getUsernameID()}',
+        //                       ' toko': '${userData.getUserToko()}',
+        //                       ' devicename': '${info.device}',
+        //                       'TOKEN': 'R4M4Y4N4'
+        //                     });
+        //                     
+        //                     
+        //                     var tipeurl = '${prod}';
+        //                     var response = await dio.post(
+        //                         '${tipeurl}v1/activity/tbl_my_log',
+        //                         data: formData);   
+        //                         print('berhasil $_udid');    
         logoutPressed();
          Navigator.pop(context);
       },
@@ -317,176 +333,313 @@ change to
           ),
           Container(
             margin: EdgeInsets.fromLTRB(50, 40, 50, 30),
-            child: Wrap(
-           spacing: 10.0, // spacing between adjacent children
-            runSpacing: 7.0, // spacing between rows of children
-            alignment: WrapAlignment.spaceAround, // horizontal alignment
-            runAlignment: WrapAlignment.spaceEvenly, 
-          // sadadsadasdas ngelek 
-          //kalo sebelumnya saya kasi sini pak
-             children: split.map((e) {
-              //sinii
-                print('hihi 555');
-                var namaAkses = e;
-          
-                      getNameLog() {
-                        var namaAkses = '${e}';
-                        List menu1 = namaAkses.split(':');
-                        print('menu0 = ${menu1[0]}');
-                        if (menu1[0] == ' idcash') {
-                          return 'ID CASH';
-                        } else if (menu1[0] == 'idcash') {
-                          return 'IDCASH';
-                        } else if (menu1[0] == 'approval') {
-                          return 'Approval Return';
-                        } else if (menu1[0] == ' approval') {
-                          return 'Approval Return';
-                        } else if (menu1[0] == 'void') {
-                          return 'VOID';
-                        }  else if (menu1[0] == ' void') {
-                          return 'VOID';
-                        }else 'yuhu';
-                        return namaAkses;
-                      }
-          
-                       getIcon() {
-                         var namaAkses = '${e}';
-                        List menu1 = namaAkses.split(':');
-                        print(menu1);
-                        if (menu1[0] == ' idcash') {
-                          return  
-                          Icon(Icons.credit_score_rounded,
-                            size: 35,
-                            color: Colors.white,
-                            );
-                        } else if (menu1[0] == 'idcash') {
-                          return 
-                          Icon(Icons.credit_score_rounded,
-                            size: 35,
-                            color: Colors.white,
-                            );
-                        } else if (menu1[0] == 'approval') {
-                          return 
-                          Icon(Icons.edit_document,
-                            size: 35,
-                            color: Colors.white,
-                            );
-                        }  else if (menu1[0] == ' approval') {
-                          return 
-                          Icon(Icons.edit_document,
-                            size: 35,
-                            color: Colors.white,
-                            );
-                        }else if (menu1[0] == ' void') {
-                          return 
-                           Icon(Icons.document_scanner_rounded,
-                            size: 35,
-                            color: Colors.white,
-                            );
-                        
-                        }else if (menu1[0] == 'void') {
-                          return 
-                           Icon(Icons.document_scanner_rounded,
-                            size: 35,
-                            color: Colors.white,
-                            );
-                        
-                        } else return 
-                         Icon(Icons.menu,
-                            size: 35,
-                            color: Colors.white,
-                            );
-                      }
-          
-                return
-              Column(
+            child: 
+            Center(
+              child: Wrap(
                 children: [
-                  MaterialButton(
-                                        minWidth:  MediaQuery.of(context).size.width/6,
-                                        height:  MediaQuery.of(context).size.height/13,
-                                        shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(50)
-                                        ),
-                                        color: Color.fromARGB(255, 255, 17, 17),
-                                        onPressed: ()async {
-                                           AndroidDeviceInfo info = await deviceInfo.androidInfo;
-                                           var formData = FormData.fromMap({
-                                      'progname': 'RALS_TOOLS ',
-                                      'versi': '2.12 v.2',
-                                      'date_run': '${DateTime.now()}',
-                                      'info1': '${getNameLog()}',
-                                      ' info2': '${_udid} ',
-                                      'userid': '${userData.getUsernameID()}',
-                                      ' toko': '${userData.getUserToko()}',
-                                      ' devicename': '${info.device}',
-                                      'TOKEN': 'R4M4Y4N4'
-                                    });
-                                    var prod = 'https://';
-                                    var dev = 'https://dev-';
-                                    var tipeurl = '${prod}';
-                                    var response = await dio.post(
-                                        '${tipeurl}android-api.ramayana.co.id:8305/v1/activity/createmylog',
-                                        data: formData);   
-                                        print('berhasil $_udid');   
-                                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (_){
-                                            var namaAkses = '${e}';
-                                            List menu1 = namaAkses.split(':');
-                                          if (menu1[0] == ' idcash') {
-                                              ApprovalReturnMenu.idcashmenu.add(menu1[1]);
-                                              print(ApprovalReturnMenu.idcashmenu);
-                                              if (ApprovalReturnMenu.idcashmenu.isNotEmpty) {
-                                                ApprovalReturnMenu.idcashmenu.removeWhere((element) => element == menu1[1]);
-                                                ApprovalReturnMenu.idcashmenu.add(menu1[1]);
-                                              }
-                                            return RamayanaIDCash();
-                                          } else  if (menu1[0] == 'idcash') {
-                                              ApprovalReturnMenu.idcashmenu.add(menu1[1]);
-                                              print(ApprovalReturnMenu.idcashmenu);
-                                               if (ApprovalReturnMenu.idcashmenu.isNotEmpty) {
-                                                ApprovalReturnMenu.idcashmenu.removeWhere((element) => element == menu1[1]);
-                                                ApprovalReturnMenu.idcashmenu.add(menu1[1]);
-                                              }
-                                            return RamayanaIDCash();
-                                          } else if (menu1[0] == 'approval') {
-                                            ApprovalReturnMenu.approvalmenu.add(menu1[1]);
-                                              print(ApprovalReturnMenu.approvalmenu);
-                                               if (ApprovalReturnMenu.approvalmenu.isNotEmpty) {
-                                                ApprovalReturnMenu.approvalmenu.removeWhere((element) => element == menu1[1]);
-                                                ApprovalReturnMenu.approvalmenu.add(menu1[1]);
-                                              }
-                                            return RamayanaApprovalSubmenu();
-                                           } else if (menu1[0] == ' approval') {
-                                            ApprovalReturnMenu.approvalmenu.add(menu1[1]);
-                                              print(ApprovalReturnMenu.approvalmenu);
-                                               if (ApprovalReturnMenu.approvalmenu.isNotEmpty) {
-                                                ApprovalReturnMenu.approvalmenu.removeWhere((element) => element == menu1[1]);
-                                                ApprovalReturnMenu.approvalmenu.add(menu1[1]);
-                                              }
-                                            return RamayanaApprovalSubmenu();
-                                           } else if (menu1[0] == ' void') {
-                                             return Blank();
-                                          } else if (menu1[0] == 'void') {
-                                             return Blank();
-                                          } else return Ramayana();
-                                            }));
-                                        },
-                                        child:  
-                                       getIcon()
-                                        ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        MaterialButton(
+                                              minWidth:  MediaQuery.of(context).size.width/6,
+                                              height:  MediaQuery.of(context).size.height/13,
+                                              shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(50)
+                                              ),
+                                              color: Color.fromARGB(255, 255, 17, 17),
+                                              onPressed: ()async {
+                                              },
+                                              child:  
+                                            Icon(Icons.add_circle,
+                                            size: 35,
+                                            color: Colors.white,
+                                            )
+                                              ),
+                 
+                      
+                                          SizedBox(
+                                          height: 10,
+                                          ),
+                      
+                                          Text('Add Activity',
+                                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                          )
+                                           ],
+                ),
+
+                Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        MaterialButton(
+                                              minWidth:  MediaQuery.of(context).size.width/6,
+                                              height:  MediaQuery.of(context).size.height/13,
+                                              shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(50)
+                                              ),
+                                              color: Color.fromARGB(255, 255, 17, 17),
+                                              onPressed: ()async {
+                                                //  Navigator.push(context, MaterialPageRoute(builder: (context){
+                                                //   return RamayanaCekHarga();
+                                                //  }));
+                                              },
+                                              child:  
+                                            Icon(Icons.edit_document,
+                                            size: 35,
+                                            color: Colors.white,
+                                            )
+                                            // Icon(Icons.playlist_add_check_circle,
+                                            // size: 35,
+                                            // color: Colors.white,
+                                            // )
+                                              ),
+                 
+                      
+                                          SizedBox(
+                                          height: 10,
+                                          ),
+                      
+                                          Text('List Activity',
+                                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                          )
+                                          // Text('Cek Promo',
+                                          // style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                          // )
+                                           ],
+                ),
+
+                Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        MaterialButton(
+                                              minWidth:  MediaQuery.of(context).size.width/6,
+                                              height:  MediaQuery.of(context).size.height/13,
+                                              shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(50)
+                                              ),
+                                              color: Color.fromARGB(255, 255, 17, 17),
+                                              onPressed: ()async {
+                                                 AndroidDeviceInfo info = await deviceInfo.androidInfo;
+                                                 var formData = FormData.fromMap({
+                                            'progname': 'RALS_TOOLS ',
+                                            'versi': '2.12 v.2',
+                                            'date_run': '${DateTime.now()}',
+                                            'info1': 'VOID',
+                                            ' info2': '${_udid} ',
+                                            'userid': '${userData.getUsernameID()}',
+                                            ' toko': '${userData.getUserToko()}',
+                                            ' devicename': '${info.device}',
+                                            'TOKEN': 'R4M4Y4N4'
+                                          });
+                                          
+                                           
+                                          var response = await dio.post(
+                                              '${tipeurl}v1/activity/tbl_my_log',
+                                              data: formData);   
+                                              print('berhasil $_udid');   
+                                                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (_){
+                                                 return Blank();
+                                                 
+                                              }));
+                                              },
+                                              child:  
+                                            Icon(Icons.document_scanner,
+                                            size: 35,
+                                            color: Colors.white,
+                                            )
+                                              ),
+                 
+                      
+                                          SizedBox(
+                                          height: 10,
+                                          ),
+                      
+                                          Text('VOID',
+                                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                          )
+                                           ],
+                ),
+                    ],
+                  )
+                      ],
+              ),
+            )
+          //   Wrap(
+          //  spacing: 10.0, // spacing between adjacent children
+          //   runSpacing: 7.0, // spacing between rows of children
+          //   alignment: WrapAlignment.spaceAround, // horizontal alignment
+          //   runAlignment: WrapAlignment.spaceEvenly, 
+          // // sadadsadasdas ngelek 
+          // //kalo sebelumnya saya kasi sini pak
+          //    children: 
+          //    split.map((e) {
+          //     //sinii
+          //       print('hihi 555');
+          //       var namaAkses = e;
+          
+          //             getNameLog() {
+          //               var namaAkses = '${e}';
+          //               List menu1 = namaAkses.split(':');
+          //               print('menu0 = ${menu1[0]}');
+          //               if (menu1[0] == ' idcash') {
+          //                 return 'ID CASH';
+          //               } else if (menu1[0] == 'idcash') {
+          //                 return 'IDCASH';
+          //               } else if (menu1[0] == 'approval') {
+          //                 return 'Approval Return';
+          //               } else if (menu1[0] == ' approval') {
+          //                 return 'Approval Return';
+          //               } else if (menu1[0] == 'void') {
+          //                 return 'VOID';
+          //               }  else if (menu1[0] == ' void') {
+          //                 return 'VOID';
+          //               }else 'yuhu';
+          //               return namaAkses;
+          //             }
+          
+          //              getIcon() {
+          //                var namaAkses = '${e}';
+          //               List menu1 = namaAkses.split(':');
+          //               print(menu1);
+          //               if (menu1[0] == ' idcash') {
+          //                 return  
+          //                 Icon(Icons.credit_score_rounded,
+          //                   size: 35,
+          //                   color: Colors.white,
+          //                   );
+          //               } else if (menu1[0] == 'idcash') {
+          //                 return 
+          //                 Icon(Icons.credit_score_rounded,
+          //                   size: 35,
+          //                   color: Colors.white,
+          //                   );
+          //               } else if (menu1[0] == 'approval') {
+          //                 return 
+          //                 Icon(Icons.edit_document,
+          //                   size: 35,
+          //                   color: Colors.white,
+          //                   );
+          //               }  else if (menu1[0] == ' approval') {
+          //                 return 
+          //                 Icon(Icons.edit_document,
+          //                   size: 35,
+          //                   color: Colors.white,
+          //                   );
+          //               }else if (menu1[0] == ' void') {
+          //                 return 
+          //                  Icon(Icons.document_scanner_rounded,
+          //                   size: 35,
+          //                   color: Colors.white,
+          //                   );
+                        
+          //               }else if (menu1[0] == 'void') {
+          //                 return 
+          //                  Icon(Icons.document_scanner_rounded,
+          //                   size: 35,
+          //                   color: Colors.white,
+          //                   );
+                        
+          //               } else return 
+          //                Icon(Icons.menu,
+          //                   size: 35,
+          //                   color: Colors.white,
+          //                   );
+          //             }
+          
+          //       return
+          //     Column(
+          //       children: [
+          //         MaterialButton(
+          //                               minWidth:  MediaQuery.of(context).size.width/6,
+          //                               height:  MediaQuery.of(context).size.height/13,
+          //                               shape: RoundedRectangleBorder(
+          //                               borderRadius: BorderRadius.circular(50)
+          //                               ),
+          //                               color: Color.fromARGB(255, 255, 17, 17),
+          //                               onPressed: ()async {
+          //                                  AndroidDeviceInfo info = await deviceInfo.androidInfo;
+          //                                  var formData = FormData.fromMap({
+          //                             'progname': 'RALS_TOOLS ',
+          //                             'versi': '2.12 v.2',
+          //                             'date_run': '${DateTime.now()}',
+          //                             'info1': '${getNameLog()}',
+          //                             ' info2': '${_udid} ',
+          //                             'userid': '${userData.getUsernameID()}',
+          //                             ' toko': '${userData.getUserToko()}',
+          //                             ' devicename': '${info.device}',
+          //                             'TOKEN': 'R4M4Y4N4'
+          //                           });
+          //                           
+          //                           
+          //                           var tipeurl = '${prod}';
+          //                           var response = await dio.post(
+          //                               '${tipeurl}v1/activity/createmylog',
+          //                               data: formData);   
+          //                               print('berhasil $_udid');   
+          //                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (_){
+          //                                   var namaAkses = '${e}';
+          //                                   List menu1 = namaAkses.split(':');
+          //                                 if (menu1[0] == ' idcash') {
+          //                                     ApprovalReturnMenu.idcashmenu.add(menu1[1]);
+          //                                     print(ApprovalReturnMenu.idcashmenu);
+          //                                     if (ApprovalReturnMenu.idcashmenu.isNotEmpty) {
+          //                                       ApprovalReturnMenu.idcashmenu.removeWhere((element) => element == menu1[1]);
+          //                                       ApprovalReturnMenu.idcashmenu.add(menu1[1]);
+          //                                     }
+          //                                   return RamayanaIDCash();
+          //                                 } else  if (menu1[0] == 'idcash') {
+          //                                     ApprovalReturnMenu.idcashmenu.add(menu1[1]);
+          //                                     print(ApprovalReturnMenu.idcashmenu);
+          //                                      if (ApprovalReturnMenu.idcashmenu.isNotEmpty) {
+          //                                       ApprovalReturnMenu.idcashmenu.removeWhere((element) => element == menu1[1]);
+          //                                       ApprovalReturnMenu.idcashmenu.add(menu1[1]);
+          //                                     }
+          //                                   return RamayanaIDCash();
+          //                                 } else if (menu1[0] == 'approval') {
+          //                                   ApprovalReturnMenu.approvalmenu.add(menu1[1]);
+          //                                     print(ApprovalReturnMenu.approvalmenu);
+          //                                      if (ApprovalReturnMenu.approvalmenu.isNotEmpty) {
+          //                                       ApprovalReturnMenu.approvalmenu.removeWhere((element) => element == menu1[1]);
+          //                                       ApprovalReturnMenu.approvalmenu.add(menu1[1]);
+          //                                     }
+          //                                   return RamayanaApprovalSubmenu();
+          //                                  } else if (menu1[0] == ' approval') {
+          //                                   ApprovalReturnMenu.approvalmenu.add(menu1[1]);
+          //                                     print(ApprovalReturnMenu.approvalmenu);
+          //                                      if (ApprovalReturnMenu.approvalmenu.isNotEmpty) {
+          //                                       ApprovalReturnMenu.approvalmenu.removeWhere((element) => element == menu1[1]);
+          //                                       ApprovalReturnMenu.approvalmenu.add(menu1[1]);
+          //                                     }
+          //                                   return RamayanaApprovalSubmenu();
+          //                                  } else if (menu1[0] == ' void') {
+          //                                    return Blank();
+          //                                 } else if (menu1[0] == 'void') {
+          //                                    return Blank();
+          //                                 } else return Ramayana();
+          //                                   }));
+          //                               },
+          //                               child:  
+          //                              getIcon()
+          //                               ),
                
                 
-                                    SizedBox(
-                                    height: 10,
-                                    ),
+          //                           SizedBox(
+          //                           height: 10,
+          //                           ),
                 
-                                    Text('${getNameLog()}',
-                                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                                    )
-                                     ],
-              );
-              }).toList(), 
+          //                           Text('${getNameLog()}',
+          //                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          //                           )
+          //                            ],
+          //     );
+          //     }).toList(), 
             
-            ),
+          //   ),
           )
         ],       
  
@@ -537,6 +690,7 @@ change to
                           return Profilee();
                           }
                           ));
+                       
                           },
                     icon: Icon(Icons.person,
                     color: Colors.white,

@@ -16,6 +16,8 @@ import 'package:myactivity_project/ramayana_id_cash_riwayat.dart';
 import 'package:myactivity_project/ramayana_idcash_pin.dart';
 import 'package:myactivity_project/ramayana_idcashbarcode.dart';
 import 'package:myactivity_project/service/SP_service/SP_service.dart';
+import 'package:screen_brightness/screen_brightness.dart';
+import 'package:myactivity_project/settingsralstools.dart';
 
 class RamayanaIDCash extends StatefulWidget {
   const RamayanaIDCash({super.key});
@@ -31,18 +33,25 @@ class _RamayanaIDCashState extends State<RamayanaIDCash> {
 
  UserData userData = UserData();
  
+    @override
+  void didPushNext() {
+    ScreenBrightness().resetScreenBrightness();
+  }
 
+  @override
+  void didPop() {
+    ScreenBrightness().resetScreenBrightness();
+  }
 
     fetchDataCustomer({
        required String id_user
     }) async {
-    var prod = 'https://';
-    var dev = 'https://dev-';
-    var tipeurl = '${dev}';
+    
+     
 
     ApprovalIdcashCustomer.approvalidcashcust.clear();
     final responseku = await http.post(
-      Uri.parse('${tipeurl}android-api.ramayana.co.id:8305/v1/membercards/tbl_customer'),
+      Uri.parse('${tipeurl}v1/membercards/tbl_customer'),
       body: {
         'id_user' : '0${userData.getUsernameID()}'
         }
@@ -79,6 +88,8 @@ class _RamayanaIDCashState extends State<RamayanaIDCash> {
    @override
    void initState() {
     super.initState();
+    didPushNext();
+    didPop();
     fetchDataCustomer(id_user:'0${userData.getUsernameID()}' );
    }
  

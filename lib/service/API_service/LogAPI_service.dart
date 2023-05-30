@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:myactivity_project/service/service_api/global.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:myactivity_project/settingsralstools.dart';
 
 class AuthServicesLog {
 
@@ -39,7 +40,7 @@ class AuthServicesLog {
     print('damn 555');
     print(data);
     var body = json.encode(data);
-    var url = Uri.parse(baseURLog);
+    var url = Uri.parse(tipeurl+'api/v1/auth/signin');
     http.Response response = await http.post(
       url,
       headers: headers,

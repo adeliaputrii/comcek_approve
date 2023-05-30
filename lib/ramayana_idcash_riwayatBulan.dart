@@ -7,6 +7,7 @@ import 'package:myactivity_project/models/model_idcash_hari.dart';
 import 'package:myactivity_project/ramayana_id_cash_riwayat.dart';
 import 'package:myactivity_project/ramayana_idcash.dart';
 import 'package:myactivity_project/ramayana_idcash_riawayatTahun.dart';
+import 'package:myactivity_project/settingsralstools.dart';
 
 class RamayanaRiwayatIDCashBulan extends StatefulWidget {
   const RamayanaRiwayatIDCashBulan({super.key});
@@ -22,13 +23,11 @@ class _RamayanaRiwayatIDCashBulanState extends State<RamayanaRiwayatIDCashBulan>
     required String nokartu, 
     required String bulan,
    }) async {
-    var prod = 'https://';
-    var dev = 'https://dev-';
-    var tipeurl = '${dev}';
+     
     final Map<String, ApprovalIdcashCustomerTanggal> profileMap = new Map();
       ApprovalIdcashCustomerTanggal.approvalidcashtanggal.clear();
     final responseku = await http.post(
-      Uri.parse('${tipeurl}android-api.ramayana.co.id:8305/v1/membercards/tbl_trxsaldokaryawanDD'),
+      Uri.parse('${tipeurl}v1/membercards/tbl_trxsaldokaryawanDD'),
       body: {
         'nokartu' : '${ApprovalIdcash.approvalidcash[0]}',
         // 'nokartu' : '1100180309385576',

@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'dart:convert';  
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:myactivity_project/models/model_tabel_approve.dart';
@@ -6,6 +6,7 @@ import 'package:myactivity_project/ramayana_comcheck_cek.dart';
 import 'package:myactivity_project/service/SP_service/SP_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:myactivity_project/settingsralstools.dart'; 
 
 class RamayanaRiwayatUpdate extends StatefulWidget {
   const RamayanaRiwayatUpdate({super.key});
@@ -22,13 +23,13 @@ class _RamayanaRiwayatUpdateState extends State<RamayanaRiwayatUpdate> {
     required String m1
   }) async {
   
-  var prod = 'https://';
-  var dev = 'https://dev-';
-  var tipeurl = '${prod}';
+  // 
+  // 
+  // var tipeurl = '${prod}';
     ApproveModel1.approvelist1.clear();
     final responseku = await http.post(
-      Uri.parse('${tipeurl}android-api.ramayana.co.id:8305/v1/activity/tbl_commcheck_approve'),
-      // Uri.parse('https://android-api.ramayana.co.id:8304/v1/activity/tbl_commcheck'),
+      Uri.parse('${tipeurl}v1/activity/tbl_commcheck_approve'),
+      // Uri.parse('https://v1/activity/tbl_commcheck'),
         body: {
           'm1' : m1
         });

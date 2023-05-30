@@ -4,6 +4,7 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   platform_device_id_windows
+  screen_brightness_windows
   url_launcher_windows
 )
 
