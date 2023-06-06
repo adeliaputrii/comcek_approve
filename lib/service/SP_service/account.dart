@@ -14,6 +14,7 @@ class UserData {
   static const String user_picUrl_str = "userpic_url_str";
   static const String user_token_str = "user_token_str";
   static const String user_toko_str = "user_toko_str";
+  static const String user_role_str = "user_role_str";
   static const String user_akses_str = "user_akses_str";
   static const String user_subdivisi_str = "user_subdivisi_str";
 
@@ -29,6 +30,7 @@ class UserData {
   static String _userPhone = '';
   static String _userPicUrl = '';
   static String _userID = ''; 
+  static String _userRole = ''; 
   static late String _userToken= '';
   static late String _userToko= '';
   static late String _userAkses= '';
@@ -50,6 +52,10 @@ class UserData {
   }
   String getUserAkses() {
     return _userAkses;
+  }
+
+  String getUserRole() {
+    return _userRole;
   }
 
   String getUserPassword() {
@@ -101,6 +107,7 @@ class UserData {
     print("Toko     : $_userToko");
     print("Email    : $_userEmail");
     print("Subdivisi: $_userSubdivisi");
+    print("Role     : $_userRole");
     print("Akses    : $_userAkses");
     // print("Phone    : $_userPhone");
     // print("adress   : $_userAdress");
@@ -125,6 +132,7 @@ class UserData {
     pref.setString(UserData.user_address_str, nodata);
     pref.setString(UserData.user_token_str, nodata);
     pref.setString(UserData.user_toko_str, nodata);
+    pref.setString(UserData.user_role_str, nodata);
     pref.setString(UserData.user_akses_str, nodata);
     pref.setBool(UserData.isAdmin_str, false);
     pref.setBool(UserData.logstatus, false);
@@ -144,7 +152,7 @@ class UserData {
     pref.setString(UserData.user_subdivisi_str, data['data']['id_sub_divisi'].toString());
     pref.setString(UserData.user_token_str, data['access_token'].toString());
     pref.setString(UserData.user_toko_str, data['data']['toko'].toString());
-    pref.setString(UserData.user_toko_str, data['data']['toko'].toString());
+    pref.setString(UserData.user_role_str, data['data']['role'].toString());
     pref.setString(UserData.user_akses_str, data['data']['akses_menu'].toString());
     // if (data['akses'] == 'adm') {
     //   pref.setBool(UserData.isAdmin_str, true);
@@ -171,6 +179,7 @@ class UserData {
     _userAdress = pref.getString(user_address_str).toString();  
     _userToken = pref.getString(user_token_str).toString();  
     _userToko = pref.getString(user_toko_str).toString(); 
+    _userRole = pref.getString(user_role_str).toString(); 
     _userAkses = pref.getString(user_akses_str).toString(); 
     if (pref.getBool(logstatus) == null || pref.getBool(logstatus) == false) {
       _statuslog = false;

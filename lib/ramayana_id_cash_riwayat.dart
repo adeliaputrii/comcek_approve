@@ -7,7 +7,7 @@ import 'package:myactivity_project/models/model_idcash.dart';
 import 'package:myactivity_project/models/model_idcash_bulan.dart';
 import 'package:myactivity_project/models/model_idcash_hari.dart';
 import 'package:myactivity_project/models/model_idcash_tahun.dart';
-import 'package:myactivity_project/ramayana_idcash.dart';
+import 'package:myactivity_project/ramayanaidcash.dart';
 import 'package:myactivity_project/ramayana_idcash_riawayatTahun.dart';
 import 'package:myactivity_project/ramayana_idcash_riwayatBulan.dart';
 import 'package:myactivity_project/service/SP_service/SP_service.dart';

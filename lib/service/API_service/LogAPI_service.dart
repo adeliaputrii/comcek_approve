@@ -43,7 +43,7 @@ class AuthServicesLog {
     var url = Uri.parse(tipeurl+'api/v1/auth/signin');
     http.Response response = await http.post(
       url,
-      headers: headers,
+      headers: {"Content-Type": "application/json"},
       body: body,
     );
     final sharedPref = await SharedPreferences.getInstance();

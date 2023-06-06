@@ -6,5 +6,4 @@ import 'package:myactivity_project/models/model_approval_return.dart';
 part 'ApprovalReturn_service.dart';
 part 'Account_service.dart';
 part 'Approve_service.dart';
-part 'Log_service.dart';
 part 'Url.dart'; 

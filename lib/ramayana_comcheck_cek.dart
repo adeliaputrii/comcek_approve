@@ -8,7 +8,7 @@ import 'package:myactivity_project/ramayana_approve_update.dart';
 import 'package:myactivity_project/ramayana_home.dart';
 import 'package:myactivity_project/ramayana_profile.dart';
 import 'package:myactivity_project/ramayana_riwayat_update.dart';
-import 'package:myactivity_project/ramayana_void.dart';
+import 'package:myactivity_project/ramayanavoid.dart';
 import 'package:myactivity_project/service/SP_service/SP_service.dart';
 
 class RamayanaCompetitorCek extends StatefulWidget {
@@ -118,7 +118,7 @@ class _RamayanaCompetitorCekState extends State<RamayanaCompetitorCek> {
                         // await fetchData();
                         // print('HARUS BISA YA ELAH');
                       Navigator.push(context, MaterialPageRoute(builder: (context){
-                        return RamayanaHistory12();
+                        return RamayanaHistoryApprove();
                       }));
                       },
                       child: Row(

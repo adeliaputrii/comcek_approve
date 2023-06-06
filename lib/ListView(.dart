@@ -199,8 +199,7 @@
   //                                   'TOKEN': 'R4M4Y4N4'
   //                                 });
   //                                 
-  //                                 
-  //                                 var tipeurl = '${prod}';
+  //                                  
   //                                 var response = await dio.post(
   //                                     '${tipeurl}v1/activity/createmylog',
   //                                     data: formData);   

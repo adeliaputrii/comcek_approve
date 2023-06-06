@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_udid/flutter_udid.dart';
 import 'package:myactivity_project/models/model_idacash_cust.dart';
-import 'package:myactivity_project/ramayana_idcash.dart';
+import 'package:myactivity_project/ramayanaidcash.dart';
 import 'package:myactivity_project/service/SP_service/SP_service.dart';
 import 'package:pretty_qr_code/pretty_qr_code.dart';
 import 'package:myactivity_project/settingsralstools.dart';

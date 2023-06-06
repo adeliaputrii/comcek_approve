@@ -44,7 +44,7 @@ DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     initPlatformState();
     print('123');
   }
-
+//adel kalo void apa?
 
 
 Future<void> initPlatformState() async {
@@ -334,7 +334,7 @@ String stepThree({required String angkaPertama, required String angkaKedua}) {
                             
                              
                             var response = await dio.post(
-                                '${tipeurl}v1/activity/tbl_my_log',
+                                '${tipeurl}v1/activity/createmylog',
                                 data: formData);   
                                 
                                 print('berhasil $_udid');    

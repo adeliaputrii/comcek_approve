@@ -3,13 +3,14 @@ import 'package:expandable_bottom_bar/expandable_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:myactivity_project/ramayana_cekharga.dart';
 import 'package:myactivity_project/ramayana_home.dart';
-import 'package:myactivity_project/ramayana_idcash.dart';
+import 'package:myactivity_project/ramayanaidcash.dart';
 import 'package:myactivity_project/ramayana_splashscreen.dart';
 import 'package:myactivity_project/ramayana_home.dart';
 import 'package:myactivity_project/ramayana_login.dart';
 import 'package:myactivity_project/ramayana_profile.dart';
-import 'package:myactivity_project/ramayana_void.dart';
+import 'package:myactivity_project/ramayanavoid.dart';
 import 'package:myactivity_project/service/SP_service/SP_service.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -55,6 +56,7 @@ MaterialApp(
     // username == null ? SplashScreenRamayana() : DefaultBottomBarController(child: Ramayana()),
     // DefaultBottomBarController(child: Ramayana())
     // Blank()
+    // RamayanaCekHarga()
     // SplashScreenRamayana()
     
     )),

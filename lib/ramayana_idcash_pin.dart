@@ -10,7 +10,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:motion_toast/resources/arrays.dart';
 import 'package:myactivity_project/keyboard.dart';
-import 'package:myactivity_project/ramayana_idcash.dart';
+import 'package:myactivity_project/ramayanaidcash.dart';
 import 'package:myactivity_project/ramayana_idcashbarcode.dart';
 import 'package:myactivity_project/service/API_service/LogAPI_service.dart';
 import 'package:myactivity_project/service/SP_service/SP_service.dart';

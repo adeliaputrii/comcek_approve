@@ -14,14 +14,14 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
 import 'package:myactivity_project/settingsralstools.dart';
 
-class RamayanaHistory12 extends StatefulWidget {
-  const RamayanaHistory12({super.key});
+class RamayanaHistoryApprove extends StatefulWidget {
+  const RamayanaHistoryApprove({super.key});
 
   @override
-  State<RamayanaHistory12> createState() => _RamayanaHistory12State();
+  State<RamayanaHistoryApprove> createState() => _RamayanaHistoryApproveState();
 }
 
-class _RamayanaHistory12State extends State<RamayanaHistory12> {
+class _RamayanaHistoryApproveState extends State<RamayanaHistoryApprove> {
 
 
   var dio = Dio();

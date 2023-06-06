@@ -14,7 +14,7 @@ import 'package:myactivity_project/ramayana_device_info.dart';
 import 'package:myactivity_project/ramayana_home.dart';
 import 'package:myactivity_project/ramayana_profile.dart';
 import 'package:dio/dio.dart';
-import 'package:myactivity_project/ramayana_void.dart';
+import 'package:myactivity_project/ramayanavoid.dart';
 import 'package:myactivity_project/service/API_service/LogAPI_service.dart';
 import 'package:myactivity_project/service/SP_service/SP_service.dart';
 import 'package:myactivity_project/service/API_service/API_service.dart';
@@ -186,25 +186,23 @@ void updateAplikasi(BuildContext context) {
       DialogButton(
       color: Colors.green,
       onPressed: () async { 
-        //  AndroidDeviceInfo info = await deviceInfo.androidInfo;
-        //                            var formData = FormData.fromMap({
-        //                       'progname': 'RALS_TOOLS ',
-        //                       'versi': '2.12 v.2',
-        //                       'date_run': '${DateTime.now()}',
-        //                       'info1': 'U',
-        //                       ' info2': '${_udid} ',
-        //                       'userid': '${userData.getUsernameID()}',
-        //                       ' toko': '${userData.getUserToko()}',
-        //                       ' devicename': '${info.device}',
-        //                       'TOKEN': 'R4M4Y4N4'
-        //                     });
-        //                     var prod = 'https://';
-        //                     
-        //                     var tipeurl = '${prod}';
-        //                     var response = await dio.post(
-        //                         '${tipeurl}v1/activity/tbl_my_log',
-        //                         data: formData);   
-        //                         print('berhasil $_udid');    
+         AndroidDeviceInfo info = await deviceInfo.androidInfo;
+                                   var formData = FormData.fromMap({
+                              'progname': 'RALS_TOOLS ',
+                              'versi': '2.12 v.2',
+                              'date_run': '${DateTime.now()}',
+                              'info1': 'U',
+                              ' info2': '${_udid} ',
+                              'userid': '${userData.getUsernameID()}',
+                              ' toko': '${userData.getUserToko()}',
+                              ' devicename': '${info.device}',
+                              'TOKEN': 'R4M4Y4N4'
+                            }); 
+                             
+                            var response = await dio.post(
+                                '${tipeurl}v1/activity/createmylog',
+                                data: formData);   
+                                print('berhasil $_udid');    
          LaunchReview.launch(
               androidAppId: "com.rals.myactivity_project"
             );
@@ -235,29 +233,29 @@ void updateAplikasi(BuildContext context) {
       http.Response response =
       //  await AuthServices.login(username.text, pass.text);
           await AuthServicesLog.login(
-            //' ini versi yang sama kaya diataskan ya del?
-            username.text, pass.text, 'RALS-TOOLS', '${versi}', '${DateTime.now()}', 'Login Aplikasi RALS','${_udid}', '${username.text}' ,'toko' ,'${info.device}', '7a706e9f589949b28c6dd32f0b9e39c6cda627f1e104d1b47a781995ad5ba437yuhu');
+            //' ini versi yang sama kaya diataskan ya del?  
+            username.text, pass.text, 'RALS-TOOLS', '${versi}', '${DateTime.now()}', 'Login Aplikasi RALS','${_udid}', '${username.text}' ,'toko' ,'${info.device}', '${_udid}');
       Map responseMap = jsonDecode(response.body);
       if (responseMap['userpass'] == "0") {
         await userData.setUser(data: responseMap);
         pref.setString("username", "${userData.getUsernameID()}");
            pref.setString("waktuLogin", "${formattedDate}");
-          //  var formData = FormData.fromMap({
-          //                     'progname': 'RALS_TOOLS ',
-          //                     'versi': '${versi}',
-          //                     'date_run': '${DateTime.now()}',
-          //                     'info1': 'Login Aplikasi RALS',
-          //                     ' info2': '${_udid} ',
-          //                     'userid': '${userData.getUsernameID()}',
-          //                     ' toko': '${userData.getUserToko()}',
-          //                     ' devicename': '${info.device}',
-          //                     'TOKEN': 'R4M4Y4N4'
-          //                   }); 
+           var formData = FormData.fromMap({
+                              'progname': 'RALS_TOOLS ',
+                              'versi': '${versi}',
+                              'date_run': '${DateTime.now()}',
+                              'info1': 'Login Aplikasi RALS',
+                              ' info2': '${_udid} ',
+                              'userid': '${userData.getUsernameID()}',
+                              ' toko': '${userData.getUserToko()}',
+                              ' devicename': '${info.device}',
+                              'TOKEN': 'R4M4Y4N4'
+                            }); 
 
-          //                   var response = await dio.post(
-          //                       '${tipeurl}v1/activity/tbl_my_log',
-          //                       data: formData);   
-          //                       print('berhasil $_udid');  
+                            var response = await dio.post(
+                                '${tipeurl}v1/activity/createmylog',
+                                data: formData);   
+                                print('berhasil $_udid');  
        
         Navigator.pushAndRemoveUntil(
             context,
@@ -476,10 +474,7 @@ void updateAplikasi(BuildContext context) {
                             var formData = FormData.fromMap({
                               'user_name': username.text,
                               'password': password.text,
-                            });
-                            // var prod = 'https://';
-                            // 
-                            // var tipeurl = '${prod}';
+                            }); 
                             var response = await dio.post(
                                 '${tipeurl}api/v1/auth/reset.password',
                                 data: formData);
