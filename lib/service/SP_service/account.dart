@@ -17,6 +17,8 @@ class UserData {
   static const String user_role_str = "user_role_str";
   static const String user_akses_str = "user_akses_str";
   static const String user_subdivisi_str = "user_subdivisi_str";
+  static const String username7_str = "username7_str";
+  static const String listmenu_str = "listmenu_str";
 
   static bool _isAdmin = false;
   static bool _statuslog = false;
@@ -31,9 +33,11 @@ class UserData {
   static String _userPicUrl = '';
   static String _userID = ''; 
   static String _userRole = ''; 
+  static String _listmenu = ''; 
   static late String _userToken= '';
   static late String _userToko= '';
   static late String _userAkses= '';
+  static late String _username7= '';
 
   bool getAdminStatus() {
     return _isAdmin;
@@ -74,6 +78,7 @@ class UserData {
     return _userName;
   }
 
+
   String getnameofUser() {
     return _userNameOfUser;
   }
@@ -98,6 +103,14 @@ class UserData {
     return _userAdress;
   }
 
+  String getUsername7() {
+    return _username7;
+  }
+
+  String getListMenu() {
+    return _listmenu;
+  }
+
   void printdevinfo() {
     print("\n\n======[info]=======]");
     print("ID       : $_userID");
@@ -109,6 +122,8 @@ class UserData {
     print("Subdivisi: $_userSubdivisi");
     print("Role     : $_userRole");
     print("Akses    : $_userAkses");
+    print("Username7 : $_username7");
+    print("List Menu : $_listmenu");
     // print("Phone    : $_userPhone");
     // print("adress   : $_userAdress");
     // print("Password : $_userPassword");
@@ -134,6 +149,8 @@ class UserData {
     pref.setString(UserData.user_toko_str, nodata);
     pref.setString(UserData.user_role_str, nodata);
     pref.setString(UserData.user_akses_str, nodata);
+    pref.setString(UserData.username7_str, nodata);
+    pref.setString(UserData.listmenu_str, nodata);
     pref.setBool(UserData.isAdmin_str, false);
     pref.setBool(UserData.logstatus, false);
     await getPref();
@@ -154,6 +171,8 @@ class UserData {
     pref.setString(UserData.user_toko_str, data['data']['toko'].toString());
     pref.setString(UserData.user_role_str, data['data']['role'].toString());
     pref.setString(UserData.user_akses_str, data['data']['akses_menu'].toString());
+    pref.setString(UserData.username7_str, data['data']['username7'].toString());
+    pref.setString(UserData.listmenu_str, data['data']['list_menu'].toString());
     // if (data['akses'] == 'adm') {
     //   pref.setBool(UserData.isAdmin_str, true);
     // } else {
@@ -181,6 +200,8 @@ class UserData {
     _userToko = pref.getString(user_toko_str).toString(); 
     _userRole = pref.getString(user_role_str).toString(); 
     _userAkses = pref.getString(user_akses_str).toString(); 
+    _username7 = pref.getString(username7_str).toString(); 
+    _listmenu = pref.getString(listmenu_str).toString(); 
     if (pref.getBool(logstatus) == null || pref.getBool(logstatus) == false) {
       _statuslog = false;
     } else {

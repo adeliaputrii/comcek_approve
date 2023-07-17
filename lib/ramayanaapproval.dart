@@ -361,20 +361,7 @@ Future<void> initPlatformState() async {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-       leading: IconButton(
        
-          onPressed: () {
-            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
-              return DefaultBottomBarController(child: RamayanaApprovalSubmenu());
-            }), (route) => false);
-            setState(() {
-              bodyElements.clear();
-              num = 0;
-            });
-          },
-          icon: Icon(Icons.arrow_back),
-        
-        ),
         title: 
         Text('Approval Return', style: TextStyle(fontSize: 23, color: Color.fromARGB(255, 255, 255, 255), fontWeight: FontWeight.bold),),
         backgroundColor: Color.fromARGB(255, 255, 14, 14),
@@ -730,7 +717,7 @@ Future<void> initPlatformState() async {
      AndroidDeviceInfo info = await deviceInfo.androidInfo;
                         var formData = FormData.fromMap({
                               'progname': 'RALS_TOOLS ',
-                              'versi': '2.12v.2',
+                              'versi': '${versi}',
                               'date_run': '${DateTime.now()}',
                               'info1': 'Approve Data - Menu Approval Return',
                               ' info2': '${_udid} ',

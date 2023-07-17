@@ -246,6 +246,30 @@ class _ProfileeState extends State<Profilee> {
                         width: 20,
                       ),
 
+                      Text('No. HP',
+                      style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 17),
+                      ),
+                      
+                      TextFormField(
+                        readOnly: true,
+                      // controller: myControllerEmail..text = '',
+                      cursorColor: Colors.black,
+                      style: TextStyle(
+                      fontSize: 17
+                      ),
+                      decoration: InputDecoration(
+                      labelStyle: TextStyle(color: Colors.black),
+                      focusedBorder: UnderlineInputBorder(
+                      borderSide: new BorderSide(color: Colors.black),
+                      )
+                      )
+                      ),
+
+                      SizedBox(
+                        height: 20,
+                        width: 20,
+                      ),
+
                       Text('ID',
                       style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 17),
                       ),

@@ -19,15 +19,15 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:screen_brightness/screen_brightness.dart';
 import 'package:myactivity_project/settingsralstools.dart';
 
-class Blank extends StatefulWidget {
-    static const routeName = '/blank';
-  const Blank({super.key});
+class RamayanaVoid extends StatefulWidget {
+    static const routeName = '/RamayanaVoid';
+  const RamayanaVoid({super.key});
 
   @override
-  State<Blank> createState() => _BlankState();
+  State<RamayanaVoid> createState() => _RamayanaVoidState();
 }
 
-class _BlankState extends State<Blank> with RouteAware {
+class _RamayanaVoidState extends State<RamayanaVoid> with RouteAware {
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -67,47 +67,6 @@ Future<void> initPlatformState() async {
 
   String _scanBarcode = '';
   bool _visible = false;
-
-  Future<void> startBarcodeScanStream2() async {
-    FlutterBarcodeScanner.getBarcodeStreamReceiver(
-            '#ff6666', 'Cancel', true, ScanMode.BARCODE)!
-        .listen((barcode) => print(barcode));
-  }
-
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> scanBarcode() async {
-    String barcodeScanRes;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-        '#ff6666', 'Cancel', true, ScanMode.BARCODE);
-      print(barcodeScanRes);
-    } on PlatformException {
-      barcodeScanRes = 'Failed to get platform version.';
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      _scanBarcode = barcodeScanRes;
-     
-    });
-  }
-
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  //   MyApp.routeObserver.subscribe(this, ModalRoute.of(context)!);
-  // }
-
-  // @override
-  // void dispose() {
-  //   MyApp.routeObserver.unsubscribe(this);
-  //   super.dispose();
-  // }
 
   @override
   void didPush() {
@@ -193,245 +152,233 @@ String stepThree({required String angkaPertama, required String angkaKedua}) {
 
   @override
   Widget build(BuildContext context) {
-    return RelativeBuilder(builder: (context, height, width, sy, sx) {
-    return Scaffold(
-      appBar: AppBar(
-         leading: 
-         IconButton(onPressed: () {
-           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => DefaultBottomBarController(child: Ramayana()),), (Route<dynamic> route) => false);
-         },
-        icon: Icon(Icons.arrow_back, size: 30,),),
-        title: Text('Void', style: TextStyle(fontSize: 23)),
-        backgroundColor: Color.fromARGB(255, 255, 17, 17),
-        elevation: 7.20  ,
-        toolbarHeight: 90,
-        ),
-
-      body: 
-      
-      ListView(
-        children: [
-          Stack(
-              children: <Widget>[
-
-                Container(
-                  margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                  color: Color.fromARGB(255, 253, 249, 249)
-                ),
-
-                Container(
-                  width: MediaQuery.of(context).size.width/1,
-                  height: 170,
-                  color: Color.fromARGB(255, 255, 17, 17),
-                ),
-                
-                Container(
-                margin: EdgeInsets.fromLTRB(30, 30,30, 0),
-                
-                child:
-                  Text(
-                  'Approval Void & Return', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 23, color: Colors.white),
-                   ),
+    return WillPopScope(
+      child: RelativeBuilder(builder: (context, height, width, sy, sx) {
+      return Scaffold(
+        appBar: AppBar(
+           leading: 
+           IconButton(onPressed: () {
+             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => DefaultBottomBarController(child: Ramayana()),), (Route<dynamic> route) => false);
+           },
+          icon: Icon(Icons.arrow_back, size: 30,),),
+          title: Text('Void', style: TextStyle(fontSize: 23)),
+          backgroundColor: Color.fromARGB(255, 255, 17, 17),
+          elevation: 7.20  ,
+          toolbarHeight: 90,
+          ),
+    
+        body: 
+        
+        ListView(
+          children: [
+            Stack(
+                children: <Widget>[
+    
+                  Container(
+                    margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    color: Color.fromARGB(255, 253, 249, 249)
                   ),
-
-                Container(
-                  margin: EdgeInsets.fromLTRB(10, 100, 10, 0),  
-                  height: 200,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    boxShadow: [BoxShadow( 
-                    blurRadius: 5
-                    )]
-                    ),
-              ),
+    
+                  Container(
+                    width: MediaQuery.of(context).size.width/1,
+                    height: 170,
+                    color: Color.fromARGB(255, 255, 17, 17),
+                  ),
                   
-                SizedBox(
-                height: 30,
-                width: 30,
-                ),
-                        
-                Container(
-                  margin: EdgeInsets.fromLTRB(30, 130, 30, 0),
+                  Container(
+                  margin: EdgeInsets.fromLTRB(30, 30,30, 0),
+                  
                   child:
-
-                    Form(
-                      key: _formKey,
-                        child: 
-
-                        TextFormField(
-                          controller: myController,
-                          style: TextStyle(fontSize: 20, color: Colors.black),
-                          validator: (value) {
-                          if(value!.isEmpty){
-                          return "Required";
-                         }
-                        },
-                          keyboardType: TextInputType.number,
-                          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                          decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                            color: Colors.black, 
-                            width: 5.0),
-                            borderRadius: BorderRadius.circular(25)
-                           ),
-                          errorBorder: OutlineInputBorder( 
-                            borderSide: BorderSide(color: Color.fromARGB(255, 255, 17, 17),), borderRadius: BorderRadius.circular(25)),
-                          errorStyle: TextStyle(color: Color.fromARGB(255, 255, 17, 17), fontSize: 14, fontWeight: FontWeight.w400),
-                          labelStyle: TextStyle(
-                           color: Colors.black87
-                            ),
-                          prefixIcon: Icon(
-                           Icons.keyboard,
-                           color: Color.fromARGB(255, 255, 17, 17),
-                           size: 30,
-                          ),
-                          hintStyle: TextStyle(
-                           color:  Colors.black,
-                           fontSize: 20
-                           ),
-                          enabledBorder: OutlineInputBorder(borderSide: new BorderSide(color: Colors.black),borderRadius: BorderRadius.circular(25)),
-                          focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25),
-                          borderSide: new BorderSide(color: Colors.black),
-                          )
-                          )      
-                        )
-                    )
-                  ),
-
-                  Container(
-                    margin: EdgeInsets.fromLTRB(160, 230, 160, 0),
-                    width: 150,
-                    decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 255, 17, 17),
-                      borderRadius: BorderRadius.circular(30)
-                      ),
-                      height: 40,
-                      child: 
-                       
-                          TextButton(
-                            child: 
-                             Text(
-                            'GENERATE', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20, color: Colors.white),
-                             ),
-                            onPressed: () async {
-                          didPush();
-                          didPopNext();
-                              AndroidDeviceInfo info = await deviceInfo.androidInfo;
-                        var formData = FormData.fromMap({
-                              'progname': 'RALS_TOOLS ',
-                              'versi': '2.12 v.2',
-                              'date_run': '${DateTime.now()}',
-                              'info1': 'Aktivitas Void - Menu Void',
-                              ' info2': '${_udid} ',
-                              'userid': '${userData.getUsernameID()}',
-                              ' toko': '${userData.getUserToko()}',
-                              ' devicename': '${info.device}',
-                              'TOKEN': 'R4M4Y4N4'
-                            });
-                            
-                             
-                            var response = await dio.post(
-                                '${tipeurl}v1/activity/createmylog',
-                                data: formData);   
-                                
-                                print('berhasil $_udid');    
-                               if (_formKey.currentState!.validate()) {
-                                data = await _getLogikaVoid(); 
-                                setState(() {   
-                               _visible = true;
-                                });
-                               }
-                              },
-                            ),
-                        
-                          ),
-                   
-                  Container(
-                   margin: EdgeInsets.fromLTRB(10, 350, 10, 0),
-                   child: 
-                   AnimatedOpacity(
-                   opacity: _visible ? 1.0 : 0.0,
-                   duration: const Duration(milliseconds: 500),
-                   child: 
-        //            Column(
-        //         children: <Widget>[
-        //           new Row(
-        //             mainAxisAlignment: MainAxisAlignment.center,
-        //             children: <Widget>[
-        //               new Text("Screen is kept on ? "),
-        //               new Checkbox(value: _isKeptOn, onChanged: (bool? b){
-        //                 Screen.keepOn(b);
-        //                 setState((){_isKeptOn = b!; });
-        //               })
-        //             ]
-        //           ),
-        //           new Text("Brightness :"),
-        //           new Slider(value : _brightness, onChanged : (double b){
-        //             setState((){
-        //                _brightness = b;
-        //              });
-        //             Screen.setBrightness(b);
-        //           })
-        //         ]
-        //     )
-        // ),
-                   
-                   Container(
-                       margin: EdgeInsets.fromLTRB(10, 0,10, 0),
-                        child: 
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-
-                              Container(
-                                margin: EdgeInsets.fromLTRB(10, 0,10, 0),
-                                   child: 
-                                    Center(
-                                      child: 
-                                      BarCodeImage(
-                                        backgroundColor: Colors.white,
-                                        params: Code128BarCodeParams(
-                                        "${data}",
-                                        lineWidth: 1.5,                // width for a single black/white bar (default: 2.0)
-                                        barHeight: 100,               // height for the entire widget (default: 100.0)
-                                        withText: false,                // Render with text label or not (default: false)
-                                       ),
-                                      padding: EdgeInsets.only(bottom: 7),
-                                      onError: (error) {               // Error handler
-                                        print('error = $error');
-                                      },
-                                  ),
-                                 )
-                              ),
-                           
-                  Container(
-                    margin: EdgeInsets.fromLTRB(100,30, 100, 0),
-                    child: 
-                    PrettyQr(
-                      image: AssetImage('assets/ramayana(C).png'),
-                      size: 200,
-                      data: '$data',
-                      errorCorrectLevel: QrErrorCorrectLevel.M,
-                      typeNumber: 7,
-                      roundEdges: false,
+                    Text(
+                    'Approval Void & Return', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 23, color: Colors.white),
+                     ),
                     ),
-                    )
-                 ],
+    
+                  Container(
+                    margin: EdgeInsets.fromLTRB(10, 100, 10, 0),  
+                    height: 200,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      boxShadow: [BoxShadow( 
+                      blurRadius: 5
+                      )]
+                      ),
                 ),
-                )
-                   )
-                ),
-              
-            ]
-            ),
-        ],
+                    
+                  SizedBox(
+                  height: 30,
+                  width: 30,
+                  ),
+                          
+                  Container(
+                    margin: EdgeInsets.fromLTRB(30, 130, 30, 0),
+                    child:
+    
+                      Form(
+                        key: _formKey,
+                          child: 
+    
+                          TextFormField(
+                            controller: myController,
+                            style: TextStyle(fontSize: 20, color: Colors.black),
+                            validator: (value) {
+                            if(value!.isEmpty){
+                            return "Required";
+                           }
+                          },
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                            decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                              color: Colors.black, 
+                              width: 5.0),
+                              borderRadius: BorderRadius.circular(25)
+                             ),
+                            errorBorder: OutlineInputBorder( 
+                              borderSide: BorderSide(color: Color.fromARGB(255, 255, 17, 17),), borderRadius: BorderRadius.circular(25)),
+                            errorStyle: TextStyle(color: Color.fromARGB(255, 255, 17, 17), fontSize: 14, fontWeight: FontWeight.w400),
+                            labelStyle: TextStyle(
+                             color: Colors.black87
+                              ),
+                            prefixIcon: Icon(
+                             Icons.keyboard,
+                             color: Color.fromARGB(255, 255, 17, 17),
+                             size: 30,
+                            ),
+                            hintStyle: TextStyle(
+                             color:  Colors.black,
+                             fontSize: 20
+                             ),
+                            enabledBorder: OutlineInputBorder(borderSide: new BorderSide(color: Colors.black),borderRadius: BorderRadius.circular(25)),
+                            focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25),
+                            borderSide: new BorderSide(color: Colors.black),
+                            )
+                            )      
+                          )
+                      )
+                    ),
+    
+                    Container(
+                      margin: EdgeInsets.fromLTRB(160, 230, 160, 0),
+                      width: 150,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 255, 17, 17),
+                        borderRadius: BorderRadius.circular(30)
+                        ),
+                        height: 40,
+                        child: 
+                         
+                            TextButton(
+                              child: 
+                               Text(
+                              'GENERATE', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20, color: Colors.white),
+                               ),
+                              onPressed: () async {
+                            didPush();
+                            didPopNext();
+                                AndroidDeviceInfo info = await deviceInfo.androidInfo;
+                          var formData = FormData.fromMap({
+                                'progname': 'RALS_TOOLS ',
+                                'versi': '${versi}',
+                                'date_run': '${DateTime.now()}',
+                                'info1': 'Aktivitas Void - Menu Void',
+                                ' info2': '${_udid} ',
+                                'userid': '${userData.getUsernameID()}',
+                                ' toko': '${userData.getUserToko()}',
+                                ' devicename': '${info.device}',
+                                'TOKEN': 'R4M4Y4N4'
+                              });
+                              
+                               
+                              var response = await dio.post(
+                                  '${tipeurl}v1/activity/createmylog',
+                                  data: formData);   
+                                  
+                                  print('berhasil $_udid');    
+                                 if (_formKey.currentState!.validate()) {
+                                  data = await _getLogikaVoid(); 
+                                  setState(() {   
+                                 _visible = true;
+                                  });
+                                 }
+                                },
+                              ),
+                          
+                            ),
+                     
+                    Container(
+                     margin: EdgeInsets.fromLTRB(10, 350, 10, 0),
+                     child: 
+                     AnimatedOpacity(
+                     opacity: _visible ? 1.0 : 0.0,
+                     duration: const Duration(milliseconds: 500),
+                     child: 
+                     
+                     Container(
+                         margin: EdgeInsets.fromLTRB(10, 0,10, 0),
+                          child: 
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+    
+                                Container(
+                                  margin: EdgeInsets.fromLTRB(10, 0,10, 0),
+                                     child: 
+                                      Center(
+                                        child: 
+                                        BarCodeImage(
+                                          backgroundColor: Colors.white,
+                                          params: Code128BarCodeParams(
+                                          "${data}",
+                                          lineWidth: 1.5,                // width for a single black/white bar (default: 2.0)
+                                          barHeight: 100,               // height for the entire widget (default: 100.0)
+                                          withText: false,                // Render with text label or not (default: false)
+                                         ),
+                                        padding: EdgeInsets.only(bottom: 7),
+                                        onError: (error) {               // Error handler
+                                          print('error = $error');
+                                        },
+                                    ),
+                                   )
+                                ),
+                             
+                    Container(
+                      margin: EdgeInsets.fromLTRB(100,30, 100, 0),
+                      child: 
+                      PrettyQr(
+                        image: AssetImage('assets/ramayana(C).png'),
+                        size: 200,
+                        data: '$data',
+                        errorCorrectLevel: QrErrorCorrectLevel.M,
+                        typeNumber: 7,
+                        roundEdges: false,
+                      ),
+                      )
+                   ],
+                  ),
+                  )
+                     )
+                  ),
+                
+              ]
+              ),
+          ],
+        ),
+      );
+      }
       ),
-    );
-  }
+      onWillPop: () async {
+        if (true) {
+          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
+              return DefaultBottomBarController(child: Ramayana());
+            }), (route) => false);
+            return true;
+        }
+      },
     );
   }
 }
