@@ -157,134 +157,6 @@ int num = 0;
  List selectedData = [];
   List selectedData2 = [];
 
-  
-
-
-
-// visible() {
-//   if(dateController.text == null || selected == '') {
-//     _visible = true;
-//   } if (_dateController.text == )
-//    else {
-//     _visible = false;
-//   }
-//   return _visible;
-// }
-  
-  // void table(){
-  //   Container container = Container(
-  //                   margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-  //                   width: 10000,
-  //                  decoration: BoxDecoration(
-  //                     color: Colors.white,
-  //                     borderRadius: BorderRadius.circular(10),
-  //                     boxShadow: [
-  //                       (
-  //                        BoxShadow(
-  //                       color: Color.fromARGB(255, 182, 182, 182),
-  //                       blurRadius: 6,
-  //                       offset: Offset(2, 5), // Shadow position
-  //                     ))
-  //                     ]
-  //                   ),
-  //                   height: 600,
-  //                   child:  SingleChildScrollView(
-  //                     scrollDirection: Axis.horizontal,
-  //                     child: SingleChildScrollView(
-  //                       scrollDirection: Axis.vertical,
-  //                     child:
-  //                     DataTable(
-  //                       columnSpacing: 50.0,
-  //                       columns: [
-  //                          DataColumn(label: Text('', style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w700))),
-  //                         DataColumn(label: Text('POS', style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w700))),
-  //                         DataColumn(label: Text('ID USER', style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w700))),
-  //                         DataColumn(label: Text('NAMA USER',style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w700))),
-  //                         DataColumn(label: Text('NOMINAL RETURN',style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w700))),
-  //                       ],
-  //                       rows: List.generate(ApprovalReturnModel.approvalreturn.length, (index) {
-
-  //                         pos() {
-  //                           var y;
-  //                           print(ApprovalReturnModel.approvalreturn[0].date_cr);
-  //                           if(_dateController.text != null) {
-  //                              y = ApprovalReturnModel.approvalreturn[index].status;
-  //                              print(y);
-  //                           } else {
-  //                              y = '';
-  //                              print(y);
-  //                           }
-  //                           return y;
-  //                         }
-
-  //                         id_user() {
-  //                           var x;
-  //                           if(_dateController.text != null) {
-  //                              x = ApprovalReturnModel.approvalreturn[index].toko;
-  //                           } else {
-  //                              x = '';
-  //                           }
-  //                           return x;
-  //                         }
-
-  //                         nama_user() {
-  //                           var z;
-  //                           if(_dateController.text != null) {
-  //                              z = ApprovalReturnModel.approvalreturn[index].no_trx;
-  //                           } else {
-  //                              z = '';
-  //                           }
-  //                           return z;
-  //                         }
-
-  //                         nominal_return() {
-  //                           var w;
-  //                           if(_dateController.text != null) {
-  //                              w = ApprovalReturnModel.approvalreturn[index].tanggal;
-  //                           } else {
-  //                              w = '';
-  //                           }
-  //                           return w;
-  //                         }
-
-
-  //                         final y = ApprovalReturnModel.approvalreturn[index].status;
-
-  //                         final x = userData.getUsernameID();
-
-  //                         final z = userData.getFullname();
-
-  //                         final w = ApprovalReturnModel.approvalreturn[index].tanggal;
-
-  //                          bool tampungan = false;
-  //                           // ApprovalReturnModel.approvalreturn.map((e) {
-  //                           //   tampungan = e.isSelected;
-  //                           // });
-  //                         return DataRow(cells: [
-  //                           DataCell(  Checkbox(
-  //                              // tileColor: Colors.greenAccent,
-  //                            activeColor: Colors.red,
-                             
-  //                              value: tampungan,
-  //                                onChanged: (value) {
-  //                               setState(() {
-  //                                 ApprovalReturnModel.approvalreturn[index].isSelected = value!;
-                                  
-  //                               });
-  //                               }
-  //                              ),),
-  //                          DataCell(Container(width: 80, child: Text(y!=null?y:'INI NULL'))),
-  //                           DataCell(Container(child: Text(x!=null?x:'INI NULL'))),
-  //                           DataCell(Container(child: Text(z!=null?z:'INI NULL'))),
-  //                           DataCell(Container(child: Text(w!=null?w:'INI NULL')))
-  //                         ]);
-  //                       }),
-  //                     ),
-  //                   ),
-  //                   )
-
-  //                 );
-  //                 //  showCupertinoModalPopup(context: context, builder: (context) => container);
   // }
 var inputDate;
 
@@ -361,7 +233,20 @@ Future<void> initPlatformState() async {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+      //  leading: IconButton(
        
+      //     onPressed: () {
+      //       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
+      //         return DefaultBottomBarController(child: RamayanaApprovalSubmenu());
+      //       }), (route) => false);
+      //       setState(() {
+      //         bodyElements.clear();
+      //         num = 0;
+      //       });
+      //     },
+      //     icon: Icon(Icons.arrow_back),
+        
+      //   ),
         title: 
         Text('Approval Return', style: TextStyle(fontSize: 23, color: Color.fromARGB(255, 255, 255, 255), fontWeight: FontWeight.bold),),
         backgroundColor: Color.fromARGB(255, 255, 14, 14),
@@ -717,7 +602,7 @@ Future<void> initPlatformState() async {
      AndroidDeviceInfo info = await deviceInfo.androidInfo;
                         var formData = FormData.fromMap({
                               'progname': 'RALS_TOOLS ',
-                              'versi': '${versi}',
+                              'versi': '2.12v.2',
                               'date_run': '${DateTime.now()}',
                               'info1': 'Approve Data - Menu Approval Return',
                               ' info2': '${_udid} ',

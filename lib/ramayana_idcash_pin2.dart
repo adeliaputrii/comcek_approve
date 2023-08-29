@@ -328,7 +328,7 @@ class _RamayanaIdcashNewPinState extends State<RamayanaIdcashNewPin> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Copyright EDP',
+                          'Copyright RALS',
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 17,

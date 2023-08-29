@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:myactivity_project/env.dart';
 import 'package:myactivity_project/keyboard.dart';
 import 'package:myactivity_project/models/model_idacash_cust.dart';
 import 'package:myactivity_project/models/model_idcash.dart';
@@ -16,9 +17,9 @@ import 'package:myactivity_project/models/models_approval_return_list.dart';
 import 'package:myactivity_project/ramayana_device_info.dart';
 import 'package:myactivity_project/ramayana_home.dart';
 import 'package:myactivity_project/ramayana_id_cash_riwayat.dart';
-import 'package:myactivity_project/ramayana_idcash_new_pin.dart';
+import 'package:myactivity_project/ramayana_idcash_pin2.dart';
 import 'package:myactivity_project/ramayana_idcash_pin.dart';
-import 'package:myactivity_project/ramayana_idcash_new_pin.dart';
+import 'package:myactivity_project/ramayana_idcash_pin2.dart';
 import 'package:myactivity_project/ramayana_idcashbarcode.dart';
 import 'package:myactivity_project/service/SP_service/SP_service.dart';
 import 'package:screen_brightness/screen_brightness.dart';
@@ -91,7 +92,7 @@ class _RamayanaIDCashState extends State<RamayanaIDCash> {
     initPlatformState();
     didPushNext();
     didPop();
-    fetchDataCustomer(id_user: '${userData.getUsername7()}');
+    fetchDataCustomer(id_user: '0${userData.getUsername7()}');
   }
 
   Future<void> initPlatformState() async {

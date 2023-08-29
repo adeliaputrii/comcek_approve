@@ -10,6 +10,7 @@ import 'package:motion_toast/motion_toast.dart';
 import 'package:motion_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
 import 'package:myactivity_project/ramayana_login.dart';
+import 'package:myactivity_project/ramayana_login_new.dart';
 import 'package:myactivity_project/service/SP_service/SP_service.dart';
 import 'package:myactivity_project/settingsralstools.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -156,7 +157,7 @@ class _RamayanaResetState extends State<RamayanaReset> {
           'progname': 'RALS_TOOLS ',
           'versi': '${versi}',
           'date_run': '${DateTime.now()}',
-          'info1': 'Reset Password Aplikasi Rals',
+          'info1': 'Forget Password Aplikasi RALS',
           ' info2': '${_udid} ',
           'userid': '${reset2}',
           ' toko': '${userData.getUserToko()}',

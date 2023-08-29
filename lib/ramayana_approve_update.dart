@@ -1,8 +1,11 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:flutter_udid/flutter_udid.dart';
 import 'package:myactivity_project/models/model_tabel_approve.dart';
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
@@ -22,6 +25,10 @@ class RamayanaHistoryApprove extends StatefulWidget {
 }
 
 class _RamayanaHistoryApproveState extends State<RamayanaHistoryApprove> {
+
+  DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+  String _udid = 'Unknown';
+  bool isLoading = false;
 
 
   var dio = Dio();
@@ -67,46 +74,7 @@ class _RamayanaHistoryApproveState extends State<RamayanaHistoryApprove> {
       } 
       print('check length ${ApproveModel1.approvelist1.length}');
       print(data['data'].toString());
-      if(ApproveModel1.approvelist1.length == 0) {
-         AlertDialog popup1 = AlertDialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-
-      // shadowColor: Colors.black,
-      titlePadding: EdgeInsets.all(0),
-      title: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
-            ),
-          ),
-          height: 170,
-          width: 2000,
-          child: Image.asset(
-            'assets/omaigat.png',
-          )),
-      content: Container(
-        margin: EdgeInsets.only(bottom: 10),
-        height: 30,
-        child:
-            Center(
-              child: Text(
-                'Tidak ada data yang membutuhkan persetujuan',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-          
-      ),
-      actionsAlignment: MainAxisAlignment.start,
-      actionsPadding: EdgeInsets.only(bottom: 20),
-    );
-    showCupertinoModalPopup(context: context, builder: (context) => popup1);
-      }
+      
 
     } 
      else {
@@ -123,7 +91,23 @@ class _RamayanaHistoryApproveState extends State<RamayanaHistoryApprove> {
    void initState() {
     super.initState();
     fetchProduk(m1: '082');
+    initPlatformState();
   }  
+
+  Future<void> initPlatformState() async {
+    String udid;
+    try {
+      udid = await FlutterUdid.consistentUdid;
+    } on PlatformException {
+      udid = 'Failed to get UDID.';
+    }
+
+    if (!mounted) return;
+
+    setState(() {
+      _udid = udid;
+    });
+  }
  
   bool checkedAll = false;
   int isapv = 0;
@@ -139,7 +123,7 @@ class _RamayanaHistoryApproveState extends State<RamayanaHistoryApprove> {
   int get selectedItemsAll => ApproveModel1.approvelist1.length - _rowSelectedCount;
   
   
-   void approve1() {
+   void approve1()async {
     if (selectedItems == 0) {
       AlertDialog popup1 = AlertDialog(
       shape: RoundedRectangleBorder(
@@ -182,6 +166,22 @@ class _RamayanaHistoryApproveState extends State<RamayanaHistoryApprove> {
     
     }
     else {
+      AndroidDeviceInfo info = await deviceInfo.androidInfo;
+            var formData = FormData.fromMap({
+              'progname': 'RALS_TOOLS ',
+              'versi': '${versi}',
+              'date_run': '${DateTime.now()}',
+              'info1': 'Competitor Checking - Approve',
+              ' info2': '${_udid} ',
+              'userid': '${userData.getUsernameID()}',
+              ' toko': '${userData.getUserToko()}',
+              ' devicename': '${info.device}',
+              'TOKEN': 'R4M4Y4N4'
+            });
+
+            var response = await dio.post('${tipeurl}v1/activity/createmylog',
+                data: formData);
+            print('berhasil $_udid');
     AlertDialog popup = AlertDialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
@@ -272,7 +272,6 @@ class _RamayanaHistoryApproveState extends State<RamayanaHistoryApprove> {
                
 
                             print(
-                                // 'Berhasil, ${}, ${password.text},${password.text}, ${passwordReEnter.text}'
                                 'Berhasil'
                                 );
               
@@ -308,14 +307,7 @@ class _RamayanaHistoryApproveState extends State<RamayanaHistoryApprove> {
     return Scaffold(
 
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context){
-                      return RamayanaCompetitorCek();
-                    }));
-          },
-          icon: Icon(IconlyLight.arrowLeft, color: Color.fromARGB(255, 255, 255, 255), size: 25,),
-        ),
+        
         title: 
         Text('Approve', style: TextStyle(fontSize: 23, color: Color.fromARGB(255, 255, 255, 255), fontWeight: FontWeight.bold),),
         backgroundColor: Color.fromARGB(255, 255, 14, 14),
@@ -759,42 +751,6 @@ class _RamayanaHistoryApproveState extends State<RamayanaHistoryApprove> {
                                  ),
                                 ]
                               ),
-                             
-                     
-                   
-                     
-
-                      // CheckboxListTile(
-                            
-                      //         tileColor: Colors.greenAccent,
-                      //         controlAffinity: ListTileControlAffinity.trailing,
-                      //         activeColor: Colors.pink[300],
-                      //         dense: true,
-
-                      //         value: e.isSelected,
-
-                      //         onChanged: (bool? value) {
-                      //           //itemChange(newValue!, index);
-                      //           setState(() {
-                      //             e.isSelected = value!;
-                      //             if(e.isSelected) {
-                      //               selectedItem = '00${e.sku}';
-                      //               selectedItem2 = '00${e.m1}';
-                      //               selectedValue =  e.isSelected;
-                      //                _rowSelectedCount += value ? 1 : -1;
-                      //             }
-                      //             else{
-                      //               selectedItem = '';
-                      //               selectedItem2 = '';
-                      //               selectedValue = e.isSelected;
-                      //                _rowSelectedCount += value ? 1 : -1;
-                      //             }
-                      //             print(selectedItem);
-                      //             print(selectedItem2);
-                      //             print(selectedValue);
-                      //           });
-                      //         }
-                      //         ),
                    
                   Container(
                     child: 
@@ -843,22 +799,6 @@ class _RamayanaHistoryApproveState extends State<RamayanaHistoryApprove> {
                     ),
                   ),
                   
-                  // Center(
-                  //   child: 
-                    
-                  //   IconButton(
-                  //     icon: Icon(
-                  //       Icons.arrow_drop_down,
-                  //     ),
-                  //     iconSize: 38,
-                  //     color: Colors.black,
-                  //     onPressed: () {
-                  //       setState(() {
-                  //        e.isSelectedCont = !e.isSelectedCont;
-                  //       });
-                  //     },
-                  //   ),
-                  // ),
                 ],
               ),
             ),
@@ -1293,6 +1233,7 @@ class _RamayanaHistoryApproveState extends State<RamayanaHistoryApprove> {
                   color: Color.fromARGB(255, 255, 17, 17),
                   onPressed: () async {
                   approve1();
+                   
                   }))    
              
         ])

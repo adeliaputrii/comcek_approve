@@ -285,7 +285,7 @@ class _RamayanaBarcodeState extends State<RamayanaBarcode> {
                                             MainAxisAlignment.center,
                                         children: [
                                           Text(
-                                            'Copyright EDP',
+                                            'Copyright RALS',
                                             style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: 17,

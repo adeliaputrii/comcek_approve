@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_udid/flutter_udid.dart';
+import 'package:get_phone_number/get_phone_number.dart';
 import 'package:intl/intl.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
@@ -12,12 +13,17 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myactivity_project/models/model_approval_return.dart';
 import 'package:myactivity_project/models/model_hakakses.dart';
 import 'package:myactivity_project/models/model_idcash.dart';
+import 'package:myactivity_project/models/model_list_project.dart';
+import 'package:myactivity_project/models/model_list_task.dart';
 import 'package:myactivity_project/models/model_tabel_approve.dart';
 import 'package:myactivity_project/models/model_toko.dart';
 import 'package:myactivity_project/models/models_approval_return_list.dart';
 import 'package:myactivity_project/ramayana_anakan.dart';
 import 'package:myactivity_project/ramayana_approve_update.dart';
 import 'package:myactivity_project/ramayana_caritoko.dart';
+import 'package:myactivity_project/ramayana_login_new.dart';
+import 'package:myactivity_project/ramayana_myactivity.dart';
+import 'package:myactivity_project/ramayana_tukar_poin.dart';
 import 'package:myactivity_project/ramayanaapproval.dart';
 import 'package:myactivity_project/ramayana_approval_submenu.dart';
 import 'package:myactivity_project/ramayana_cekharga.dart';
@@ -28,7 +34,9 @@ import 'package:myactivity_project/ramayanaidcash.dart';
 import 'package:myactivity_project/ramayana_splashscreen.dart';
 import 'package:myactivity_project/service/API_service/LogAPI_service.dart';
 import 'package:myactivity_project/service/service_api/auth.dart';
+import 'package:notification_permissions/notification_permissions.dart';
 import 'package:path/path.dart' as Path;
+import 'package:permission_handler/permission_handler.dart';
 import 'package:relative_scale/relative_scale.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:myactivity_project/ramayana_login.dart';
@@ -92,12 +100,14 @@ class _RamayanaState extends State<Ramayana> {
 
   @override
   void initState() {
-    UserData userData = UserData();
     
+    
+    UserData userData = UserData();
     super.initState();
     initPlatformState();
+    // requestPermission();
     didPop();
-    didPushNext();
+    didPushNext(); //ulang lagi dell sorry license okay
     ApprovalReturnMenu.approvalmenu.clear();
     ApprovalReturnMenu.idcashmenu.clear();
     ApprovalIdcash.approvalidcash.clear();
@@ -107,14 +117,152 @@ class _RamayanaState extends State<Ramayana> {
     dapetinData();
     print('tes 555');
     print('uutt66');
+
+
+
+
+
   }
+
+  Future<void> requestPermission() async {
+  // DeviceInfoPlugin plugin = DeviceInfoPlugin();
+  // bool permissionGranted;
+  // AndroidDeviceInfo android = await plugin.androidInfo;
+  final permission = Permission.phone;
+  final result = await permission.request();
+  String phoneNumber = await GetPhoneNumber().get();
+    print('getPhoneNumber result: $phoneNumber');
+
+  // if(android.version.sdkInt < 33) {
+  //   if(await Permission.storage.request().isGranted) {
+  //     setState(() {
+  //       permissionGranted = true;
+  //     });
+  //   } else if (await Permission.storage.request().isPermanentlyDenied) {
+  //     await openAppSettings();
+  //   } else if (await Permission.storage.request().isDenied) {
+  //     setState(() {
+  //       permissionGranted = false;
+  //     });
+  //   } else {
+  //     setState(() {
+  //       permissionGranted = true;
+  //     });
+  //   }
+  // }
+
+
+//   final permission = Permission.storage;
+//   print('permission');
+//   await NotificationPermissions.requestNotificationPermissions;
+//     await NotificationPermissions.getNotificationPermissionStatus();
+//     await Permission.storage.request();
+//     await Permission.manageExternalStorage.request();
+//     print('permission test');
+
+//     final result = await permission.request();
+
+//     if (Platform.isIOS) {
+//   bool storage = await Permission.storage.status.isGranted;
+//   if (storage) {
+//     // Awesome
+//   } else {
+//     // Crap
+//   }
+// } else {
+//   bool storage = true;
+//   bool videos = true;
+//   bool photos = true;
+
+//   // Only check for storage < Android 13
+//   DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+//   AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+//   if (androidInfo.version.sdkInt >= 33) {
+//     print('diatas 33');
+//     print(Permission.photos.status);
+//     videos = await Permission.videos.status.isGranted;
+//     photos = await Permission.photos.status.isGranted;
+//   } else {
+//     storage = await Permission.storage.status.isGranted;
+//   }
+
+//   if (storage && videos && photos) {
+//     // Awesome
+//   } else {
+//     // Crap
+//   }
+// }
+
+    if (result.isGranted) {
+     print('diijinkan');
+     
+    } else if (result.isDenied) {
+      print('ditolak');
+    
+    Permission.photos.request();
+    Permission.videos.request();
+    Permission.audio.request();
+    openAppSettings();
+    } else if (result.isLimited) {
+      print('limit');
+    await NotificationPermissions.requestNotificationPermissions;
+    await NotificationPermissions.getNotificationPermissionStatus();
+    await Permission.storage.request();
+    await Permission.manageExternalStorage.request();
+    } else if (result.isRestricted) {
+      print('restricted');
+    await NotificationPermissions.requestNotificationPermissions;
+    await NotificationPermissions.getNotificationPermissionStatus();
+    await Permission.storage.request();
+    await Permission.manageExternalStorage.request();
+    }else if (result.isPermanentlyDenied) {
+      print('permanen');
+      await NotificationPermissions.requestNotificationPermissions;
+    await NotificationPermissions.getNotificationPermissionStatus();
+    await Permission.storage.request();
+    await Permission.manageExternalStorage.request();
+    Permission.photos.request();
+    Permission.videos.request();
+    Permission.audio.request();
+      openAppSettings();
+    } else {
+      print('else');
+      await NotificationPermissions.requestNotificationPermissions;
+    await NotificationPermissions.getNotificationPermissionStatus();
+    await Permission.storage.request();
+    await Permission.manageExternalStorage.request();
+      openAppSettings();
+      print('else');
+    }
+    print('number');
+  print(Permission.phone);
+}
+
+
+
+  //  requestPermission() async {
+
+
+
+
+  // }
+
+
   
 
   Future<void> deleteToko() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
+    AndroidDeviceInfo info = await deviceInfo.androidInfo;
+    print('info.serialNumber : ${info.id}');
     pref.remove('toko');
+    pref.remove('project');
     pref.remove('barcode');
     pref.remove('hakAkses');
+    HakAkses.hakaksesSubmenuComcek.clear();
+    MyactivityModel.addSelect.clear();
+    print(MyactivityModel.addSelect);
+    MyactivityModelTask.addselectTask.clear();
+    print(MyactivityModelTask.addselectTask);
   }
 
   imei() async {
@@ -148,7 +296,6 @@ class _RamayanaState extends State<Ramayana> {
   }
 
 
-  //sini pak
 
   logoutPressed() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
@@ -220,9 +367,21 @@ class _RamayanaState extends State<Ramayana> {
         data.add(element);
       } if (element == 'mastervoid.void') {
         data.add(element);
-      // } if (element == 'idcash.ramayanariwayattransaksi') {
+      //    } if (element == 'approvalreturn.approvalreturn') {
       //   data.add(element);
+      // } if (element == 'cekprice.cekprice') {
+      //   data.add(element);
+      //    } if (element == 'tukarpoin.tukarpoin') {
+      //   data.add(element);
+       } if (element == 'myactivity.activity') {
+        data.add(element);
+        // } if (element == 'comchek.approvedcomchek') {
+        // data.add(element);
+        // HakAkses.hakaksesSubmenuComcek.add(element);
       }
+      // if (element == 'comchek.historycomchek') {
+      //   HakAkses.hakaksesSubmenuComcek.add(element);
+      //   }
       
     }
     print('data : $data');
@@ -314,341 +473,346 @@ class _RamayanaState extends State<Ramayana> {
                 // Container(
                 //     margin: EdgeInsets.fromLTRB(50, 40, 50, 30),
                 //     child:
-                    // Center(
-                    //   child: 
-                    //   Column(
-                    //     children: [
-                    //       Row(
-                    //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //         children: [
-                    //           Column(
-                    //             crossAxisAlignment: CrossAxisAlignment.center,
-                    //             mainAxisAlignment: MainAxisAlignment.center,
-                    //             children: [
-                    //               MaterialButton(
-                    //                   minWidth:
-                    //                       MediaQuery.of(context).size.width / 6,
-                    //                   height:
-                    //                       MediaQuery.of(context).size.height /
-                    //                           13,
-                    //                   shape: RoundedRectangleBorder(
-                    //                       borderRadius:
-                    //                           BorderRadius.circular(50)),
-                    //                   color: Color.fromARGB(255, 255, 17, 17),
-                    //                   onPressed: () async {
-                    //                   },
-                    //                   child: Icon(
-                    //                     Icons.add_circle,
-                    //                     size: 35,
-                    //                     color: Colors.white,
-                    //                   )),
-                    //               SizedBox(
-                    //                 height: 10,
-                    //               ),
-                    //               Text(
-                    //                 'Add Activity',
-                    //                 style: TextStyle(
-                    //                     fontSize: 16,
-                    //                     fontWeight: FontWeight.bold),
-                    //               )
-                    //             ],
-                    //           ),
-                    //           Column(
-                    //             crossAxisAlignment: CrossAxisAlignment.center,
-                    //             mainAxisAlignment: MainAxisAlignment.center,
-                    //             children: [
-                    //               MaterialButton(
-                    //                   minWidth:
-                    //                       MediaQuery.of(context).size.width / 6,
-                    //                   height:
-                    //                       MediaQuery.of(context).size.height /
-                    //                           13,
-                    //                   shape: RoundedRectangleBorder(
-                    //                       borderRadius:
-                    //                           BorderRadius.circular(50)),
-                    //                   color: Color.fromARGB(255, 255, 17, 17),
-                    //                   onPressed: () async {
+                //     Center(
+                //       child: 
+                //       Column(
+                //         children: [
+                //           Row(
+                //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //             children: [
+                //               Column(
+                //                 crossAxisAlignment: CrossAxisAlignment.center,
+                //                 mainAxisAlignment: MainAxisAlignment.center,
+                //                 children: [
+                //                   MaterialButton(
+                //                       minWidth:
+                //                           MediaQuery.of(context).size.width / 6,
+                //                       height:
+                //                           MediaQuery.of(context).size.height /
+                //                               13,
+                //                       shape: RoundedRectangleBorder(
+                //                           borderRadius:
+                //                               BorderRadius.circular(50)),
+                //                       color: Color.fromARGB(255, 255, 17, 17),
+                //                       onPressed: () async {
+                //                          Navigator.pushReplacement(context,
+                //                             MaterialPageRoute(builder: (_) {
+                //                           return RamayanaMyActivity();
+                //                         }));
+                                        
+                //                       },
+                //                       child: Icon(
+                //                         Icons.add_circle,
+                //                         size: 35,
+                //                         color: Colors.white,
+                //                       )),
+                //                   SizedBox(
+                //                     height: 10,
+                //                   ),
+                //                   Text(
+                //                     'Add Activity',
+                //                     style: TextStyle(
+                //                         fontSize: 16,
+                //                         fontWeight: FontWeight.bold),
+                //                   )
+                //                 ],
+                //               ),
+                //               Column(
+                //                 crossAxisAlignment: CrossAxisAlignment.center,
+                //                 mainAxisAlignment: MainAxisAlignment.center,
+                //                 children: [
+                //                   MaterialButton(
+                //                       minWidth:
+                //                           MediaQuery.of(context).size.width / 6,
+                //                       height:
+                //                           MediaQuery.of(context).size.height /
+                //                               13,
+                //                       shape: RoundedRectangleBorder(
+                //                           borderRadius:
+                //                               BorderRadius.circular(50)),
+                //                       color: Color.fromARGB(255, 255, 17, 17),
+                //                       onPressed: () async {
                                       
-                    //                   },
-                    //                   child: Icon(
-                    //                     Icons.edit_document,
-                    //                     size: 35,
-                    //                     color: Colors.white,
-                    //                   )),
-                    //               SizedBox(
-                    //                 height: 10,
-                    //               ),
-                    //               Text(
-                    //                 'List Activity',
-                    //                 style: TextStyle(
-                    //                     fontSize: 16,
-                    //                     fontWeight: FontWeight.bold),
-                    //               )
-                    //             ],
-                    //           ),
-                              // Column(
-                              //   crossAxisAlignment: CrossAxisAlignment.center,
-                              //   mainAxisAlignment: MainAxisAlignment.center,
-                              //   children: [
-                              //     MaterialButton(
-                              //         minWidth:
-                              //             MediaQuery.of(context).size.width / 6,
-                              //         height:
-                              //             MediaQuery.of(context).size.height /
-                              //                 13,
-                              //         shape: RoundedRectangleBorder(
-                              //             borderRadius:
-                              //                 BorderRadius.circular(50)),
-                              //         color: Color.fromARGB(255, 255, 17, 17),
-                              //         onPressed: () async {
-                              //           AndroidDeviceInfo info =
-                              //               await deviceInfo.androidInfo;
-                              //           var formData = FormData.fromMap({
-                              //             'progname': 'RALS_TOOLS ',
-                              //             'versi': '${versi}',
-                              //             'date_run': '${DateTime.now()}',
-                              //             'info1': 'ID CASH',
-                              //             ' info2': '${_udid} ',
-                              //             'userid':
-                              //                 '${userData.getUsernameID()}',
-                              //             ' toko': '${userData.getUserToko()}',
-                              //             ' devicename': '${info.device}',
-                              //             'TOKEN': 'R4M4Y4N4'
-                              //           });
+                //                       },
+                //                       child: Icon(
+                //                         Icons.edit_document,
+                //                         size: 35,
+                //                         color: Colors.white,
+                //                       )),
+                //                   SizedBox(
+                //                     height: 10,
+                //                   ),
+                //                   Text(
+                //                     'List Activity',
+                //                     style: TextStyle(
+                //                         fontSize: 16,
+                //                         fontWeight: FontWeight.bold),
+                //                   )
+                //                 ],
+                //               ),
+                //               Column(
+                //                 crossAxisAlignment: CrossAxisAlignment.center,
+                //                 mainAxisAlignment: MainAxisAlignment.center,
+                //                 children: [
+                //                   MaterialButton(
+                //                       minWidth:
+                //                           MediaQuery.of(context).size.width / 6,
+                //                       height:
+                //                           MediaQuery.of(context).size.height /
+                //                               13,
+                //                       shape: RoundedRectangleBorder(
+                //                           borderRadius:
+                //                               BorderRadius.circular(50)),
+                //                       color: Color.fromARGB(255, 255, 17, 17),
+                //                       onPressed: () async {
+                //                         AndroidDeviceInfo info =
+                //                             await deviceInfo.androidInfo;
+                //                         var formData = FormData.fromMap({
+                //                           'progname': 'RALS_TOOLS ',
+                //                           'versi': '${versi}',
+                //                           'date_run': '${DateTime.now()}',
+                //                           'info1': 'ID CASH',
+                //                           ' info2': '${_udid} ',
+                //                           'userid':
+                //                               '${userData.getUsernameID()}',
+                //                           ' toko': '${userData.getUserToko()}',
+                //                           ' devicename': '${info.device}',
+                //                           'TOKEN': 'R4M4Y4N4'
+                //                         });
 
-                              //           var response = await dio.post(
-                              //               '${tipeurl}v1/activity/createmylog',
-                              //               data: formData);
-                              //           print('berhasil $_udid');
-                              //           Navigator.push(context,
-                              //               MaterialPageRoute(
-                              //                   builder: (context) {
-                              //             return RamayanaIDCash();
-                              //           }));
-                              //         },
-                              //         child: Icon(
-                              //           Icons.credit_score_rounded,
-                              //           size: 35,
-                              //           color: Colors.white,
-                              //         )
-                              //         // Icon(Icons.playlist_add_check_circle,
-                              //         // size: 35,
-                              //         // color: Colors.white,
-                              //         // )
-                              //         ),
+                //                         var response = await dio.post(
+                //                             '${tipeurl}v1/activity/createmylog',
+                //                             data: formData);
+                //                         print('berhasil $_udid');
+                //                         Navigator.push(context,
+                //                             MaterialPageRoute(
+                //                                 builder: (context) {
+                //                           return RamayanaIDCash();
+                //                         }));
+                //                       },
+                //                       child: Icon(
+                //                         Icons.credit_score_rounded,
+                //                         size: 35,
+                //                         color: Colors.white,
+                //                       )
+                //                       // Icon(Icons.playlist_add_check_circle,
+                //                       // size: 35,
+                //                       // color: Colors.white,
+                //                       // )
+                //                       ),
 
-                              //     SizedBox(
-                              //       height: 10,
-                              //     ),
+                //                   SizedBox(
+                //                     height: 10,
+                //                   ),
 
-                              //     Text(
-                              //       'ID CASH',
-                              //       style: TextStyle(
-                              //           fontSize: 16,
-                              //           fontWeight: FontWeight.bold),
-                              //     )
-                              //     // Text('Cek Promo',
-                              //     // style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                              //     // )
-                              //   ],
-                              // ),
-                          //     Column(
-                          //       crossAxisAlignment: CrossAxisAlignment.center,
-                          //       mainAxisAlignment: MainAxisAlignment.center,
-                          //       children: [
-                          //         MaterialButton(
-                          //             minWidth:
-                          //                 MediaQuery.of(context).size.width / 6,
-                          //             height:
-                          //                 MediaQuery.of(context).size.height /
-                          //                     13,
-                          //             shape: RoundedRectangleBorder(
-                          //                 borderRadius:
-                          //                     BorderRadius.circular(50)),
-                          //             color: Color.fromARGB(255, 255, 17, 17),
-                          //             onPressed: () async {
-                          //               AndroidDeviceInfo info =
-                          //                   await deviceInfo.androidInfo;
-                          //               var formData = FormData.fromMap({
-                          //                 'progname': 'RALS_TOOLS ',
-                          //                 'versi': '${versi}',
-                          //                 'date_run': '${DateTime.now()}',
-                          //                 'info1': 'VOID',
-                          //                 ' info2': '${_udid} ',
-                          //                 'userid':
-                          //                     '${userData.getUsernameID()}',
-                          //                 ' toko': '${userData.getUserToko()}',
-                          //                 ' devicename': '${info.device}',
-                          //                 'TOKEN': 'R4M4Y4N4'
-                          //               });
+                //                   Text(
+                //                     'ID CASH',
+                //                     style: TextStyle(
+                //                         fontSize: 16,
+                //                         fontWeight: FontWeight.bold),
+                //                   )
+                //                   // Text('Cek Promo',
+                //                   // style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                //                   // )
+                //                 ],
+                //               ),
+                //               Column(
+                //                 crossAxisAlignment: CrossAxisAlignment.center,
+                //                 mainAxisAlignment: MainAxisAlignment.center,
+                //                 children: [
+                //                   MaterialButton(
+                //                       minWidth:
+                //                           MediaQuery.of(context).size.width / 6,
+                //                       height:
+                //                           MediaQuery.of(context).size.height /
+                //                               13,
+                //                       shape: RoundedRectangleBorder(
+                //                           borderRadius:
+                //                               BorderRadius.circular(50)),
+                //                       color: Color.fromARGB(255, 255, 17, 17),
+                //                       onPressed: () async {
+                //                         AndroidDeviceInfo info =
+                //                             await deviceInfo.androidInfo;
+                //                         var formData = FormData.fromMap({
+                //                           'progname': 'RALS_TOOLS ',
+                //                           'versi': '${versi}',
+                //                           'date_run': '${DateTime.now()}',
+                //                           'info1': 'VOID',
+                //                           ' info2': '${_udid} ',
+                //                           'userid':
+                //                               '${userData.getUsernameID()}',
+                //                           ' toko': '${userData.getUserToko()}',
+                //                           ' devicename': '${info.device}',
+                //                           'TOKEN': 'R4M4Y4N4'
+                //                         });
 
-                          //               var response = await dio.post(
-                          //                   '${tipeurl}v1/activity/createmylog',
-                          //                   data: formData);
-                          //               print('berhasil $_udid');
-                          //               Navigator.pushReplacement(context,
-                          //                   MaterialPageRoute(builder: (_) {
-                          //                 return RamayanaVoid();
-                          //               }));
-                          //             },
-                          //             child: Icon(
-                          //               Icons.document_scanner,
-                          //               size: 35,
-                          //               color: Colors.white,
-                          //             )),
-                          //         SizedBox(
-                          //           height: 10,
-                          //         ),
-                          //         Text(
-                          //           'VOID',
-                          //           style: TextStyle(
-                          //               fontSize: 16,
-                          //               fontWeight: FontWeight.bold),
-                          //         )
-                          //       ],
-                          //     ),
-                          //   ],
-                          // ),
-                          // SizedBox(
-                          //   height: 20,
-                          // ),
-                            // Row(
-                            //   mainAxisAlignment: MainAxisAlignment.center,
-                            //   children: [
-                              //   Column(
-                              //   crossAxisAlignment: CrossAxisAlignment.center,
-                              //   mainAxisAlignment: MainAxisAlignment.center,
-                              //   children: [
-                              //     MaterialButton(
-                              //         minWidth:
-                              //             MediaQuery.of(context).size.width / 6,
-                              //         height:
-                              //             MediaQuery.of(context).size.height /
-                              //                 13,
-                              //         shape: RoundedRectangleBorder(
-                              //             borderRadius:
-                              //                 BorderRadius.circular(50)),
-                              //         color: Color.fromARGB(255, 255, 17, 17),
-                              //         onPressed: () async {
-                              //           AndroidDeviceInfo info =
-                              //               await deviceInfo.androidInfo;
-                              //           var formData = FormData.fromMap({
-                              //             'progname': 'RALS_TOOLS ',
-                              //             'versi': '${versi}',
-                              //             'date_run': '${DateTime.now()}',
-                              //             'info1': 'ID CASH',
-                              //             ' info2': '${_udid} ',
-                              //             'userid':
-                              //                 '${userData.getUsernameID()}',
-                              //             ' toko': '${userData.getUserToko()}',
-                              //             ' devicename': '${info.device}',
-                              //             'TOKEN': 'R4M4Y4N4'
-                              //           });
+                //                         var response = await dio.post(
+                //                             '${tipeurl}v1/activity/createmylog',
+                //                             data: formData);
+                //                         print('berhasil $_udid');
+                //                         Navigator.pushReplacement(context,
+                //                             MaterialPageRoute(builder: (_) {
+                //                           return RamayanaVoid();
+                //                         }));
+                //                       },
+                //                       child: Icon(
+                //                         Icons.document_scanner,
+                //                         size: 35,
+                //                         color: Colors.white,
+                //                       )),
+                //                   SizedBox(
+                //                     height: 10,
+                //                   ),
+                //                   Text(
+                //                     'VOID',
+                //                     style: TextStyle(
+                //                         fontSize: 16,
+                //                         fontWeight: FontWeight.bold),
+                //                   )
+                //                 ],
+                //               ),
+                //             ],
+                //           ),
+                //           SizedBox(
+                //             height: 20,
+                //           ),
+                //             Row(
+                //               mainAxisAlignment: MainAxisAlignment.center,
+                //               children: [
+                //                 Column(
+                //                 crossAxisAlignment: CrossAxisAlignment.center,
+                //                 mainAxisAlignment: MainAxisAlignment.center,
+                //                 children: [
+                //                   MaterialButton(
+                //                       minWidth:
+                //                           MediaQuery.of(context).size.width / 6,
+                //                       height:
+                //                           MediaQuery.of(context).size.height /
+                //                               13,
+                //                       shape: RoundedRectangleBorder(
+                //                           borderRadius:
+                //                               BorderRadius.circular(50)),
+                //                       color: Color.fromARGB(255, 255, 17, 17),
+                //                       onPressed: () async {
+                //                         AndroidDeviceInfo info =
+                //                             await deviceInfo.androidInfo;
+                //                         var formData = FormData.fromMap({
+                //                           'progname': 'RALS_TOOLS ',
+                //                           'versi': '${versi}',
+                //                           'date_run': '${DateTime.now()}',
+                //                           'info1': 'ID CASH',
+                //                           ' info2': '${_udid} ',
+                //                           'userid':
+                //                               '${userData.getUsernameID()}',
+                //                           ' toko': '${userData.getUserToko()}',
+                //                           ' devicename': '${info.device}',
+                //                           'TOKEN': 'R4M4Y4N4'
+                //                         });
 
-                              //           var response = await dio.post(
-                              //               '${tipeurl}v1/activity/createmylog',
-                              //               data: formData);
-                              //           print('berhasil $_udid');
-                              //           Navigator.push(context,
-                              //               MaterialPageRoute(
-                              //                   builder: (context) {
-                              //             return RamayanaIDCash();
-                              //           }));
-                              //         },
-                              //         child: Icon(
-                              //           Icons.credit_score_rounded,
-                              //           size: 35,
-                              //           color: Colors.white,
-                              //         )
-                              //         // Icon(Icons.playlist_add_check_circle,
-                              //         // size: 35,
-                              //         // color: Colors.white,
-                              //         // )
-                              //         ),
+                //                         var response = await dio.post(
+                //                             '${tipeurl}v1/activity/createmylog',
+                //                             data: formData);
+                //                         print('berhasil $_udid');
+                //                         Navigator.push(context,
+                //                             MaterialPageRoute(
+                //                                 builder: (context) {
+                //                           return RamayanaIDCash();
+                //                         }));
+                //                       },
+                //                       child: Icon(
+                //                         Icons.credit_score_rounded,
+                //                         size: 35,
+                //                         color: Colors.white,
+                //                       )
+                //                       // Icon(Icons.playlist_add_check_circle,
+                //                       // size: 35,
+                //                       // color: Colors.white,
+                //                       // )
+                //                       ),
 
-                              //     SizedBox(
-                              //       height: 10,
-                              //     ),
+                //                   SizedBox(
+                //                     height: 10,
+                //                   ),
 
-                              //     Text(
-                              //       'ID CASH',
-                              //       style: TextStyle(
-                              //           fontSize: 16,
-                              //           fontWeight: FontWeight.bold),
-                              //     )
+                //                   Text(
+                //                     'ID CASH',
+                //                     style: TextStyle(
+                //                         fontSize: 16,
+                //                         fontWeight: FontWeight.bold),
+                //                   )
                                  
-                              //   ],
-                              // ),
-                          //  Column(
-                          //         crossAxisAlignment: CrossAxisAlignment.center,
-                          //         mainAxisAlignment: MainAxisAlignment.center,
-                          //       children: [
-                          //         MaterialButton(
-                          //                               minWidth:  MediaQuery.of(context).size.width/6,
-                          //                               height:  MediaQuery.of(context).size.height/13,
-                          //                               shape: RoundedRectangleBorder(
-                          //                               borderRadius: BorderRadius.circular(50)
-                          //                               ),
-                          //                               color: Color.fromARGB(255, 255, 17, 17),
-                          //                               onPressed: ()async {
-                          //                               //   Navigator.push(context, MaterialPageRoute(builder: (context){
-                          //                               //     return RamayanaCekPromo();
-                          //                               //   }));
-                          //                               },
-                          //                               child:
-                          //                             Icon(Icons.edit_document,
-                          //                             size: 35,
-                          //                             color: Colors.white,
-                          //                             )
-                          //                               ),
+                //                 ],
+                //               ),
+                //            Column(
+                //                   crossAxisAlignment: CrossAxisAlignment.center,
+                //                   mainAxisAlignment: MainAxisAlignment.center,
+                //                 children: [
+                //                   MaterialButton(
+                //                                         minWidth:  MediaQuery.of(context).size.width/6,
+                //                                         height:  MediaQuery.of(context).size.height/13,
+                //                                         shape: RoundedRectangleBorder(
+                //                                         borderRadius: BorderRadius.circular(50)
+                //                                         ),
+                //                                         color: Color.fromARGB(255, 255, 17, 17),
+                //                                         onPressed: ()async {
+                //                                         //   Navigator.push(context, MaterialPageRoute(builder: (context){
+                //                                         //     return RamayanaCekPromo();
+                //                                         //   }));
+                //                                         },
+                //                                         child:
+                //                                       Icon(Icons.edit_document,
+                //                                       size: 35,
+                //                                       color: Colors.white,
+                //                                       )
+                //                                         ),
 
-                          //                           SizedBox(
-                          //                           height: 10,
-                          //                           ),
+                //                                     SizedBox(
+                //                                     height: 10,
+                //                                     ),
 
-                          //                           Text('Cek Promo',
-                          //                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                          //                           )
-                          //                            ],
-                          // ),
-                          //  Column(
-                          //         crossAxisAlignment: CrossAxisAlignment.center,
-                          //         mainAxisAlignment: MainAxisAlignment.center,
-                          //       children: [
-                          //         MaterialButton(
-                          //                               minWidth:  MediaQuery.of(context).size.width/6,
-                          //                               height:  MediaQuery.of(context).size.height/13,
-                          //                               shape: RoundedRectangleBorder(
-                          //                               borderRadius: BorderRadius.circular(50)
-                          //                               ),
-                          //                               color: Color.fromARGB(255, 255, 17, 17),
-                          //                               onPressed: ()async {
-                          //                                 Navigator.push(context, MaterialPageRoute(builder: (context){
-                          //                                   return RamayanaCariToko();
-                          //                                 }));
-                          //                               },
-                          //                               child:
-                          //                             Icon(Icons.edit_document,
-                          //                             size: 35,
-                          //                             color: Colors.white,
-                          //                             )
-                          //                               ),
+                //                                     Text('Cek Promo',
+                //                                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                //                                     )
+                //                                      ],
+                //           ),
+                //            Column(
+                //                   crossAxisAlignment: CrossAxisAlignment.center,
+                //                   mainAxisAlignment: MainAxisAlignment.center,
+                //                 children: [
+                //                   MaterialButton(
+                //                                         minWidth:  MediaQuery.of(context).size.width/6,
+                //                                         height:  MediaQuery.of(context).size.height/13,
+                //                                         shape: RoundedRectangleBorder(
+                //                                         borderRadius: BorderRadius.circular(50)
+                //                                         ),
+                //                                         color: Color.fromARGB(255, 255, 17, 17),
+                //                                         onPressed: ()async {
+                //                                           Navigator.push(context, MaterialPageRoute(builder: (context){
+                //                                             return RamayanaCariToko();
+                //                                           }));
+                //                                         },
+                //                                         child:
+                //                                       Icon(Icons.edit_document,
+                //                                       size: 35,
+                //                                       color: Colors.white,
+                //                                       )
+                //                                         ),
 
-                          //                           SizedBox(
-                          //                           height: 10,
-                          //                           ),
+                //                                     SizedBox(
+                //                                     height: 10,
+                //                                     ),
 
-                          //                           Text('Cari Toko',
-                          //                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                          //                           )
-                          //                            ],
-                          // ),
-                            //   ],
-                            // ),
-                    //     ],
-                    //   ),
+                //                                     Text('Cari Toko',
+                //                                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                //                                     )
+                //                                      ],
+                //           ),
+                //               ],
+                //             ),
+                //         ],
+                //       ),
              
-                    // )
+                //     )
            
                     //   Wrap(
                     //  spacing: 10.0, // spacing between adjacent children
@@ -822,6 +986,8 @@ class _RamayanaState extends State<Ramayana> {
                     //   ),
                     //   )
 
+                    //HAK ASES JULI 2023
+
                     Container(
                       margin: EdgeInsets.fromLTRB(20, 30, 20, 0),
                       child: Wrap(
@@ -833,6 +999,7 @@ class _RamayanaState extends State<Ramayana> {
                         children: data.map((e) {
                           // ${e.nsadssaame_menu}
                           print(e);
+
                           getIcon() {
                             var icon = '${e}';
                             if(icon == 'mastervoid.void') {
@@ -856,16 +1023,64 @@ class _RamayanaState extends State<Ramayana> {
                                         visible: true, 
                               );
 
-                            //  } else if (icon == "idcash.ramayanariwayattransaksi") {
+                            //  } else if (icon == "approvalreturn.approvalreturn") {
                             //    return Visibility(
                             //             child: 
-                            //              Icon(Icons.history,
+                            //              Icon(Icons.done_outline_outlined,
+                            //           size: 35,
+                            //           color: Colors.white,
+                            //         ),
+                            //             visible: true, 
+                            //   );
+
+                            //    } else if (icon == "approvalreturn.approvalreturn") {
+                            //    return Visibility(
+                            //             child: 
+                            //              Icon(Icons.edit_document,
+                            //           size: 35,
+                            //           color: Colors.white,
+                            //         ),
+                            //             visible: true, 
+                            //   );
+
+                            //   } else if (icon == "cekprice.cekprice") {
+                            //    return Visibility(
+                            //             child: 
+                            //              Icon(Icons.search_outlined,
+                            //           size: 35,
+                            //           color: Colors.white,
+                            //         ),
+                            //             visible: true, 
+                            //   );
+
+                            //    } else if (icon == "tukarpoin.tukarpoin") {
+                            //    return Visibility(
+                            //             child: 
+                            //              Icon(Icons.keyboard,
                             //           size: 35,
                             //           color: Colors.white,
                             //         ),
                             //             visible: true, 
                             //   );
                             
+                             } else if (icon == "myactivity.activity") {
+                               return Visibility(
+                                        child: 
+                                         Icon(Icons.add_circle_outlined,
+                                      size: 35,
+                                      color: Colors.white,
+                                    ),
+                                        visible: true, 
+                              );
+                              //  } else if (icon == "comchek.approvedcomchek") {
+                              //  return Visibility(
+                              //           child: 
+                              //            Icon(Icons.edit_document,
+                              //         size: 35,
+                              //         color: Colors.white,
+                              //       ),
+                              //           visible: true, 
+                              // );
                                      
                             }else {
                               Visibility(
@@ -885,8 +1100,16 @@ class _RamayanaState extends State<Ramayana> {
                               return 'VOID';
                             } else if (icon == "masteridcash.idcash") {
                               return 'ID CASH';
-                            // } else if (icon == "idcash.ramayanariwayattransaksi") {
-                            //   return 'Anakan';
+                            // } else if (icon == "cekprice.cekprice") {
+                            //   return 'Cek Harga';
+                            //    } else if (icon == "approvalreturn.approvalreturn") {
+                            //   return 'Approval Return';
+                            // } else if (icon == "tukarpoin.tukarpoin") {
+                            //   return 'Tukar Poin';
+                            } else if (icon == "myactivity.activity") {
+                              return 'My Activity';
+                              //  } else if (icon == "comchek.approvedcomchek") {
+                              // return 'Com. Checking';
                             }else {
                               print(e);
                               print('no menu');
@@ -917,6 +1140,23 @@ class _RamayanaState extends State<Ramayana> {
                                                         }else if(e == 'masteridcash.idcash'){
                                                         Navigator.push(context, MaterialPageRoute(builder: (context){
                                                           return RamayanaIDCash(); }));
+                                                        //   }else if(e == 'approvalreturn.approvalreturn'){
+                                                        // Navigator.push(context, MaterialPageRoute(builder: (context){
+                                                        //   return RamayanaApprovalReturn(); }));
+                                                        // }else if(e == 'cekprice.cekprice'){
+                                                        // Navigator.push(context, MaterialPageRoute(builder: (context){
+                                                        //   return RamayanaCariToko(); }));
+                                                        // }else if(e == 'tukarpoin.tukarpoin'){
+                                                        // Navigator.push(context, MaterialPageRoute(builder: (context){
+                                                        //   return RamayanaTukarPoin(); }));
+                                                        }else if(e == 'myactivity.activity'){
+                                                        Navigator.push(context, MaterialPageRoute(builder: (context){
+                                                          return RamayanaMyActivity(); }));
+                                                        //  }else if(e == 'comchek.approvedcomchek'){
+                                                        // Navigator.push(context, MaterialPageRoute(builder: (context){
+                                                        //   return RamayanaCompetitorCek(); }));
+                                                        //   print(HakAkses.hakaksesSubmenuComcek);
+                                                        
                                                         // } else if(e == 'idcash.ramayanariwayattransaksi'){
                                                         // Navigator.push(context, MaterialPageRoute(builder: (context){
                                                         //   return Anakan(); }));
@@ -967,7 +1207,7 @@ class _RamayanaState extends State<Ramayana> {
               ],
             ),
           ),
-          body: ListView(
+          body: ListView( 
             children: [
               Stack(
                 fit: StackFit.loose,

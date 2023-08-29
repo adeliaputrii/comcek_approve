@@ -1,5 +1,4 @@
 
-import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:myactivity_project/service/SP_service/SP_service.dart';
 
@@ -44,5 +43,6 @@ class HakAkses {
     );
     
   static List<HakAkses> hakakses = [];
+  static List hakaksesSubmenuComcek = []; 
   
 }

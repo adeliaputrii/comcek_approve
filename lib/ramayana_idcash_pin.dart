@@ -85,8 +85,8 @@ loginPressed() async {
       
       http.Response response =
           await AuthServicesLog.login(
-            '${userData.getUsernameID()}', password.text, 'RALS-TOOLS', '2.12 v.2', '${DateTime.now()}', 'Enter PIN ID Cash','${_udid}', '${userData.getUsernameID()}' ,'${userData.getUserToko()}' ,'${info.device}', '${_udid}');
-      print('username = ${userData.getUsernameID()}');
+            '${userData.getUsername7()}', password.text, 'RALS-TOOLS', '2.12 v.2', '${DateTime.now()}', 'Enter PIN ID Cash','${_udid}', '${userData.getUsernameID()}' ,'${userData.getUserToko()}' ,'${info.device}', '${_udid}');
+      print('username = ${userData.getUsername7()}');
       Map responseMap = jsonDecode(response.body);
       if (responseMap['userpass'] == "0") {
         await userData.setUser(data: responseMap);
